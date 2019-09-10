@@ -29,6 +29,11 @@ typedef struct {
    * in PA2 able to directly access these registers.
    */
   rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+  //eax = gpr[0]._32;
+  //ecx = gpr[1];
+  //edx = gpr[2];
+  //ebx = gpr[3];
+
 
   vaddr_t pc;
 
