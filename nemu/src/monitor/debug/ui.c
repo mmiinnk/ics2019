@@ -116,6 +116,7 @@ static int cmd_scan_mem(char *args){
 				printf("%x", pmem[address+i]);
 				count++;
 			}
+			printf("\n");
 		}
 	}
 	return 0;
