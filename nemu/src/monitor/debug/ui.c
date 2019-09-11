@@ -113,6 +113,11 @@ static int cmd_scan_mem(char *args){
 	if (*(n_char) == '0' && *(n_char+1) == 'x' && isnum(n_char+2))
 	{
 		address = htd(n_char);
+		if ((address) > PMEM_SIZE)
+		{
+			printf("Cannot find the memory!\n'");
+			return 0;
+		}
 		//printf("%x\n",address);
 		printf("%s: 0x",n_char);
 		for (int i=0;i<4;i++)
@@ -147,6 +152,11 @@ static int cmd_scan_mem(char *args){
 	unsigned int count = 0;
 	for (int i=0;i<n;i++)
 	{
+		if ((address+i) > PMEM_SIZE)
+		{
+			printf("Cannot find the memory!\n'");
+			return 0;
+		}
 		if (count%16 == 0)
 		{
 			if (count != 0)
@@ -155,11 +165,6 @@ static int cmd_scan_mem(char *args){
 		}
 		else if (count%4 == 0)
 		       printf("     0x");
-		if ((address+i) > PMEM_SIZE)
-		{
-			printf("Cannot find the memory!\n'");
-			return 0;
-		}
 		printf("%02x", pmem[address+i]);
 		count++;
 	}
