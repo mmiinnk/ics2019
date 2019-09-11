@@ -81,11 +81,23 @@ unsigned int htd(char *str){
 	return num;
 }
 
+bool isnum(char *str){
+	bool is_num = true;
+	for (int i=0;*(str+i) != '\0'; i++)
+	{
+		if ((*str+i)<=0x30 || *(str+i) >= 0x39)
+		{
+			is_num = false;
+			break;
+		}
+	}
+	return is_num;	
+}
 static int cmd_scan_mem(char *args){
 	int n = 0;
 	unsigned int address;
 	char *n_char = strtok(NULL, " ");
-	if (n_char == NULL)
+	if (n_char == NULL || !(*(n_char) == '0' && *(n_char+1) == 'x' && strlen(n_char) == 8) || !(isnum(n_char)))
 		printf("Wrong Format!!! Right Format: x [N] <address>");
 	else
 	{
