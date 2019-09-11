@@ -92,6 +92,7 @@ static int cmd_scan_mem(char *args){
 		if (*(n_char) == '0' && *(n_char+1) == 'x' && strlen(n_char) == 8)
 		{
 			address = htd(n_char);
+			printf("%x",address);
 			printf("%s: 0x%x",n_char, pmem[address]);
 		}
 		else
