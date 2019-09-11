@@ -48,7 +48,7 @@ void isa_reg_display() {
 	printf("$esp = 0x%x\n",cpu.esp);
 	printf("$ebp = 0x%x\n",cpu.ebp);
 	printf("$esi = 0x%x\n",cpu.esi);
-	printf("$edi = 0x%x\n",cpu.edi);
+	printf("$edi = 0x%x\n\n",cpu.edi);
 	printf("$pc = 0x%x\n",cpu.pc);
 }
 
