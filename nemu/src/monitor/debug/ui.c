@@ -93,13 +93,18 @@ bool isnum(char *str){
 	}
 	return is_num;	
 }
+
+void scan_mem_format_wrong(){
+	printf("Wrong Format!!! Right Format: x [N] <address>\n");
+}
+
 static int cmd_scan_mem(char *args){
 	int n = 0;
 	unsigned int address;
 	char *n_char = strtok(NULL, " ");
 	if (n_char == NULL)
 	{
-		printf("Wrong Format!!! Right Format: x [N] <address>");
+		scan_mem_format_wrong();
 		return 0;
 	}
 	
@@ -115,13 +120,13 @@ static int cmd_scan_mem(char *args){
 	}
 
 	if (!isnum(n_char)){
-		printf("Wrong Format!!! Right Format: x [N] <address>");
+		scan_mem_format_wrong();
 		return 0;
 	}
 
 	char *address_char = strtok(NULL, " ");
 	if (address_char == NULL ||  *(address_char) != '0' || *(address_char+1) != 'x' || !(isnum(address_char+2))){
-		printf("Wrong Format!!! Right Format: x [N] <address>");
+		scan_mem_format_wrong();
 		return 0;
 	}
 
