@@ -138,7 +138,7 @@ static int cmd_scan_mem(char *args){
 	unsigned int count = 0;
 	for (int i=0;i<n;i++)
 	{
-		if (count%16 == 0)
+		if (count%16 == 0 && count != 0)
 		       printf("\n0x%x: 0x", (address+i));
 		else if (count%4 == 0)
 		       printf("     0x");
