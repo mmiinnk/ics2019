@@ -57,7 +57,10 @@ static int cmd_steps(char *args){
 
 static int cmd_info(char *args){
 	char* cmd_plus = strtok(NULL," ");
-	if (strcmp(cmd_plus,"r") == 0){
+	if (cmd_plus == NULL){
+		printf("Please tell me want you want!");
+	}
+	else if (strcmp(cmd_plus,"r") == 0){
 		isa_reg_display();
 	}
 	else if (strcmp(cmd_plus,"w") == 0){
