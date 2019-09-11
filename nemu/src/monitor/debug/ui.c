@@ -73,6 +73,35 @@ static int cmd_info(char *args){
 	return 0;
 }
 
+uint8_t htd(char *str){
+	uint8_t  num = 0;
+	for (int i=2;str[i] != '\0';i++){
+		num = num*16 + (str[i] - 48);
+	}
+	return num;
+}
+
+static int cmd_scan_mem(char *args){
+	//int n;
+	uint8_t address;
+	char *n_char = strtok(NULL, " ");
+	if (n_char == NULL)
+		printf("Wrong Format!!! Right Format: x [N] <address>");
+	else
+	{
+		if (*(n_char) == '0' && *(n_char+1) == 'x' && strlen(n_char) == 8)
+		{
+			address = htd(n_char);
+			printf("%s: 0x%x",n_char, pmem[address]);
+		}
+		else
+		{
+
+		}
+	}
+	return 0;
+	
+}
 
 static struct {
   char *name;
@@ -84,6 +113,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single Step", cmd_steps},
   {"info", "Print Information", cmd_info},
+  {"x", "Scan the memory", cmd_scan_mem},
 
   /* TODO: Add more commands */
 
