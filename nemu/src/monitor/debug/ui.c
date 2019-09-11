@@ -97,40 +97,50 @@ static int cmd_scan_mem(char *args){
 	int n = 0;
 	unsigned int address;
 	char *n_char = strtok(NULL, " ");
-	if (n_char == NULL || !(*(n_char) == '0' && *(n_char+1) == 'x' && strlen(n_char) == 8) || !(isnum(n_char)))
-		printf("Wrong Format!!! Right Format: x [N] <address>");
-	else
+	if (n_char == NULL)
 	{
-		if (*(n_char) == '0' && *(n_char+1) == 'x' && strlen(n_char) == 8)
-		{
-			address = htd(n_char);
-			//printf("%x\n",address);
-			printf("%s: 0x",n_char);
-			for (int i=0;i<4;i++)
-				printf("%02x",pmem[address+i]);
-			printf("\n");
-		}
-		else
-		{
-			char *address_char = strtok(NULL, " ");
-			address = htd(address_char);
-			for (int i=0; *(n_char+i) != '\0'; i++)
-			{
-				n = n*10 + (*(n_char+i) - 48);
-			}
-			unsigned int count = 0;
-			for (int i=0;i<n;i++)
-			{
-				if (count%16 == 0)
-				       printf("\n0x%x: 0x", (address+i));
-				else if (count%4 == 0)
-				       printf("     0x");
-				printf("%02x", pmem[address+i]);
-				count++;
-			}
-			printf("\n");
-		}
+		printf("Wrong Format!!! Right Format: x [N] <address>");
+		return 0;
 	}
+	
+	if (*(n_char) == '0' && *(n_char+1) == 'x' && isnum(n_char+2))
+	{
+		address = htd(n_char);
+		//printf("%x\n",address);
+		printf("%s: 0x",n_char);
+		for (int i=0;i<4;i++)
+			printf("%02x",pmem[address+i]);
+		printf("\n");
+		return 0;
+	}
+
+	if (!isnum(n_char)){
+		printf("Wrong Format!!! Right Format: x [N] <address>");
+		return 0;
+	}
+
+	char *address_char = strtok(NULL, " ");
+	if (address_char == NULL ||  *(address_char) != '0' || *(address_char+1) != 'x' || !(isnum(address_char+2))){
+		printf("Wrong Format!!! Right Format: x [N] <address>");
+		return 0;
+	}
+
+	address = htd(address_char);
+	for (int i=0; *(n_char+i) != '\0'; i++)
+	{
+		n = n*10 + (*(n_char+i) - 48);
+	}
+	unsigned int count = 0;
+	for (int i=0;i<n;i++)
+	{
+		if (count%16 == 0)
+		       printf("\n0x%x: 0x", (address+i));
+		else if (count%4 == 0)
+		       printf("     0x");
+		printf("%02x", pmem[address+i]);
+		count++;
+	}
+	printf("\n");
 	return 0;
 	
 }
