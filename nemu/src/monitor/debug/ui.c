@@ -95,7 +95,7 @@ static int cmd_scan_mem(char *args){
 			//printf("%x\n",address);
 			printf("%s: 0x",n_char);
 			for (int i=0;i<4;i++)
-				printf("%x",pmem[address+i]);
+				printf("%02x",pmem[address+i]);
 			printf("\n");
 		}
 		else
@@ -110,10 +110,10 @@ static int cmd_scan_mem(char *args){
 			for (int i=0;i<n;i++)
 			{
 				if (count%16 == 0)
-				       printf("\n%x: 0x", (address+i));
+				       printf("\n0x%x: 0x", (address+i));
 				else if (count%4 == 0)
 				       printf("     0x");
-				printf("%x", pmem[address+i]);
+				printf("%02x", pmem[address+i]);
 				count++;
 			}
 			printf("\n");
