@@ -39,7 +39,9 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_single_step(char *args){
-	cpu_exec(1);
+	char* n = strtok(NULL, " ");
+	if (n == NULL)
+		cpu_exec(1);
 	return 0;
 }
 
