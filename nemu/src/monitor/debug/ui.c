@@ -73,7 +73,7 @@ static int cmd_info(char *args){
 	return 0;
 }
 
-uint8_t htd(char *str){
+unsigned int htd(char *str){
 	uint8_t  num = 0;
 	for (int i=2;str[i] != '\0';i++){
 		num = num*16 + (str[i] - 48);
@@ -83,7 +83,7 @@ uint8_t htd(char *str){
 
 static int cmd_scan_mem(char *args){
 	//int n;
-	uint8_t address;
+	unsigned int address;
 	char *n_char = strtok(NULL, " ");
 	if (n_char == NULL)
 		printf("Wrong Format!!! Right Format: x [N] <address>");
