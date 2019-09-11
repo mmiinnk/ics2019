@@ -7,6 +7,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+//#define PMEM_SIZE (128*1024*1024)
+
 void cpu_exec(uint64_t);
 void isa_reg_display(void);
 
@@ -114,7 +116,14 @@ static int cmd_scan_mem(char *args){
 		//printf("%x\n",address);
 		printf("%s: 0x",n_char);
 		for (int i=0;i<4;i++)
+		{
+			if ((address+i) > PMEM_SIZE)
+			{
+				printf("Cannot find the memory!\n'");
+				return 0;
+			}
 			printf("%02x",pmem[address+i]);
+		}
 		printf("\n");
 		return 0;
 	}
@@ -146,6 +155,11 @@ static int cmd_scan_mem(char *args){
 		}
 		else if (count%4 == 0)
 		       printf("     0x");
+		if ((address+i) > PMEM_SIZE)
+		{
+			printf("Cannot find the memory!\n'");
+			return 0;
+		}
 		printf("%02x", pmem[address+i]);
 		count++;
 	}
