@@ -68,7 +68,7 @@ static int cmd_info(char *args){
 	}
 	else
 	{
-		printf("Info Format Wrong!!");
+		printf("Info Format Wrong!!\n");
 	}
 	return 0;
 }
