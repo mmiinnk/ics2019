@@ -74,7 +74,7 @@ static int cmd_info(char *args){
 }
 
 unsigned int htd(char *str){
-	uint8_t  num = 0;
+	unsigned int  num = 0;
 	for (int i=2;*(str+i) != '\0';i++){
 		num = num*16 + (*(str+i) - 48);
 	}
