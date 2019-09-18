@@ -92,7 +92,8 @@ static bool make_token(char *e) {
 				if (substr_len > 31) printf("The Number is too big!");
 				for (int index = 0; index < substr_len; index ++)
 				     tokens[nr_token].str[index] = substr_start[i];
-			     };break;
+				tokens[nr_token].str[substr_len] = '\0';
+			     };
                 default: tokens[nr_token].type = rules[i].token_type; nr_token++;
 	
 	}
@@ -109,6 +110,121 @@ static bool make_token(char *e) {
 
   return true;
 }
+
+bool check_brackets(int p, int q){
+	int match = 0;
+	for (int i=p; i<=q; i++){
+		if (tokens[i].type == '(')
+			match++;
+		if (tokens[i].type == ')')
+			match--;
+		if (match < 0)
+			return false;
+	}
+	if (match == 0)
+		return true;
+	else
+		return false;
+}
+
+
+bool check_parentheses(int p, int q){
+	if (tokens[p].type != '(' || tokens[q].type != ')')
+		return false;
+	return check_brackets(p+1, q-1);
+
+}
+
+int str_to_num(char *str){
+	int num = 0;
+	int i=0;
+	int sign = 1;
+	if (str[0] == '-'){
+		sign = -1;
+		i = 1;
+	}	
+	for (; i<strlen(str); i++){
+		num = num*10 + (str[i] - '0');
+	}
+	return num*sign;
+}
+
+int find_main_op(int p, int q){
+	struct{
+		int priority;
+		int loc;
+	} ops[32];
+	int i = p;
+	int op_num = 0;
+	while(i <= q){		
+		if (tokens[i].type == '+' || tokens[i].type == '-' ){
+			ops[op_num].priority = 0;
+			ops[op_num].loc = i;
+			i += 2;
+			op_num++;
+		}
+		else if (tokens[i].type == '*' || tokens[i].type == '/'){
+			ops[op_num].priority = 1;
+			ops[op_num].loc = i;
+			i += 2;
+			op_num++;
+		}
+		else if (tokens[i].type == '('){
+			while(tokens[i].type != ')')
+				i++;
+		}
+	}
+	int priority_min = 1;
+	for (int i=0;i<op_num;i++){
+		if (ops[i].priority < priority_min)
+			priority_min = ops[i].priority;
+	}
+	int main_op = 0;
+	for (int i=0;i<op_num;i++){
+		if (ops[i].priority == priority_min)
+			main_op = ops[i].loc;
+	}
+	return main_op;
+}
+
+uint32_t eval(int p, int q){
+	if (p > q){
+		//*success = false;
+		assert(0);
+	}
+	else if (p == q){
+		return str_to_num(tokens[p].str);
+	}
+	else if (check_parentheses(p,q) == true){
+		return eval(p+1, q-1);
+	}
+	else if (!check_brackets(p,q)){
+		printf("Invalid Expression!");
+		//*success = false;
+		assert(0);
+	}
+	else{
+		int op = find_main_op(p,q);
+		int val1 = eval(p, op-1);
+		int val2 = eval(op+1, q);
+
+		switch(tokens[op].type){
+			case '+': return val1 + val2;
+			case '-': return val1 - val2;
+			case '*': return val1 * val2;
+			case '/': if (val2 == 0){
+					  printf("Can't divide zero!'");
+					  //*success = false;
+					  assert(0);
+				  } return val1 / val2;
+			default: assert(0);
+		}
+	}
+
+}
+
+
+
 
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
