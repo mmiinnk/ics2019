@@ -89,16 +89,13 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
 		case TK_NOTYPE: break;
 		case TK_NUM: {
-				if (substr_len > 31) assert(0);
+				if (substr_len > 31) printf("The Number is too big!");
 				for (int index = 0; index < substr_len; index ++)
 				     tokens[nr_token].str[index] = substr_start[i];
 			     };break;
-                default: tokens[nr_token].str[0] = substr_start[0];
+                default: tokens[nr_token].type = rules[i].token_type; nr_token++;
 	
 	}
-	tokens[nr_token].type = rules[i].token_type;
-	nr_token++;
-
 
         break;
       }
