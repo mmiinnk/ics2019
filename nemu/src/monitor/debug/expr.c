@@ -23,13 +23,13 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {" -?\\d+", TK_NUM},      // numbers
+  {"[-\\+]?\\d+", TK_NUM},      // numbers
   {"\\(", '('},         // left bracket
   {"\\)", ')'},         // right bracket
   {"/", '/'},           // divide
   {"\\*", '*'},         // multiply
   {"\\+", '+'},         // plus
-  {"- +", '-'},           // minus
+  {"-", '-'},         // minus
   {"==", TK_EQ}         // equal
 };
 
@@ -87,8 +87,18 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
-        }
+		case TK_NOTYPE: break;
+		case TK_NUM: {
+				if (substr_len > 31) assert(0);
+				for (int index = 0; index < substr_len; index ++)
+				     tokens[nr_token].str[index] = substr_start[i];
+			     };break;
+                default: tokens[nr_token].str[0] = substr_start[0];
+	
+	}
+	tokens[nr_token].type = rules[i].token_type;
+	nr_token++;
+
 
         break;
       }
