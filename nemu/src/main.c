@@ -5,10 +5,10 @@ void ui_mainloop(int);
 int main(int argc, char *argv[]) {
   FILE *fp = NULL;
   fp = fopen("~/ics2019/nemu/tools/gen-expr/input","r");
-  char result[10];
+  char result[100];
   char expression[655];
   fscanf(fp, "%s", result);
-  fscanf(fp, "%s", expression);
+  fgets(expression, 100, (FILE*)fp);
   printf("result 1: %s\n", result);
   printf("expression 1: %s\n", expression);
 
