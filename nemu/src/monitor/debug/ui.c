@@ -173,6 +173,20 @@ static int cmd_scan_mem(char *args){
 	
 }
 
+static int cmd_evaluate(char *args){
+	bool *success = NULL;
+	*success = true;
+	uint32_t result = expr(args, success);
+	if (!success){
+		printf("Evaluation failed!\n");
+		return 0;
+	}
+	printf("%d\n",result);
+	return 0;
+}
+
+
+
 static struct {
   char *name;
   char *description;
@@ -184,6 +198,7 @@ static struct {
   { "si", "Single Step", cmd_steps},
   {"info", "Print Information", cmd_info},
   {"x", "Scan the memory", cmd_scan_mem},
+  {"p", "Evaluate the value", cmd_evaluate},
 
   /* TODO: Add more commands */
 

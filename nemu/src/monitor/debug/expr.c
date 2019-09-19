@@ -29,7 +29,7 @@ static struct rule {
   {"/", '/'},           // divide
   {"\\*", '*'},         // multiply
   {"\\+", '+'},         // plus
-  {"-", '-'},         // minus
+  {"- ", '-'},         // minus
   {"==", TK_EQ}         // equal
 };
 
@@ -173,6 +173,9 @@ int find_main_op(int p, int q){
 			while(tokens[i].type != ')')
 				i++;
 		}
+		else{
+			i++;
+		}
 	}
 	int priority_min = 1;
 	for (int i=0;i<op_num;i++){
@@ -234,7 +237,8 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
 
+  return eval(0,strlen(e)-1);
 
 
-  return 0;
+  //return 0;
 }
