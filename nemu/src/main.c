@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
   FILE *fp = NULL;
   fp = fopen("~/ics2019/nemu/tools/gen-expr/input","r");
   char result[10];
-  char expression[65536];
+  char expression[655];
   fscanf(fp, "%s", result);
   fscanf(fp, "%s", expression);
   printf("result 1: %s\n", result);
