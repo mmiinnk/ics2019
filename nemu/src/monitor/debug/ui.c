@@ -175,7 +175,7 @@ static int cmd_scan_mem(char *args){
 
 static int cmd_evaluate(char *args){
 	bool *success = NULL;
-	*success = true;
+	//*success = true;
 	uint32_t result = expr(args, success);
 	if (!success){
 		printf("Evaluation failed!\n");
