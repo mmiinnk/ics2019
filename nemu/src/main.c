@@ -4,7 +4,7 @@ void ui_mainloop(int);
 
 int main(int argc, char *argv[]) {
   FILE *fp = NULL;
-  fp = fopen("~/ics2019/nemu/tools/gen-expr/input","r");
+  fp = fopen("/home/victor/ics2019/nemu/tools/gen-expr/input","r");
   char result[100];
   char expression[655];
   fscanf(fp, "%s", result);
