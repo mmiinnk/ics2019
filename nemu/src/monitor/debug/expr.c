@@ -29,7 +29,7 @@ static struct rule {
   {"/", '/'},           // divide
   {"\\*", '*'},         // multiply
   {"\\+", '+'},         // plus
-  {"- ", '-'},         // minus
+  {"-\\B", '-'},         // minus
   {"==", TK_EQ}         // equal
 };
 
