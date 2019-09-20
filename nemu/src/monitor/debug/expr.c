@@ -23,13 +23,13 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"[-\\+]?\\d+", TK_NUM},      // numbers
+  {"(-)[^\\d]", '-'},         // minus
+  {"\\+", '+'},         // plus
+  {"[\\-]?\\d+", TK_NUM},      // numbers
   {"\\(", '('},         // left bracket
   {"\\)", ')'},         // right bracket
   {"/", '/'},           // divide
   {"\\*", '*'},         // multiply
-  {"\\+", '+'},         // plus
-  {"-\\B", '-'},         // minus
   {"==", TK_EQ}         // equal
 };
 
