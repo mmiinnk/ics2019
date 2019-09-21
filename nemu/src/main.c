@@ -41,11 +41,9 @@ int main(int argc, char *argv[]) {
 	bool* success = (bool*) malloc(1);
 	unsigned int len = strlen(expression);
 	char* exp_for_test = (char*)malloc((len+1)*sizeof(char));
-	int i = 0;
-	for (;expression[i] != '\n';i++){
+	for (int i=0;expression[i] != '\n';i++){
 		exp_for_test[i] = expression[i];
 	}
-	exp_for_test[i] = '\0';
 	uint32_t myAnswer = expr(exp_for_test, success);
 	if (success){
 		uint32_t trueAnswer = to_num(result);
