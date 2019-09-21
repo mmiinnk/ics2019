@@ -209,8 +209,8 @@ uint32_t eval(int p, int q){
 		return eval(p+1,q);
 	else{
 		int op = find_main_op(p,q);
-		int val1 = eval(p, op-1);
-		int val2 = eval(op+1, q);
+		uint32_t val1 = eval(p, op-1);
+		uint32_t val2 = eval(op+1, q);
 
 		switch(tokens[op].type){
 			case '+': return val1 + val2;
