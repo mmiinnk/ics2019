@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <stdint.h>
+#include "nemu.h"
 #include "monitor/debug/expr.c"
 int init_monitor(int, char *[]);
 void ui_mainloop(int);
