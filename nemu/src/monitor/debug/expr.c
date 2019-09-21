@@ -140,7 +140,7 @@ bool check_parentheses(int p, int q){
 int str_to_num(char *str, int p){
 	int num = 0;
 	int sign = 1;
-	if ((p != 0) && (tokens[p-1].type == 'N')){
+	if ((p != 0) && (tokens[p-1].type == NEGATIVE)){
 		sign = -1;
 	}	
 	for (int i=0; i<strlen(str); i++){
