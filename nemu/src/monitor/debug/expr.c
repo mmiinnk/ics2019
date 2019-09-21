@@ -169,8 +169,8 @@ int find_main_op(int p, int q){
 			i += 2;
 			op_num++;
 		}
-		else if (tokens[i].type == '('){
-			while(tokens[i].type != ')')
+		else if ((tokens[i].type == '(')){
+			while((tokens[i].type != ')'))
 				i++;
 		}
 		else{
