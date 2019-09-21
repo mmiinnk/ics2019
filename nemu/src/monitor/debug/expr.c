@@ -207,7 +207,8 @@ uint32_t eval(int p, int q){
 		printf("Invalid Expression!\n");
 		//*success = false;
 		assert(0);
-	}
+	} else if (tokens[p].type == NEGATIVE)
+		return eval(p+1,q);
 	else{
 		int op = find_main_op(p,q);
 		int val1 = eval(p, op-1);
