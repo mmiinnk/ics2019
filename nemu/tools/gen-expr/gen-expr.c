@@ -4,6 +4,7 @@
 #include <time.h>
 #include <assert.h>
 #include <string.h>
+#include <errno.h>
 
 // this should be enough
 static char buf[65536];
@@ -19,72 +20,78 @@ void gen_num(){
 	char num_str[10];
 	int len = 0;
 
-	while (num == 0 && buf[buf_index-1] == '/')
-		num = choose(100);
-
-	for (;num != 0;num /=10){
-		num_str[len] = (num%10)+ '0';
+	do{
+		num_str[len] = (num%10) + '0';
+		num /= 10;
 		len++;
-	}
-
-	if ((buf_index+len) > 65536)
-		return;
+	}while(num != 0);
 
 	for (int i=0;i<len;i++){
 		buf[buf_index] = num_str[len-i-1];
 		buf_index++;
 	}
 
-	int block = rand()%5;
+	int block = rand()%3;
 	for (int i=0;i<block;i++){
 		buf[buf_index] = ' ';
 		buf_index++;
 	}
-
+	buf[buf_index] = '\0';
 }
 
 void gen(char c){
-	if (buf_index == 65536)
-		return;
 	buf[buf_index] = c;
 	buf_index++;
 	
-	int block = rand()%5;
+	int block = rand()%3;
 	for (int i=0;i<block;i++){
 		buf[buf_index] = ' ';
 		buf_index++;
 	}
+	buf[buf_index] = '\0';
 }
 
 void gen_rand_op(){
-	switch(choose(4)){
+	uint32_t choice = choose(4);
+	switch(choice){
 		case 0: buf[buf_index] = '+';break;
-		case 1: buf[buf_index] = '-'; buf[buf_index+1] = ' '; buf_index++;break;
+		case 1: buf[buf_index] = '-';break;
 		case 2: buf[buf_index] = '*';break;
 		default: buf[buf_index] = '/';
 	}
 	buf_index++;
-	
+
 	int block = rand()%5;
 	for (int i=0;i<block;i++){
 		buf[buf_index] = ' ';
 		buf_index++;
 	}
+	buf[buf_index] = '\0';
 }
 
+static unsigned int gen_count = 0;
+
 static inline void gen_rand_expr() {
-	switch(choose(3)){
+	gen_count++;
+	if ((buf_index+gen_count*5+4)>65536){
+		gen_num();
+		return;
+	}
+
+	uint32_t choice = choose(3);
+	
+	switch(choice){
 		case 0: gen_num();break;
 		case 1: gen('('); gen_rand_expr(); gen(')'); break;
 		default: gen_rand_expr(); gen_rand_op(); gen_rand_expr();break;
 	}
-  //buf[0] = '\0';
+	gen_count--;
 }
 
 void init_buf(){
     buf_index = 0;
-    for (int i=0; i<65536; i++)
-	    buf[i] = '\0';
+    buf[0] = '\0';
+    gen_count = 0;
 }
 
 static char code_buf[65536];
@@ -95,6 +102,30 @@ static char *code_format =
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
+
+/*
+void executeCMD(const char *cmd, char *result)   
+{
+       	char buf_ps[1024];   
+	char ps[1024]={0};   
+	FILE *ptr;
+	strcpy(ps, cmd);   
+	if((ptr=popen(ps, "r"))!=NULL){
+	        while(fgets(buf_ps, 1024, ptr)!=NULL)   
+	        {
+	          strcat(result, buf_ps);   
+	              if(strlen(result)>1024)   
+                     break;   
+              }   
+	        pclose(ptr);   
+	        ptr = NULL;   
+	    }   
+        else  
+    {
+           printf("popen %s error\n", ps);   
+        } 
+}
+*/
 
 int main(int argc, char *argv[]) {
   int seed = time(0);
@@ -107,7 +138,7 @@ int main(int argc, char *argv[]) {
   for (i = 0; i < loop; i ++) {
     gen_rand_expr();
 
-    sprintf(code_buf, code_format, buf);
+    sprintf(code_buf, code_format, buf); //insert the buf
 
     FILE *fp = fopen("/tmp/.code.c", "w");
     assert(fp != NULL);
@@ -116,9 +147,22 @@ int main(int argc, char *argv[]) {
 
     int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
     if (ret != 0) continue;
+    //char ret[1024];
+    //executeCMD("gcc /temp/.code.c -o /temp/.expr", ret);
+    //if (ret[0] != '\0')
+    //continue;
+
+    //fp = popen("gcc /tmp/.code.c -o /temp/.expr", "r");
+    //if (fp != NULL){
+	//    pclose(fp);
+	//    continue;
+    //}
+    //pclose(fp);
 
     fp = popen("/tmp/.expr", "r");
-    assert(fp != NULL);
+    //assert(fp != NULL);
+    if (fp == NULL)
+	    continue;
 
     int result;
     fscanf(fp, "%d", &result);
