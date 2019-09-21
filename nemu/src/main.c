@@ -39,10 +39,13 @@ int main(int argc, char *argv[]) {
 	//printf("expression: %s\n", expression);
 	
 	bool* success = (bool*) malloc(1);
-	char exp_for_test[65536] = {'\0'};
-	for (int i=0;expression[i] != '\n';i++){
+	unsigned int len = strlen(expression);
+	char* exp_for_test = (char*)malloc((len+1)*sizeof(char));
+	int i = 0;
+	for (;expression[i] != '\n';i++){
 		exp_for_test[i] = expression[i];
 	}
+	exp_for_test[i] = '\0';
 	uint32_t myAnswer = expr(exp_for_test, success);
 	if (success){
 		uint32_t trueAnswer = to_num(result);
@@ -55,6 +58,8 @@ int main(int argc, char *argv[]) {
 
   if (expr_right)
 	  printf("Bingo! You made it!!!\n");
+  else
+	  printf("Sorry! Maybe you have to debug again.\n");
 
 
   /* Initialize the monitor. */
