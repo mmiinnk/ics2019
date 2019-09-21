@@ -20,7 +20,7 @@ uint32_t to_num(char *result){
 int main(int argc, char *argv[]) {
 
   char test[] ="  ( 6/  ( (54  )) ) ";
-  bool* success = (bool*)malloc(1);
+  bool* success = (bool*)malloc(sizeof(bool));
   uint32_t test_answer = expr(test,success);
   printf("%d\n",test_answer);
 
