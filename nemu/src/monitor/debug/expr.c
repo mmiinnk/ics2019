@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include <regex.h>
 
+#define NEGATIVE 'N'
+
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NUM
 
@@ -22,11 +24,10 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {"Windows(?=95|98|NT|2000)",'T'}, //test
   {" +", TK_NOTYPE},    // spaces
-  {"-(?!\\d)", '-'},         // minus
+  {"-", '-'},         // minus
   {"\\+", '+'},         // plus
-  {"-?\\d+", TK_NUM},      // numbers
+  {"\\d+", TK_NUM},      // numbers
   {"\\(", '('},         // left bracket
   {"\\)", ')'},         // right bracket
   {"/", '/'},           // divide
@@ -90,7 +91,7 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
 		case TK_NOTYPE: break;
 		case TK_NUM: {
-				if (substr_len > 31) printf("The Number is too big!");
+				if (substr_len > 31) printf("The Number is too big! The precision may be lost!\n");
 				for (int index = 0; index < substr_len; index ++)
 				     tokens[nr_token].str[index] = substr_start[i];
 				tokens[nr_token].str[substr_len] = '\0';
@@ -136,11 +137,11 @@ bool check_parentheses(int p, int q){
 
 }
 
-int str_to_num(char *str){
+int str_to_num(char *str, int p){
 	int num = 0;
 	int i=0;
 	int sign = 1;
-	if (str[0] == '-'){
+	if (p != 0 && tokens[p-1].type == NEGATIVE){
 		sign = -1;
 		i = 1;
 	}	
@@ -197,13 +198,13 @@ uint32_t eval(int p, int q){
 		assert(0);
 	}
 	else if (p == q){
-		return str_to_num(tokens[p].str);
+		return str_to_num(tokens[p].str, p);
 	}
 	else if (check_parentheses(p,q) == true){
 		return eval(p+1, q-1);
 	}
 	else if (!check_brackets(p,q)){
-		printf("Invalid Expression!");
+		printf("Invalid Expression!\n");
 		//*success = false;
 		assert(0);
 	}
@@ -229,7 +230,6 @@ uint32_t eval(int p, int q){
 
 
 
-
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -237,6 +237,14 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
+  for (int i=0;i<nr_token;i++){
+	  if (tokens[i].type == '-' && (i == 0 || tokens[i-1].str[0] == '\0'))
+		  tokens[i].type = NEGATIVE;
+  }
+
+
+
+
 
   return eval(0,strlen(e)-1);
 
