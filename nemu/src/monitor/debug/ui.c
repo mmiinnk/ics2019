@@ -181,7 +181,7 @@ static int cmd_evaluate(char *args){
 		printf("Evaluation failed!\n");
 		return 0;
 	}
-	printf("%d\n",result);
+	printf("%u\n",result);
 	return 0;
 }
 
