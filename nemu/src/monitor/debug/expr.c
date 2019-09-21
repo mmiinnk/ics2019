@@ -22,7 +22,7 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {"Windows(?=95|98|NT|2000))",'T'}, //test
+  {"Windows(?=95|98|NT|2000)",'T'}, //test
   {" +", TK_NOTYPE},    // spaces
   {"-(?!\\d)", '-'},         // minus
   {"\\+", '+'},         // plus
