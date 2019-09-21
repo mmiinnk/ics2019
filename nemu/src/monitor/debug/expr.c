@@ -160,13 +160,13 @@ int find_main_op(int p, int q){
 		if (tokens[i].type == '+' || tokens[i].type == '-' ){
 			ops[op_num].priority = 0;
 			ops[op_num].loc = i;
-			i += 2;
+			i++;
 			op_num++;
 		}
 		else if (tokens[i].type == '*' || tokens[i].type == '/'){
 			ops[op_num].priority = 1;
 			ops[op_num].loc = i;
-			i += 2;
+			i++;
 			op_num++;
 		}
 		else if ((tokens[i].type == '(')){
