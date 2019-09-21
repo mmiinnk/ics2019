@@ -241,10 +241,6 @@ uint32_t expr(char *e, bool *success) {
 		  tokens[i].type = NEGATIVE;
   }
 
-
-
-
-
   return eval(0,nr_token-1);
 
 

@@ -3,9 +3,10 @@
 #include <sys/types.h>
 #include <stdint.h>
 #include "nemu.h"
-#include "monitor/debug/expr.c"
+//#include "monitor/debug/expr.c"
 int init_monitor(int, char *[]);
 void ui_mainloop(int);
+uint32_t expr(char*, bool*);
 
 uint32_t to_num(char *result){
 	int true_num = 0;
