@@ -139,13 +139,11 @@ bool check_parentheses(int p, int q){
 
 int str_to_num(char *str, int p){
 	int num = 0;
-	int i=0;
 	int sign = 1;
-	if (p != 0 && tokens[p-1].type == NEGATIVE){
+	if ((p != 0) && (tokens[p-1].type == 'N')){
 		sign = -1;
-		i = 1;
 	}	
-	for (; i<strlen(str); i++){
+	for (int i=0; i<strlen(str); i++){
 		num = num*10 + (str[i] - '0');
 	}
 	return num*sign;
