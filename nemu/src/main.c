@@ -18,7 +18,7 @@ uint32_t to_num(char *result){
 }
 
 int main(int argc, char *argv[]) {
-/*  FILE *fp = NULL;
+  FILE *fp = NULL;
   fp = fopen("/home/victor/ics2019/nemu/tools/gen-expr/input","r");
   
   char result[10];
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
 
   if (expr_right)
 	  printf("Bingo! You made it!!!\n");
-*/
+
 
   /* Initialize the monitor. */
   int is_batch_mode = init_monitor(argc, argv);
