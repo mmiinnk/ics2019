@@ -18,7 +18,7 @@ uint32_t to_num(char *result){
 }
 
 int main(int argc, char *argv[]) {
-/*  FILE *fp = NULL;
+  FILE *fp = NULL;
   fp = fopen("/home/victor/ics2019/nemu/tools/gen-expr/input","r");
   
   char result[10];
@@ -39,11 +39,14 @@ int main(int argc, char *argv[]) {
 	//printf("expression: %s\n", expression);
 	
 	bool* success = (bool*) malloc(1);
+	*success = true;
 	unsigned int len = strlen(expression);
 	char* exp_for_test = (char*)malloc((len+1)*sizeof(char));
-	for (int i=0;expression[i] != '\n';i++){
+	int i = 0;
+	for (;expression[i] != '\n';i++){
 		exp_for_test[i] = expression[i];
 	}
+	exp_for_test[i] = '\0';
 	uint32_t myAnswer = expr(exp_for_test, success);
 	if (success){
 		uint32_t trueAnswer = to_num(result);
@@ -58,7 +61,7 @@ int main(int argc, char *argv[]) {
 	  printf("Bingo! You made it!!!\n");
   else
 	  printf("Sorry! Maybe you have to debug again.\n");
-*/
+
 
   /* Initialize the monitor. */
   int is_batch_mode = init_monitor(argc, argv);
