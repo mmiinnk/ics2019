@@ -72,11 +72,11 @@ void gen_rand_op(){
 static unsigned int gen_count = 0;
 
 static inline void gen_rand_expr() {
-	gen_count++;
-	if ((buf_index+gen_count*5+4)>65536){
-		gen_num();
-		return;
-	}
+	//gen_count++;
+	//if ((buf_index+gen_count*5+4)>65536){
+	//	gen_num();
+	//	return;
+	//}
 
 	uint32_t choice = choose(3);
 	
@@ -85,7 +85,7 @@ static inline void gen_rand_expr() {
 		case 1: gen('('); gen_rand_expr(); gen(')'); break;
 		default: gen_rand_expr(); gen_rand_op(); gen_rand_expr();break;
 	}
-	gen_count--;
+	//gen_count--;
 }
 
 void init_buf(){
