@@ -147,29 +147,18 @@ int main(int argc, char *argv[]) {
 
     int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
     if (ret != 0) continue;
-    //char ret[1024];
-    //executeCMD("gcc /temp/.code.c -o /temp/.expr", ret);
-    //if (ret[0] != '\0')
-    //continue;
-
-    //fp = popen("gcc /tmp/.code.c -o /temp/.expr", "r");
-    //if (fp != NULL){
-	//    pclose(fp);
-	//    continue;
-    //}
-    //pclose(fp);
 
     fp = popen("/tmp/.expr", "r");
-    //assert(fp != NULL);
-    if (fp == NULL)
-	    continue;
+    assert(fp != NULL);
 
-    int result;
+    int result = 0;
     fscanf(fp, "%d", &result);
     pclose(fp);
 
-    printf("%u %s\n", result, buf);
 
+    if (result != 0){
+	    printf("%u %s\n", result, buf);
+    }
     init_buf();
   }
   return 0;
