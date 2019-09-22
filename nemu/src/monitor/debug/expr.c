@@ -130,6 +130,8 @@ bool check_brackets(int p, int q){
 		return true;
 	else{
 		printf("match = %d\n",match);
+		printf("p = %d\n",p);
+		printf("q = %d\n",q);
 		return false;
 	}
 }
