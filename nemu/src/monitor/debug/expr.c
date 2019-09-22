@@ -122,16 +122,16 @@ bool check_brackets(int p, int q){
 		if (tokens[i].type == ')')
 			match--;
 		if (match < 0){
-			printf("位置在%d\n",i);
+			//printf("位置在%d\n",i);
 			return false;
 		}
 	}
 	if (match == 0)
 		return true;
 	else{
-		printf("match = %d\n",match);
-		printf("p = %d\n",p);
-		printf("q = %d\n",q);
+		//printf("match = %d\n",match);
+		//printf("p = %d\n",p);
+		//printf("q = %d\n",q);
 		return false;
 	}
 }
