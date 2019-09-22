@@ -46,13 +46,14 @@ int main(int argc, char *argv[]) {
 	//printf("expression: %s\n", expression);
 	
 
-	bool tmp = true;
-	bool *success = &tmp;
-	//bool* success = (bool*) malloc(1);
+	//bool tmp = true;
+	//bool *success = &tmp;
+	bool* success = (bool*) malloc(sizeof(bool));
 	
-	//*success = true;
-	unsigned int len = strlen(expression);
-	char* exp_for_test = (char*)malloc((len+1)*sizeof(char));
+	*success = true;
+	//unsigned int len = strlen(expression);
+	//char* exp_for_test = (char*)malloc((len+1)*sizeof(char));
+	char exp_for_test[65536] = {'\0'};
 	int i = 0;
 	for (;expression[i] != '\n';i++){
 		exp_for_test[i] = expression[i];
