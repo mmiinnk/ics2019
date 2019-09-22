@@ -61,7 +61,7 @@ void gen_rand_op(){
 	}
 	buf_index++;
 
-	int block = rand()%5;
+	int block = rand()%3;
 	for (int i=0;i<block;i++){
 		buf[buf_index] = ' ';
 		buf_index++;
