@@ -128,8 +128,10 @@ bool check_brackets(int p, int q){
 	}
 	if (match == 0)
 		return true;
-	else
+	else{
+		printf("match = %d\n",match);
 		return false;
+	}
 }
 
 
