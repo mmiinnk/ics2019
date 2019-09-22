@@ -227,6 +227,9 @@ uint32_t eval(int p, int q){
 			case '*': return val1 * val2;
 			case '/': if (val2 == 0){
 					  printf("Can't divide zero!\n");
+					  printf("p = %d\n",p);
+					  printf("q = %d\n",q);
+					  printf("op = %d\n",op);
 					  //*success = false;
 					  assert(0);
 				  } return val1 / val2;
