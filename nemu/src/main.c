@@ -45,8 +45,12 @@ int main(int argc, char *argv[]) {
 	//printf("result: %s\n", result);
 	//printf("expression: %s\n", expression);
 	
-	bool* success = (bool*) malloc(1);
-	*success = true;
+
+	bool tmp = true;
+	bool *success = &tmp;
+	//bool* success = (bool*) malloc(1);
+	
+	//*success = true;
 	unsigned int len = strlen(expression);
 	char* exp_for_test = (char*)malloc((len+1)*sizeof(char));
 	int i = 0;
