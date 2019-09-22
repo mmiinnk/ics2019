@@ -103,6 +103,29 @@ static char *code_format =
 "  return 0; "
 "}";
 
+void executeCMD(const char *cmd, char *result)
+{
+    char buf_ps[1024];
+    char ps[1024]={0};
+    FILE *ptr;
+    strcpy(ps, cmd);
+    if((ptr=popen(ps, "r"))!=NULL)
+    {
+        while(fgets(buf_ps, 1024, ptr)!=NULL)
+        {
+           strcat(result, buf_ps);
+           if(strlen(result)>1024)
+                     break;
+         }
+	 pclose(ptr);
+	 ptr = NULL;
+}
+     else
+    {
+        printf("popen %s error\n", ps);
+    }
+}
+
 
 int main(int argc, char *argv[]) {
   int seed = time(0);
@@ -122,13 +145,20 @@ int main(int argc, char *argv[]) {
     fputs(code_buf, fp);
     fclose(fp);
 
-    int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
-    if (ret != 0) continue;
+    //int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
+    //if (ret != 0) continue;
+    
+    char result[1024];
+    executeCMD( "gcc /temp/.code.c -o /tmp/.expr", result);
+    if (result[0] != '\0')
+	    continue;
+
+
 
     fp = popen("/tmp/.expr", "r");
     assert(fp != NULL);
 
-    int result = 0;
+    int result;
     fscanf(fp, "%d", &result);
     pclose(fp);
 
