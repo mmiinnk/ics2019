@@ -60,8 +60,11 @@ int main(int argc, char *argv[]) {
 	uint32_t myAnswer = expr(exp_for_test, success);
 	if (success){
 		uint32_t trueAnswer = to_num(result);
-		if (trueAnswer != myAnswer)
+		if (trueAnswer != myAnswer){
+			printf("trueAnswer: %u\n", trueAnswer);
+			printf("myAnswer: %u\n", myAnswer);
 			expr_right = false;
+		}
 		printf("%u\n",myAnswer);
 	}
 	start = ftell(fp);
