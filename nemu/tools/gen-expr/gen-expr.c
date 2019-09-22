@@ -8,8 +8,10 @@
 
 // this should be enough
 static char buf[65536];
+static char bfm[65536];
 
 static unsigned buf_index = 0;
+static unsigned bfmi = 0;
 
 uint32_t choose(uint32_t n){
 	return rand()%n;
@@ -19,6 +21,15 @@ void gen_num(){
 	unsigned num = choose(100);
 	char num_str[10];
 	int len = 0;
+	static unsigned count = 0;
+	if (count == 0){
+		char str[] = "(unsigned)";
+		for (int i=0;i<10;i++){
+			buf[buf_index] = str[i];
+			buf_index++;
+		}
+	}
+	count++;
 
 	do{
 		num_str[len] = (num%10) + '0';
@@ -27,46 +38,46 @@ void gen_num(){
 	}while(num != 0);
 
 	for (int i=0;i<len;i++){
-		buf[buf_index] = num_str[len-i-1];
-		buf_index++;
+		buf[buf_index] = num_str[len-i-1]; bfm[bfmi] = num_str[len-i-1];
+		buf_index++; bfmi++;
 	}
 
 	int block = rand()%3;
 	for (int i=0;i<block;i++){
-		buf[buf_index] = ' ';
-		buf_index++;
+		buf[buf_index] = ' '; bfm[bfmi] = ' ';
+		buf_index++; bfmi++;
 	}
-	buf[buf_index] = '\0';
+	buf[buf_index] = '\0'; bfm[bfmi] = '\0';
 }
 
 void gen(char c){
-	buf[buf_index] = c;
-	buf_index++;
+	buf[buf_index] = c; bfm[bfmi] = c;
+	buf_index++; bfmi++;
 	
 	int block = rand()%3;
 	for (int i=0;i<block;i++){
-		buf[buf_index] = ' ';
-		buf_index++;
+		buf[buf_index] = ' '; bfm[bfmi] = ' ';
+		buf_index++; bfmi++;
 	}
-	buf[buf_index] = '\0';
+	buf[buf_index] = '\0'; bfm[bfmi] = '\0';
 }
 
 void gen_rand_op(){
 	uint32_t choice = choose(4);
 	switch(choice){
-		case 0: buf[buf_index] = '+';break;
-		case 1: buf[buf_index] = '-';break;
-		case 2: buf[buf_index] = '*';break;
-		default: buf[buf_index] = '/';
+		case 0: buf[buf_index] = '+'; bfm[bfmi] = '+'; break;
+		case 1: buf[buf_index] = '-'; bfm[bfmi] = '-';break;
+		case 2: buf[buf_index] = '*'; bfm[bfmi] = '*';break;
+		default: buf[buf_index] = '/'; bfm[bfmi] = '/';
 	}
-	buf_index++;
+	buf_index++; bfmi++;
 
 	int block = rand()%3;
 	for (int i=0;i<block;i++){
-		buf[buf_index] = ' ';
-		buf_index++;
+		buf[buf_index] = ' '; bfm[bfmi] = ' ';
+		buf_index++; bfmi++;
 	}
-	buf[buf_index] = '\0';
+	buf[buf_index] = '\0'; bfm[bfmi] = '\0';
 }
 
 static unsigned int gen_count = 0;
@@ -96,7 +107,9 @@ static inline void gen_rand_expr() {
 
 void init_buf(){
     buf_index = 0;
+    bfmi = 0;
     buf[0] = '\0';
+    bfm[0] = '\0';
     gen_count = 0;
 }
 
@@ -108,7 +121,7 @@ static char *code_format =
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
-
+/*
 void executeCMD(const char *cmd, char *result)
 {
     char buf_ps[1024];
@@ -131,7 +144,7 @@ void executeCMD(const char *cmd, char *result)
         printf("popen %s error\n", ps);
     }
 }
-
+*/
 
 int main(int argc, char *argv[]) {
   int seed = time(0);
@@ -170,7 +183,7 @@ int main(int argc, char *argv[]) {
 
 
     if (result != 0){
-	    printf("%u %s\n", result, buf);
+	    printf("%u %s\n", result, bfm);
     }
     init_buf();
   }
