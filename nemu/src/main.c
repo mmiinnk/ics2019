@@ -19,8 +19,10 @@ uint32_t to_num(char *result){
 
 int main(int argc, char *argv[]) {
 
+  /* Initialize the monitor. */
+  int is_batch_mode = init_monitor(argc, argv);
 
-/*
+
   FILE *fp = NULL;
   fp = fopen("/home/victor/ics2019/nemu/tools/gen-expr/input","r");
   
@@ -70,17 +72,10 @@ int main(int argc, char *argv[]) {
   else
 	  printf("Sorry! Maybe you have to debug again.\n");
 
-*/
-  /* Initialize the monitor. */
-  int is_batch_mode = init_monitor(argc, argv);
+
 
   /* Receive commands from user. */
   ui_mainloop(is_batch_mode);
 
-  char test[] = "1+1";
-  bool* success = (bool*)malloc(sizeof(bool));
-  uint32_t test_answer = expr(test,success);
-  printf("%d\n",test_answer);
- 
   return 0;
 }
