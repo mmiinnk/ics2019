@@ -177,7 +177,9 @@ int find_main_op(int p, int q){
 			op_num++;
 		}
 		else if ((tokens[i].type == '(')){
-			while((tokens[i].type != ')'))
+			int temp = i;
+			i++;
+			while(!check_brackets(temp,i))
 				i++;
 		}
 		else{
