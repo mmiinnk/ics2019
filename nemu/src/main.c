@@ -10,7 +10,7 @@ void ui_mainloop(int);
 uint32_t expr(char*, bool*);
 
 uint32_t to_num(char *result){
-	int true_num = 0;
+	uint32_t true_num = 0;
 	for (int i=0;result[i]!='\0';i++){
 		true_num = true_num*10 + result[i] - '0';
 	}
