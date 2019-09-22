@@ -80,11 +80,11 @@ static inline void gen_rand_expr() {
 
 	uint32_t choice = choose(3);
 	
-	char str[] = "(unsigned)";
-	for (int i=0;i<10;i++){
-		buf[buf_index] = str[i];
-		buf_index++;
-	}
+	//char str[] = "(unsigned)";
+	//for (int i=0;i<10;i++){
+	//	buf[buf_index] = str[i];
+	//	buf_index++;
+	//}
 		
 	switch(choice){
 		case 0: gen_num();break;
@@ -104,7 +104,7 @@ static char code_buf[65536];
 static char *code_format =
 "#include <stdio.h>\n"
 "int main() { "
-"  unsigned result = %s; "
+"  unsigned result = (unsigned)%s; "
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
