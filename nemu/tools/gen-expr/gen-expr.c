@@ -21,15 +21,15 @@ void gen_num(){
 	unsigned num = choose(100);
 	char num_str[10];
 	int len = 0;
-	static unsigned count = 0;
-	if (count == 0){
-		char str[] = "(unsigned)";
-		for (int i=0;i<10;i++){
-			buf[buf_index] = str[i];
-			buf_index++;
-		}
-	}
-	count++;
+	//static unsigned count = 0;
+	//if (count == 0){
+	//	char str[] = "(unsigned)";
+	//	for (int i=0;i<10;i++){
+	//		buf[buf_index] = str[i];
+	//		buf_index++;
+	//	}
+	//}
+	//count++;
 
 	do{
 		num_str[len] = (num%10) + '0';
@@ -91,11 +91,11 @@ static inline void gen_rand_expr() {
 
 	uint32_t choice = choose(3);
 	
-	//char str[] = "(unsigned)";
-	//for (int i=0;i<10;i++){
-	//	buf[buf_index] = str[i];
-	//	buf_index++;
-	//}
+	char str[] = "(unsigned)";
+	for (int i=0;i<10;i++){
+		buf[buf_index] = str[i];
+		buf_index++;
+	}
 		
 	switch(choice){
 		case 0: gen_num();break;
@@ -117,7 +117,7 @@ static char code_buf[65536];
 static char *code_format =
 "#include <stdio.h>\n"
 "int main() { "
-"  unsigned result = (unsigned)%s; "
+"  unsigned result = %s; "
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
