@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
   uint32_t test_answer = expr(test,success);
   printf("%d\n",test_answer);
 */
-/*
+
   FILE *fp = NULL;
   fp = fopen("/home/victor/ics2019/nemu/tools/gen-expr/input","r");
   
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 	  printf("Bingo! You made it!!!\n");
   else
 	  printf("Sorry! Maybe you have to debug again.\n");
-*/
+
 
   /* Initialize the monitor. */
   int is_batch_mode = init_monitor(argc, argv);
