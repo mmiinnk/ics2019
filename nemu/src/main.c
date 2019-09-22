@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
   FILE *fp = NULL;
   fp = fopen("/home/victor/ics2019/nemu/tools/gen-expr/input","r");
   
-  char result[10];
+  char result[11];
   char expression[65536];
   
   fseek(fp, 0L, SEEK_END);
