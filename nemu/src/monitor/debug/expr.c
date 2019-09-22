@@ -208,11 +208,12 @@ uint32_t eval(int p, int q){
 	else if (check_parentheses(p,q) == true){
 		return eval(p+1, q-1);
 	}
-	else if (!check_brackets(p,q)){
-		printf("Invalid Expression!\n");
+	//else if (!check_brackets(p,q)){
+	//	printf("Invalid Expression!\n");
 		//*success = false;
-		assert(0);
-	} else if (tokens[p].type == NEGATIVE)
+	//	assert(0);
+	//}
+       	else if (tokens[p].type == NEGATIVE)
 		return eval(p+1,q);
 	else{
 		int op = find_main_op(p,q);
