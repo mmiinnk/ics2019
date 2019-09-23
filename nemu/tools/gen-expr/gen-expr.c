@@ -91,7 +91,7 @@ static inline void gen_rand_expr() {
 
 	uint32_t choice = choose(3);
 	
-	char str[] = "(unsigned)";
+	const char str[] = "(unsigned)";
 	for (int i=0;i<10;i++){
 		buf[buf_index] = str[i];
 		buf_index++;
