@@ -233,7 +233,7 @@ uint32_t eval(int p, int q){
 					  printf("p.type = %u; p.str = %s\n",tokens[p].type,tokens[p].str);
 					  printf("p+1.type = %u; p+1.str = %s\n",tokens[p+1].type,tokens[p+1].str);
 					  printf("q.type = %u; q.str = %s\n",tokens[q].type,tokens[q].str);
-					  printf("q+1.type = %u; q+1.str = %s\n",tokens[q].type,tokens[q].str);
+					  printf("q-1.type = %u; q-1.str = %s\n",tokens[q-1].type,tokens[q-1].str);
 					  //*success = false;
 					  assert(0);
 				  } return val1 / val2;
