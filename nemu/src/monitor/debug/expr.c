@@ -230,6 +230,8 @@ uint32_t eval(int p, int q){
 					  printf("p = %d\n",p);
 					  printf("q = %d\n",q);
 					  printf("op = %d\n",op);
+					  printf("tokens[p] = %s\n",tokens[p].str);
+					  printf("tokens[q] = %s\n",tokens[q].str);
 					  //*success = false;
 					  assert(0);
 				  } return val1 / val2;
