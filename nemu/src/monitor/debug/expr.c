@@ -9,7 +9,7 @@
 #define NEGATIVE 'N'
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUM
+  TK_NOTYPE = 256, TK_EQ, TK_NEQ, TK_NUM, TK_HEXNUM, TK_REG, TK_AND
 
   /* TODO: Add more token types */
 
@@ -28,10 +28,14 @@ static struct rule {
   {"-", '-'},         // minus
   {"\\+", '+'},         // plus
   {"[0-9]+", TK_NUM},      // numbers
+  {"0x[0-9]+", TK_HEXNUM},  // hex_num
+  {"\\$[a-z]{2,3}", TK_REG}, //regs
   {"\\(", '('},         // left bracket
   {"\\)", ')'},         // right bracket
   {"/", '/'},           // divide
   {"\\*", '*'},         // multiply
+  {"&&", TK_AND},       // and
+  {"!=", TK_NEQ},       // not equal
   {"==", TK_EQ}         // equal
 };
 
@@ -97,6 +101,12 @@ static bool make_token(char *e) {
 				     tokens[nr_token].str[index] = substr_start[index];
 				tokens[nr_token].str[substr_len] = '\0';
 			     };
+		case TK_HEXNUM: {
+					if (substr_len > 31) printf("The Number is too big! The precision may be lost!\n");
+					for (int index = 2; index < substr_len; index++)
+						tokens[nr_token].str[index] = substr_start[index];
+					tokens[nr_token].str[substr_len] = '\0';
+				};
                 default: tokens[nr_token].type = rules[i].token_type; nr_token++;
 	
 	}
