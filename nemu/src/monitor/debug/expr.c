@@ -199,27 +199,33 @@ int find_main_op(int p, int q){
 	return main_op;
 }
 
-uint32_t eval(int p, int q){
+uint32_t eval(int p, int q, bool *success){
+	if (!(*success)){
+		return 0;
+	}
+
 	if (p > q){
-		//*success = false;
-		assert(0);
+		*success = false;
+		return 0;
+		//assert(0);
 	}
 	else if (p == q){
 		return str_to_num(tokens[p].str, p);
 	}
 	else if (check_parentheses(p,q) == true){
-		return eval(p+1, q-1);
+		return eval(p+1, q-1, success);
 	}
 	else if (!check_brackets(p,q)){
 		printf("Invalid Expression!\n");
-		//*success = false;
-		assert(0);
+		*success = false;
+		return 0;
+		//assert(0);
 	} else if (tokens[p].type == NEGATIVE)
-		return eval(p+1,q);
+		return eval(p+1,q, success);
 	else{
 		int op = find_main_op(p,q);
-		uint32_t val1 = eval(p, op-1);
-		uint32_t val2 = eval(op+1, q);
+		uint32_t val1 = eval(p, op-1, success);
+		uint32_t val2 = eval(op+1, q, success);
 
 		switch(tokens[op].type){
 			case '+': return val1 + val2;
@@ -234,8 +240,9 @@ uint32_t eval(int p, int q){
 					  printf("p+1.type = %u; p+1.str = %s\n",tokens[p+1].type,tokens[p+1].str);
 					  printf("q.type = %u; q.str = %s\n",tokens[q].type,tokens[q].str);
 					  printf("q-1.type = %u; q-1.str = %s\n",tokens[q-1].type,tokens[q-1].str);
-					  //*success = false;
-					  assert(0);
+					  *success = false;
+					  //assert(0);
+					  return 0;
 				  } return val1 / val2;
 			default: assert(0);
 		}
@@ -246,6 +253,7 @@ uint32_t eval(int p, int q){
 
 
 uint32_t expr(char *e, bool *success) {
+  *success = true;
   if (!make_token(e)) {
     *success = false;
     return 0;
@@ -257,8 +265,11 @@ uint32_t expr(char *e, bool *success) {
 		  tokens[i].type = NEGATIVE;
   }
 
-  return eval(0,nr_token-1);
+  uint32_t result = eval(0,nr_token-1, success);
 
-
+  if (!(*success)){
+	  printf("Evaluation Failed!\n");
+  }
+  return result;
   //return 0;
 }
