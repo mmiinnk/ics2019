@@ -27,8 +27,8 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"-", '-'},         // minus
   {"\\+", '+'},         // plus
-  {"[0-9]+", TK_NUM},      // numbers
   {"0x[0-9]+", TK_HEXNUM},  // hex_num
+  {"[0-9]+", TK_NUM},      // numbers
   {"\\$[a-z]{2,3}", TK_REG}, //regs
   {"\\(", '('},         // left bracket
   {"\\)", ')'},         // right bracket
