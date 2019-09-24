@@ -27,7 +27,7 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"-", '-'},         // minus
   {"\\+", '+'},         // plus
-  {"0x[0-9]+", TK_HEXNUM},  // hex_num
+  {"0x([0-9]|[a-f]|[A-F])+", TK_HEXNUM},  // hex_num
   {"[0-9]+", TK_NUM},      // numbers
   {"\\$[a-z]{2,3}", TK_REG}, //regs
   {"\\(", '('},         // left bracket
@@ -174,10 +174,22 @@ uint32_t str_to_num(char *str, int p, int type){
 
 	if ((p != 0) && (tokens[p-1].type == NEGATIVE)){
 		sign = -1;
-	}	
-	for (int i=0; i<strlen(str); i++){
-		num = num*base + (str[i] - '0');
 	}
+
+	for (int i=0; i<strlen(str); i++){
+		uint32_t addition = 0;
+		switch(str[i]){
+			case 'a': case 'A': addition = 10; break;
+			case 'b': case 'B': addition = 11; break;
+			case 'c': case 'C': addition = 12; break;
+			case 'd': case 'D': addition = 13; break;
+			case 'e': case 'E': addition = 14; break;
+			case 'f': case 'F': addition = 15; break;
+			default: addition = str[i] - '0';
+		}
+		num = num*base + addition;
+	}
+
 	if (sign == -1)
 		return -num;
 	return num;
