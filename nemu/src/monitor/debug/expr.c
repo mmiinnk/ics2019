@@ -237,19 +237,28 @@ uint32_t eval(int p, int q, bool *success){
 		return 0;
 		//assert(0);
 	}
+
 	else if (p == q){
-		return str_to_num(tokens[p].str, p, tokens[p].type);
+		switch (tokens[p].type){
+			case TK_NUM: case TK_HEXNUM: return str_to_num(tokens[p].str, p, tokens[p].type);
+
+		}
 	}
+
 	else if (check_parentheses(p,q) == true){
 		return eval(p+1, q-1, success);
 	}
+
 	else if (!check_brackets(p,q)){
 		printf("Invalid Expression!\n");
 		*success = false;
 		return 0;
 		//assert(0);
-	} else if (tokens[p].type == NEGATIVE)
+	}
+
+       	else if (tokens[p].type == NEGATIVE)
 		return eval(p+1,q, success);
+	
 	else{
 		int op = find_main_op(p,q);
 		uint32_t val1 = eval(p, op-1, success);
@@ -275,7 +284,7 @@ uint32_t eval(int p, int q, bool *success){
 			default: assert(0);
 		}
 	}
-
+	return 0;
 }
 
 
