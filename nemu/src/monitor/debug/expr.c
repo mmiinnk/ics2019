@@ -8,6 +8,8 @@
 
 #define NEGATIVE 'N'
 
+uint32_t isa_reg_str2val(const char*, bool *);
+
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NEQ, TK_NUM, TK_HEXNUM, TK_REG, TK_AND
 
@@ -253,7 +255,7 @@ uint32_t eval(int p, int q, bool *success){
 	else if (p == q){
 		switch (tokens[p].type){
 			case TK_NUM: case TK_HEXNUM: return str_to_num(tokens[p].str, p, tokens[p].type);
-
+			case TK_REG: return isa_reg_str2val(tokens[p].str, success);
 		}
 	}
 
