@@ -105,8 +105,13 @@ static bool make_token(char *e) {
 					if (substr_len > 31) printf("The Number is too big! The precision may be lost!\n");
 					for (int index = 2; index < substr_len; index++)
 						tokens[nr_token].str[index] = substr_start[index];
-					tokens[nr_token].str[substr_len] = '\0';
+					tokens[nr_token].str[substr_len-2] = '\0';
 				};
+		case TK_REG: {
+					for (int index = 1; index < substr_len; index++)
+						 tokens[nr_token].str[index] = substr_start[index];
+					tokens[nr_token].str[substr_len-1] = '\0';
+			     }
                 default: tokens[nr_token].type = rules[i].token_type; nr_token++;
 	
 	}
@@ -154,17 +159,24 @@ bool check_parentheses(int p, int q){
 
 }
 
-int str_to_num(char *str, int p){
-	int num = 0;
+uint32_t str_to_num(char *str, int p, int type){
+	uint32_t num = 0;
 	int sign = 1;
+	uint32_t base = 10;
+	if (type == TK_HEXNUM)
+		base = 16;
+
 	if ((p != 0) && (tokens[p-1].type == NEGATIVE)){
 		sign = -1;
 	}	
 	for (int i=0; i<strlen(str); i++){
-		num = num*10 + (str[i] - '0');
+		num = num*base + (str[i] - '0');
 	}
-	return num*sign;
+	if (sign == -1)
+		return -num;
+	return num;
 }
+
 
 int find_main_op(int p, int q){
 	struct{
@@ -220,7 +232,7 @@ uint32_t eval(int p, int q, bool *success){
 		//assert(0);
 	}
 	else if (p == q){
-		return str_to_num(tokens[p].str, p);
+		return str_to_num(tokens[p].str, p, tokens[p].type);
 	}
 	else if (check_parentheses(p,q) == true){
 		return eval(p+1, q-1, success);
