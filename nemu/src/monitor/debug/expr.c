@@ -100,17 +100,23 @@ static bool make_token(char *e) {
 				for (int index = 0; index < substr_len; index++)
 				     tokens[nr_token].str[index] = substr_start[index];
 				tokens[nr_token].str[substr_len] = '\0';
-			     };
+				tokens[nr_token].type = rules[i].token_type; nr_token++;
+				break;
+			     }
 		case TK_HEXNUM: {
 					if (substr_len > 31) printf("The Number is too big! The precision may be lost!\n");
 					for (int index = 2; index < substr_len; index++)
 						tokens[nr_token].str[index] = substr_start[index];
 					tokens[nr_token].str[substr_len-2] = '\0';
-				};
+					tokens[nr_token].type = rules[i].token_type; nr_token++;
+					break;
+				}
 		case TK_REG: {
 					for (int index = 1; index < substr_len; index++)
 						 tokens[nr_token].str[index] = substr_start[index];
 					tokens[nr_token].str[substr_len-1] = '\0';
+					tokens[nr_token].type = rules[i].token_type; nr_token++;
+					break;
 			     }
                 default: tokens[nr_token].type = rules[i].token_type; nr_token++;
 	
