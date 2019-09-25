@@ -11,7 +11,7 @@
 
 void cpu_exec(uint64_t);
 void isa_reg_display(void);
-WP* new_WP();
+WP* new_wp();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -195,7 +195,7 @@ static int cmd_watchpoint(char *args){
 		printf("Evaluation failed!\n'");
 		return 0;
 	}
-	WP *new_watchpoint = new_WP();
+	WP *new_watchpoint = new_wp();
 	strcpy(new_watchpoint->expression, args);
 	new_watchpoint->old_value = raw_value;
 	new_watchpoint->hit_times = 0;
