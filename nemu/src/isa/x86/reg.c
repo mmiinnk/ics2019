@@ -75,7 +75,8 @@ uint32_t isa_reg_str2val(const char *s, bool *success) {
 					       return reg_b(i);
 				       }
 			       }
-			       if (strcmp(s, "pc") == 0)
+			       const char str[] = "pc";
+			       if (strcmp(s, str) == 0)
 				       return cpu.pc;
 			       *success = false;
 			       printf("Can't find the two bytes long regition!\n");
