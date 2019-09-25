@@ -13,7 +13,7 @@ void init_wp_pool() {
     wp_pool[i].NO = i;
     wp_pool[i].next = &wp_pool[i + 1];
     wp_pool[i].expression[0] = '\0';
-    wp_pool[i].last_value = 0;
+    wp_pool[i].old_value = 0;
     wp_pool[i].hit_times = 0;
   }
   wp_pool[NR_WP - 1].next = NULL;
@@ -46,13 +46,24 @@ WP* new_wp(){
 }
 
 void free_wp(WP *wp){
-	WP* last_node = NULL;
+	if (head == NULL){
+		printf("No watchpoint to free!\n'");
+		assert(0);
+	}
+
+	WP *last_wp = head;
+	while(last_wp->next != wp)
+		last_wp = last_wp->next;
+	last_wp->next = wp->next;
+	
+	wp->next = NULL;
+	
 	if (free_ == NULL)
-		last_node = free_;
-	else{
+		free_ = wp;
+	else {
+		WP* last_node = free_;
 		while (last_node->next != NULL)
 			last_node = last_node->next;
+		last_node->next = wp;
 	}
-	wp->next = NULL;
-	last_node->next = wp;
 }
