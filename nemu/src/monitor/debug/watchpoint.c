@@ -26,20 +26,36 @@ void init_wp_pool() {
 /* TODO: Implement the functionality of watchpoint */
 
 WP* new_wp(){
+	//no node in free_
 	if (free_ == NULL){
 		printf("No free Watch Point structure!\n");
 		assert(0);
 	}
+	
+	//take a node at the end of free_
 	WP* new_node = free_;
-	unsigned index = 0;
+	
 	while(new_node->next != NULL){
 		new_node = new_node->next;
-		index++;
 	}
+
 	if (new_node == free_)
 		free_ = NULL;
 	else{
-		wp_pool[index-1].next = NULL;
+		WP *p = free_;
+		while(p->next->next != NULL)
+			p = p->next;
+		p->next = NULL;
+	}
+
+	//add the new node to the end of head
+	if (head == NULL){
+		head = new_node;
+	}
+	else {
+		WP *p = head;
+		for (; p->next != NULL; p = p->next);
+		p->next = new_node;
 	}
 	new_node->NO = wp_NO;
 	wp_NO++;
@@ -78,6 +94,10 @@ bool check_watchpoint(){
 		bool *success = (bool*)malloc(1);
 		*success = true;
 		uint32_t new_value = expr(p->expression, success);
+		if (!*success){
+			printf("Evaluation failed!\n");
+			assert(0);
+		}
 		if (p->old_value != new_value){
 			stop = true;
 			printf("Watchpoint %d: %s\n\n", p->NO,p->expression);
