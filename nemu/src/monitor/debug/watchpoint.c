@@ -1,5 +1,6 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
+#include <malloc.h>
 
 #define NR_WP 32
 
@@ -66,4 +67,27 @@ void free_wp(WP *wp){
 			last_node = last_node->next;
 		last_node->next = wp;
 	}
+}
+
+bool check_watchpoint(){
+	if (head == NULL)
+		return false;
+	WP *p = head;
+	bool stop = false;
+	while (p != NULL){
+		bool *success = (bool*)malloc(1);
+		*success = true;
+		uint32_t new_value = expr(p->expression, success);
+		if (p->old_value != new_value){
+			stop = true;
+			printf("Watchpoint %d: %s\n\n", p->NO,p->expression);
+			printf("Old value = %u\n", p->old_value);
+			printf("New value = %u\n\n", new_value);
+			p->old_value = new_value;
+			p->hit_times++;
+		}
+		p = p->next;
+	}
+	return stop;
+
 }

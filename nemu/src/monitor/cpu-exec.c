@@ -2,6 +2,8 @@
 #include "monitor/monitor.h"
 #include "monitor/watchpoint.h"
 
+bool check_watchpoint();
+
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
@@ -59,6 +61,11 @@ void cpu_exec(uint64_t n) {
   }
 
     /* TODO: check watchpoints here. */
+  if (check_watchpoint()){
+	nemu_state.state = NEMU_STOP;
+  	printf("Watchpoint triggered!\n");
+  }
+
 
 #endif
 
