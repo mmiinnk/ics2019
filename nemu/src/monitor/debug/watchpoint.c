@@ -124,8 +124,11 @@ void watchpoint_display(){
 
 void delete_watchpoint(int n){
 	if (n == -1){
-		for (WP *p = head; p != NULL; p = p->next)
+		while (head != NULL){
+			WP *p = head;
+			head = head->next;
 			free_wp(p);
+		}
 	}
 	else{
 		WP *p = head;
