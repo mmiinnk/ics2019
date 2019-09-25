@@ -208,17 +208,33 @@ int find_main_op(int p, int q){
 	int op_num = 0;
 	while(i <= q){		
 		if (tokens[i].type == '+' || tokens[i].type == '-' ){
-			ops[op_num].priority = 0;
-			ops[op_num].loc = i;
-			i++;
-			op_num++;
-		}
-		else if (tokens[i].type == '*' || tokens[i].type == '/'){
 			ops[op_num].priority = 1;
 			ops[op_num].loc = i;
 			i++;
 			op_num++;
 		}
+
+		else if (tokens[i].type == '*' || tokens[i].type == '/'){
+			ops[op_num].priority = 0;
+			ops[op_num].loc = i;
+			i++;
+			op_num++;
+		}
+
+		else if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ){
+			ops[op_num].priority = 2;
+			ops[op_num].loc = i;
+			i++;
+			op_num++;
+		}
+
+		else if (tokens[i].type == TK_AND){
+			ops[op_num].priority = 3;
+			ops[op_num].loc = i;
+			i++;
+			op_num++;
+		}
+
 		else if ((tokens[i].type == '(')){
 			int temp = i;
 			i++;
@@ -229,14 +245,14 @@ int find_main_op(int p, int q){
 			i++;
 		}
 	}
-	int priority_min = 1;
+	int priority_max = 0;
 	for (int i=0;i<op_num;i++){
-		if (ops[i].priority < priority_min)
-			priority_min = ops[i].priority;
+		if (ops[i].priority > priority_max)
+			priority_max = ops[i].priority;
 	}
 	int main_op = 0;
 	for (int i=0;i<op_num;i++){
-		if (ops[i].priority == priority_min)
+		if (ops[i].priority == priority_max)
 			main_op = ops[i].loc;
 	}
 	return main_op;
@@ -299,6 +315,9 @@ uint32_t eval(int p, int q, bool *success){
 					  //assert(0);
 					  return 0;
 				  } return val1 / val2;
+			case TK_EQ: return (uint32_t)(val1 == val2);
+			case TK_NEQ: return (uint32_t)(val1 != val2);
+			case TK_AND: return (uint32_t)(val1 && val2);
 			default: assert(0);
 		}
 	}
