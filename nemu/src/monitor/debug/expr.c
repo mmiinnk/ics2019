@@ -11,7 +11,7 @@
 uint32_t isa_reg_str2val(const char*, bool *);
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NEQ, TK_NUM, TK_HEXNUM, TK_REG, TK_AND
+  TK_NOTYPE = 256, TK_EQ, TK_NEQ, TK_NUM, TK_HEXNUM, TK_REG, TK_AND,DEREF
 
   /* TODO: Add more token types */
 
@@ -312,8 +312,10 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   for (int i=0;i<nr_token;i++){
-	  if (tokens[i].type == '-' && (i == 0 || ((tokens[i-1].type != TK_NUM) && tokens[i-1].type != ')' && tokens[i+1].type == TK_NUM)))
+	  if (tokens[i].type == '-' && (i == 0 || ((tokens[i-1].type != TK_NUM) && tokens[i-1].type != ')' && (tokens[i+1].type == TK_NUM || tokens[i-1].type == TK_HEXNUM))))
 		  tokens[i].type = NEGATIVE;
+	  if (tokens[i].type == '*' && (i == 0 || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_HEXNUM) && (tokens[i-1].type != TK_REG) && (tokens[i-1].type != ')'))))
+		  tokens[i].type = DEREF;
   }
 
   uint32_t result = eval(0,nr_token-1, success);
