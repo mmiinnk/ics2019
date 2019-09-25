@@ -68,6 +68,10 @@ void free_wp(WP *wp){
 		assert(0);
 	}
 
+	//free from head
+	if (head == wp)
+		head = wp->next;
+
 	WP *last_wp = head;
 	while(last_wp->next != wp)
 		last_wp = last_wp->next;
@@ -75,6 +79,7 @@ void free_wp(WP *wp){
 	
 	wp->next = NULL;
 	
+	//add into free
 	if (free_ == NULL)
 		free_ = wp;
 	else {
@@ -126,6 +131,23 @@ void watchpoint_display(){
 				printf("%-10sbreakpoint already hit 1 time\n"," ");
 			else
 				printf("%-10sbreakpoint already hit %d times\n", " ", p->hit_times);
+		}
+	}
+}
+
+void delete_watchpoint(int n){
+	if (n == -1){
+		for (WP *p = head; p != NULL; p = p->next)
+			free_wp(p);
+	}
+	else{
+		WP *p = head;
+		while (p != NULL && p->NO != n)
+			p = p->next;
+		if (p == NULL)
+			printf("No watchpoint of number %d\n!", n);
+		else{
+			free_wp(p);
 		}
 	}
 }

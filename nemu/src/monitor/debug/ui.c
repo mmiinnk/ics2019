@@ -13,6 +13,7 @@ void cpu_exec(uint64_t);
 void isa_reg_display(void);
 WP* new_wp();
 void watchpoint_display(void);
+void delete_watchpoint(int);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -203,6 +204,22 @@ static int cmd_watchpoint(char *args){
 	return 0;
 }
 
+static int cmd_delete(char *args){
+	char* n_char = strtok(NULL, " ");
+	if (n_char == NULL)
+		delete_watchpoint(-1);
+	else
+	{
+		int n = 0;
+		for (int i=0; *(n_char+i) != '\0'; i++)
+		{
+			n = n*10 + (*(n_char+i) - 48);
+		}
+		delete_watchpoint(n);
+	}
+	return 0;
+}
+
 
 static struct {
   char *name;
@@ -216,7 +233,8 @@ static struct {
   { "info", "Print Information", cmd_info},
   { "x", "Scan the memory", cmd_scan_mem},
   { "p", "Evaluate the value", cmd_evaluate},
-  { "w", "Creat a watchpoint", cmd_watchpoint}
+  { "w", "Creat a watchpoint", cmd_watchpoint},
+  { "d", "Delete watchpoint", cmd_delete}
 
   /* TODO: Add more commands */
 
