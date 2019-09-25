@@ -118,14 +118,14 @@ void watchpoint_display(){
 		return;
 	}
 	WP *p = head;
-	printf("%-10s%s", "Num", "What");
+	printf("%-10s%s\n", "Num", "What");
 	for (;p != NULL; p = p->next){
-		printf("%-10d%s",p->NO,p->expression);
+		printf("%-10d%s\n",p->NO,p->expression);
 		if (p->hit_times != 0){
 			if (p->hit_times == 1)
-				printf("%-10sbreakpoint already hit 1 time"," ");
+				printf("%-10sbreakpoint already hit 1 time\n"," ");
 			else
-				printf("%-10sbreakpoint already hit %d times", " ", p->hit_times);
+				printf("%-10sbreakpoint already hit %d times\n", " ", p->hit_times);
 		}
 	}
 }
