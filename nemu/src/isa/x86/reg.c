@@ -53,5 +53,35 @@ void isa_reg_display() {
 }
 
 uint32_t isa_reg_str2val(const char *s, bool *success) {
+	switch (strlen(s)){
+		case 3:{
+			       for (int i=0;i<8;i++){
+				       if (strcmp(s,regsl[i]) == 0){
+					       return reg_l(i);
+				       }
+			       }
+			       *success = false;
+			       printf("Can't find the three bytes long regition!\n'");
+			       return 0;
+		       }
+		case 2:{
+			       for (int i=0;i<8;i++){
+				       if (strcmp(s,regsw[i]) == 0){
+					       return reg_w(i);
+				       }
+			       }
+			       for (int i=0; i<9; i++){
+				       if (strcmp(s,regsb[i]) == 0){
+					       return reg_b(i);
+				       }
+			       }
+			       if (strcmp(s, "pc") == 0)
+				       return cpu.pc;
+			       *success = false;
+			       printf("Can't find the two bytes long regition!\n");
+			       return 0;
+
+		       }
+	}
   return 0;
 }
