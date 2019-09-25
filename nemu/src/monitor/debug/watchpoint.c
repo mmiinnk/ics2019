@@ -63,19 +63,6 @@ WP* new_wp(){
 }
 
 void free_wp(WP *wp){
-	if (head == NULL){
-		printf("No watchpoint to free!\n'");
-		assert(0);
-	}
-
-	//free from head
-	if (head == wp)
-		head = wp->next;
-
-	WP *last_wp = head;
-	while(last_wp->next != wp)
-		last_wp = last_wp->next;
-	last_wp->next = wp->next;
 	
 	wp->next = NULL;
 	
@@ -147,6 +134,15 @@ void delete_watchpoint(int n){
 		if (p == NULL)
 			printf("No watchpoint of number %d\n!", n);
 		else{
+			//free from head
+			if (p == head)
+				head = p->next;
+			else{
+				WP *last_wp = head;
+				while(last_wp->next != p)
+					last_wp = last_wp->next;
+				last_wp->next = p->next;
+			}
 			free_wp(p);
 		}
 	}
