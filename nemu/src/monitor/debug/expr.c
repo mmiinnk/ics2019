@@ -9,6 +9,7 @@
 #define NEGATIVE 'N'
 
 uint32_t isa_reg_str2val(const char*, bool *);
+uint32_t isa_vaddr_read(vaddr_t, int);
 
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NEQ, TK_NUM, TK_HEXNUM, TK_REG, TK_AND,DEREF
@@ -272,6 +273,9 @@ uint32_t eval(int p, int q, bool *success){
 
        	else if (tokens[p].type == NEGATIVE)
 		return eval(p+1,q, success);
+
+	else if (tokens[p].type == DEREF)
+		return isa_vaddr_read(eval(p-1,q,success),1);
 	
 	else{
 		int op = find_main_op(p,q);
