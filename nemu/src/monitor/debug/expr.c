@@ -275,7 +275,7 @@ uint32_t eval(int p, int q, bool *success){
 		return eval(p+1,q, success);
 
 	else if (tokens[p].type == DEREF)
-		return isa_vaddr_read(eval(p-1,q,success),1);
+		return isa_vaddr_read(eval(p+1,q,success),1);
 	
 	else{
 		int op = find_main_op(p,q);
