@@ -12,6 +12,7 @@
 void cpu_exec(uint64_t);
 void isa_reg_display(void);
 WP* new_wp();
+void watchpoint_display(void);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -67,7 +68,7 @@ static int cmd_info(char *args){
 		isa_reg_display();
 	}
 	else if (strcmp(cmd_plus,"w") == 0){
-		
+		watchpoint_display();	
 	}
 	else
 	{

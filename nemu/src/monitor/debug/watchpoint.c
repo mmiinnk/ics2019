@@ -100,7 +100,7 @@ bool check_watchpoint(){
 		}
 		if (p->old_value != new_value){
 			stop = true;
-			printf("Watchpoint %d: %s\n\n", p->NO,p->expression);
+			printf("\nWatchpoint %d: %s\n\n", p->NO,p->expression);
 			printf("Old value = %u\n", p->old_value);
 			printf("New value = %u\n\n", new_value);
 			p->old_value = new_value;
@@ -110,4 +110,22 @@ bool check_watchpoint(){
 	}
 	return stop;
 
+}
+
+void watchpoint_display(){
+	if (head == NULL){
+		printf("No watchpoints!\n");
+		return;
+	}
+	WP *p = head;
+	printf("%-10s%s", "Num", "What");
+	for (;p != NULL; p = p->next){
+		printf("%-10d%s",p->NO,p->expression);
+		if (p->hit_times != 0){
+			if (p->hit_times == 1)
+				printf("%-10sbreakpoint already hit 1 time"," ");
+			else
+				printf("%-10sbreakpoint already hit %d times", " ", p->hit_times);
+		}
+	}
 }
