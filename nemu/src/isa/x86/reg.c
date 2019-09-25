@@ -70,7 +70,7 @@ uint32_t isa_reg_str2val(const char *s, bool *success) {
 					       return reg_w(i);
 				       }
 			       }
-			       for (int i=0; i<9; i++){
+			       for (int i=0; i<8; i++){
 				       if (strcmp(s,regsb[i]) == 0){
 					       return reg_b(i);
 				       }
