@@ -11,6 +11,7 @@
 
 void cpu_exec(uint64_t);
 void isa_reg_display(void);
+WP* new_WP();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -186,6 +187,21 @@ static int cmd_evaluate(char *args){
 }
 
 
+static int cmd_watchpoint(char *args){
+	bool *success = (bool*)malloc(1);
+	*success = true;
+	uint32_t raw_value = expr(args, success);
+	if (!*success) {
+		printf("Evaluation failed!\n'");
+		return 0;
+	}
+	WP *new_watchpoint = new_WP();
+	strcpy(new_watchpoint->expression, args);
+	new_watchpoint->old_value = raw_value;
+	new_watchpoint->hit_times = 0;
+	return 0;
+}
+
 
 static struct {
   char *name;
@@ -196,9 +212,10 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single Step", cmd_steps},
-  {"info", "Print Information", cmd_info},
-  {"x", "Scan the memory", cmd_scan_mem},
-  {"p", "Evaluate the value", cmd_evaluate},
+  { "info", "Print Information", cmd_info},
+  { "x", "Scan the memory", cmd_scan_mem},
+  { "p", "Evaluate the value", cmd_evaluate},
+  { "w", "Creat a watchpoint", cmd_watchpoint}
 
   /* TODO: Add more commands */
 
