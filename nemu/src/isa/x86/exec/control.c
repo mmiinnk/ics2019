@@ -33,7 +33,7 @@ make_EHelper(call) {
 }
 
 make_EHelper(ret) {
-  rtl_pop(&cpu.pc);
+  rtl_pop(&decinfo.seq_pc);
 
   print_asm("ret");
 }
