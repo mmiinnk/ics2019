@@ -4,6 +4,7 @@
 #include "nemu.h"
 #include "monitor/diff-test.h"
 #include "rtl/rtl.h"
+//#include "x86/exec/all-instr.h"
 
 #define make_EHelper(name) void concat(exec_, name) (vaddr_t *pc)
 typedef void (*EHelper) (vaddr_t *);
