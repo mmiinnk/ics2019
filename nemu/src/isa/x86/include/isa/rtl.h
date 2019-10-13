@@ -25,8 +25,9 @@ static inline void rtl_sr(int r, const rtlreg_t* src1, int width) {
 
 static inline void rtl_push(const rtlreg_t* src1) {
   // esp <- esp - 4
+  cpu.esp -= 32;
   // M[esp] <- src1
-  TODO();
+  vaddr_write(cpu.esp, *src1, 32);
 }
 
 static inline void rtl_pop(rtlreg_t* dest) {
