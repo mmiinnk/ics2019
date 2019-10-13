@@ -35,6 +35,8 @@ typedef struct {
   };
   vaddr_t pc;
 
+  uint32_t eflags;
+
 } CPU_state;
 
 static inline int check_reg_index(int index) {
