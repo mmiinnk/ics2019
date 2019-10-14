@@ -4,6 +4,11 @@
 #include "common.h"
 
 #define PC_START IMAGE_START
+//#define cpu.eflags.CF ((cpu.eflags)&0x1)
+//#define cpu.eflags.OF ((cpu.eflags>>11)&0x1)
+//#define cpu.eflags.ZF ((cpu.eflags>>6)&0x1)
+//#define cpu.efalgs.SF ((cpu.eflags>>7)&0x1)
+//#define cpu.eflags.IF ((cpu.eflags>>9)&0x1)
 
 enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
 enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };

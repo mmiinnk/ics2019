@@ -37,36 +37,72 @@ static inline void rtl_pop(rtlreg_t* dest) {
   cpu.esp += 32;
 }
 
+static inline void rtl_is_add_overflow(rtlreg_t* dest,
+    const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
+  // dest <- is_overflow(src1 + src2)
+  uint32_t shift = width*8-1;
+  if ((((*src1>>shift)&0x1) == 0 && ((*src2 >> shift)&0x1) == 0 && (((*src1 + *src2)>>shift)&0x1) == 1) || 
+      (((*src1>>shift)&0x1) == 1 && ((*src2 >> shift)&0x1) == 1 && (((*src1 + *src2)>>shift)&0x1) == 0)){
+     *dest = 1;
+  }
+  else{
+     *dest = 0;
+  }
+}
+
 static inline void rtl_is_sub_overflow(rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
   // dest <- is_overflow(src1 - src2)
-  TODO();
+  
+  uint32_t shift = width*8-1;
+  if (*src2 == (0x1<< shift) && ((*src1>>shift)&0x1) == 0){
+    *dest = 1;
+  return;
+  }
+
+  t0 = (~*src2+1);
+  rtl_is_add_overflow(dest, res, src1, &t0, width);
+  
 }
 
 static inline void rtl_is_sub_carry(rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1) {
   // dest <- is_carry(src1 - src2)
-  TODO();
+  if (*res > *src1){
+    *dest = 1;
+  }
+  else{
+    *dest = 0;
+  }
 }
 
-static inline void rtl_is_add_overflow(rtlreg_t* dest,
-    const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
-  // dest <- is_overflow(src1 + src2)
-  TODO();
-}
+
 
 static inline void rtl_is_add_carry(rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1) {
   // dest <- is_carry(src1 + src2)
-  TODO();
+  if (*res < *src1){
+    *dest = 1;
+  }
+  else{
+    *dest = 0;
+  }
 }
+
+#define CF_ 0
+#define OF_ 11
+#define ZF_ 6
+#define SF_ 7
 
 #define make_rtl_setget_eflags(f) \
   static inline void concat(rtl_set_, f) (const rtlreg_t* src) { \
-    TODO(); \
+    if (*src == 1) \
+      cpu.eflags |= 0x1<<concat(f,_); \
+    else \
+      cpu.eflags &= ~(0x1<<concat(f, _)); \
   } \
   static inline void concat(rtl_get_, f) (rtlreg_t* dest) { \
-    TODO(); \
+    *dest = (cpu.eflags>>concat(f, _))&0x1; \
   }
 
 make_rtl_setget_eflags(CF)
@@ -76,12 +112,23 @@ make_rtl_setget_eflags(SF)
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
-  TODO();
+  uint32_t shift = width*8-1;
+  if ((*result & ((0x2<<shift)-1)) == 0){
+    cpu.eflags |= 0x1<<6; //ZF = 1
+  }
+  else{
+    cpu.eflags &= ~(0x1<<6); //ZF = 0
+  }
 }
 
 static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
-  TODO();
+  if (((*result >> (width*8-1)) & 0x1) == 1){
+    cpu.eflags |= 0x1<<7; //SF = 1
+  }
+  else{
+    cpu.eflags &= ~(0x1<<7); //SF = 0
+  } 
 }
 
 static inline void rtl_update_ZFSF(const rtlreg_t* result, int width) {
