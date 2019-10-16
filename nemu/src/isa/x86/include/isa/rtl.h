@@ -27,12 +27,12 @@ static inline void rtl_push(const rtlreg_t* src1) {
   // esp <- esp - 4
   cpu.esp -= 32;
   // M[esp] <- src1
-  vaddr_write(cpu.esp, *src1, 32);
+  vaddr_write(cpu.esp, *src1, 4);
 }
 
 static inline void rtl_pop(rtlreg_t* dest) {
   // dest <- M[esp]
-  *dest = vaddr_read(cpu.esp, 32);
+  *dest = vaddr_read(cpu.esp, 4);
   // esp <- esp + 4
   cpu.esp += 32;
 }
