@@ -58,7 +58,25 @@ make_EHelper(sub) {
 }
 
 make_EHelper(cmp) {
-  TODO();
+  // s1 = dest - src
+  rtl_sub(&s1, &id_dest->val, &id_src->val);
+  
+  //将前面的位置为0
+  if (decinfo.width < 4){
+    set_prepos_zero(&s1, &id_dest->val, &id_src->val);
+  }
+
+  //check overflow->s0
+  rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
+  rtl_set_OF(&s0);
+  
+  //check carry->s0
+  rtl_is_sub_carry(&s0, &s1, &id_dest->val);
+  rtl_set_CF(&s0);
+  
+  //update ZF and SF
+  rtl_update_ZFSF(&s1, decinfo.width);
+
 
   print_asm_template2(cmp);
 }
