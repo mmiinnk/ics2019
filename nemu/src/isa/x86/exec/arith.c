@@ -10,6 +10,14 @@ make_EHelper(sub) {
   // s1 = dest - src
   rtl_sub(&s1, &id_dest->val, &id_src->val);
   
+  //将前面的位置为0
+  uint32_t shift = decinfo.width*8-1;
+  if (decinfo.width < 4){
+    s1 &= ((0x1<<(shift+1))-1);
+    id_dest->val &= ((0x1<<(shift+1))-1);
+    id_src->val &= ((0x1<<(shift+1))-1);
+  }
+
   //check overflow->s0
   rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
   rtl_set_OF(&s0);
