@@ -1,7 +1,32 @@
 #include "cpu/exec.h"
 
+void set_prepos_zero(rtlreg_t* dest, rtlreg_t* src1, rtlreg_t* src2){
+  uint32_t shift = decinfo.width*8-1;
+  *dest &= ((0x1<<(shift+1))-1);
+  *src1 &= ((0x1<<(shift+1))-1);
+  *src2 &= ((0x1<<(shift+1))-1);
+}
+
 make_EHelper(add) {
-  TODO();
+  rtl_add(&s1, &id_dest->val, &id_src->val);
+  if (decinfo.width < 4){
+    set_prepos_zero(&s1, &id_dest->val, &id_src->val);
+  }
+  
+  //check overflow->s0
+  rtl_is_add_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
+  rtl_set_OF(&s0);
+  
+  //check carry->s0
+  rtl_is_add_carry(&s0, &s1, &id_dest->val);
+  rtl_set_CF(&s0);
+  
+  //update ZF and SF
+  rtl_update_ZFSF(&s1, decinfo.width);
+
+  //dest = s1
+  id_dest->val = s1;
+
 
   print_asm_template2(add);
 }
@@ -11,11 +36,8 @@ make_EHelper(sub) {
   rtl_sub(&s1, &id_dest->val, &id_src->val);
   
   //将前面的位置为0
-  uint32_t shift = decinfo.width*8-1;
   if (decinfo.width < 4){
-    s1 &= ((0x1<<(shift+1))-1);
-    id_dest->val &= ((0x1<<(shift+1))-1);
-    id_src->val &= ((0x1<<(shift+1))-1);
+    set_prepos_zero(&s1, &id_dest->val, &id_src->val);
   }
 
   //check overflow->s0
