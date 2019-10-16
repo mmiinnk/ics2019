@@ -182,8 +182,10 @@ static int cmd_evaluate(char *args){
 	uint32_t result = expr(args, success);
 	if (!success){
 		printf("Evaluation failed!\n");
+		free(success);
 		return 0;
 	}
+	free(success);
 	printf("%u\n",result);
 	return 0;
 }
