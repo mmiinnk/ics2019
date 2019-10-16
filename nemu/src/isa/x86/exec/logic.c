@@ -8,23 +8,24 @@ make_EHelper(test) {
 }
 
 make_EHelper(and) {
-  rtl_and(&id_dest->val, &id_dest->val, &id_src->val);
-  operand_write(id_dest, &id_dest->val);
-  s0 = 0;
-  rtl_set_CF(&s0);
-  rtl_set_OF(&s0);
+  rtl_and(&s0, &id_dest->val, &id_src->val);
+  operand_write(id_dest, &s0);
+  s1 = 0;
+  rtl_set_CF(&s1);
+  rtl_set_OF(&s1);
 
   print_asm_template2(and);
 }
 
 make_EHelper(xor) {
-  rtl_xor(&id_dest->val, &id_dest->val, &id_src->val);
-  operand_write(id_dest, &id_dest->val);
+  rtl_xor(&s0, &id_dest->val, &id_src->val);
+  operand_write(id_dest, &s0);
   //if (id_dest->type == OP_TYPE_REG){
   //  cpu.gpr[id_dest->reg]._32 = id_dest->val;
   //}
-  rtl_set_CF(&s0);
-  rtl_set_OF(&s0);
+  s1 = 0;
+  rtl_set_CF(&s1);
+  rtl_set_OF(&s1);
 
   print_asm_template2(xor);
 }
