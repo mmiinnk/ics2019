@@ -8,7 +8,11 @@ make_EHelper(test) {
 }
 
 make_EHelper(and) {
-  TODO();
+  rtl_and(&id_dest->val, &id_dest->val, &id_src->val);
+  operand_write(id_dest, &id_dest->val);
+  s0 = 0;
+  rtl_set_CF(&s0);
+  rtl_set_OF(&s0);
 
   print_asm_template2(and);
 }
@@ -19,6 +23,8 @@ make_EHelper(xor) {
   //if (id_dest->type == OP_TYPE_REG){
   //  cpu.gpr[id_dest->reg]._32 = id_dest->val;
   //}
+  rtl_set_CF(&s0);
+  rtl_set_OF(&s0);
 
   print_asm_template2(xor);
 }
