@@ -34,7 +34,7 @@ static inline void rtl_pop(rtlreg_t* dest) {
   // dest <- M[esp]
   *dest = vaddr_read(cpu.esp, 4);
   // esp <- esp + 4
-  cpu.esp += 32;
+  cpu.esp += 4;
 }
 
 static inline void rtl_is_add_overflow(rtlreg_t* dest,
