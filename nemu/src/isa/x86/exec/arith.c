@@ -109,7 +109,27 @@ make_EHelper(inc) {
 }
 
 make_EHelper(dec) {
-  TODO();
+  rtl_li(&id_src->val, 1);
+  
+  rtl_sub(&s1, &id_dest->val, &id_src->val);
+  if (decinfo.width < 4){
+    set_prepos_zero(&s1, &id_dest->val, &id_src->val);
+  }
+  
+  //check overflow->s0
+  rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
+  rtl_set_OF(&s0);
+  
+  //check carry->s0
+  rtl_is_sub_carry(&s0, &s1, &id_dest->val);
+  rtl_set_CF(&s0);
+  
+  //update ZF and SF
+  rtl_update_ZFSF(&s1, decinfo.width);
+
+  //dest = s1
+  id_dest->val = s1;
+
 
   print_asm_template1(dec);
 }
