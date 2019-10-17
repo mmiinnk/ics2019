@@ -28,7 +28,7 @@ make_EHelper(add) {
   rtl_update_ZFSF(&s1, decinfo.width);
 
   //dest = s1
-  id_dest->val = s1;
+  //id_dest->val = s1;
 
 
   print_asm_template2(add);
@@ -57,7 +57,7 @@ make_EHelper(sub) {
   rtl_update_ZFSF(&s1, decinfo.width);
 
   //dest = s1
-  id_dest->val = s1;
+  //id_dest->val = s1;
 
   print_asm_template2(sub);
 }
@@ -108,7 +108,7 @@ make_EHelper(inc) {
   rtl_update_ZFSF(&s1, decinfo.width);
 
   //dest = s1
-  id_dest->val = s1;
+  //id_dest->val = s1;
 
 
   print_asm_template1(inc);
@@ -136,7 +136,7 @@ make_EHelper(dec) {
   rtl_update_ZFSF(&s1, decinfo.width);
 
   //dest = s1
-  id_dest->val = s1;
+  //id_dest->val = s1;
 
 
   print_asm_template1(dec);
