@@ -9,6 +9,9 @@ void set_prepos_zero(rtlreg_t* dest, rtlreg_t* src1, rtlreg_t* src2){
 
 make_EHelper(add) {
   rtl_add(&s1, &id_dest->val, &id_src->val);
+
+  operand_write(id_dest, &s1);
+
   if (decinfo.width < 4){
     set_prepos_zero(&s1, &id_dest->val, &id_src->val);
   }
@@ -27,8 +30,6 @@ make_EHelper(add) {
   //dest = s1
   id_dest->val = s1;
 
-  operand_write(id_dest, &s1);
-
 
   print_asm_template2(add);
 }
@@ -36,6 +37,8 @@ make_EHelper(add) {
 make_EHelper(sub) {
   // s1 = dest - src
   rtl_sub(&s1, &id_dest->val, &id_src->val);
+
+  operand_write(id_dest, &s1);
   
   //将前面的位置为0
   if (decinfo.width < 4){
@@ -55,8 +58,6 @@ make_EHelper(sub) {
 
   //dest = s1
   id_dest->val = s1;
-
-  operand_write(id_dest, &s1);
 
   print_asm_template2(sub);
 }
@@ -87,6 +88,8 @@ make_EHelper(cmp) {
 
 make_EHelper(inc) {
   rtl_li(&id_src->val, 1);
+
+  operand_write(id_dest, &s1);
   
   rtl_add(&s1, &id_dest->val, &id_src->val);
   if (decinfo.width < 4){
@@ -107,14 +110,14 @@ make_EHelper(inc) {
   //dest = s1
   id_dest->val = s1;
 
-  operand_write(id_dest, &s1);
-
 
   print_asm_template1(inc);
 }
 
 make_EHelper(dec) {
   rtl_li(&id_src->val, 1);
+
+  operand_write(id_dest, &s1);
   
   rtl_sub(&s1, &id_dest->val, &id_src->val);
   if (decinfo.width < 4){
@@ -134,8 +137,6 @@ make_EHelper(dec) {
 
   //dest = s1
   id_dest->val = s1;
-
-  operand_write(id_dest, &s1);
 
 
   print_asm_template1(dec);
