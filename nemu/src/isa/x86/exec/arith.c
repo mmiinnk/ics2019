@@ -10,9 +10,9 @@ void set_prepos_zero(rtlreg_t* dest, rtlreg_t* src1, rtlreg_t* src2){
 make_EHelper(add) {
   rtl_add(&s1, &id_dest->val, &id_src->val);
 
-  if (decinfo.width < 4){
-    set_prepos_zero(&s1, &id_dest->val, &id_src->val);
-  }
+  //if (decinfo.width < 4){
+  //  set_prepos_zero(&s1, &id_dest->val, &id_src->val);
+  //}
   
   //check overflow->s0
   rtl_is_add_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
@@ -38,9 +38,9 @@ make_EHelper(sub) {
 
   
   //将前面的位置为0
-  if (decinfo.width < 4){
-    set_prepos_zero(&s1, &id_dest->val, &id_src->val);
-  }
+  //if (decinfo.width < 4){
+  //  set_prepos_zero(&s1, &id_dest->val, &id_src->val);
+  //}
 
   //check overflow->s0
   rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
