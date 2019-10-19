@@ -10,10 +10,10 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
     CC_S, CC_NS, CC_P,  CC_NP,
     CC_L, CC_NL, CC_LE, CC_NLE
   };
-  char CF = (cpu.eflags>>CF_)&0x1;
-  char OF = (cpu.eflags>>OF_)&0x1;
-  char ZF = (cpu.eflags>>ZF_)&0x1;
-  char SF = (cpu.eflags>>SF_)&0x1;
+  char CF = cpu.eflags.CF;
+  char OF = cpu.eflags.OF;
+  char ZF = cpu.eflags.ZF;
+  char SF = cpu.eflags.SF;
 
   // TODO: Query EFLAGS to determine whether the condition code is satisfied.
   // dest <- ( cc is satisfied ? 1 : 0)

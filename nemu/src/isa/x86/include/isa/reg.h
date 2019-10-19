@@ -40,7 +40,12 @@ typedef struct {
   };
   vaddr_t pc;
 
-  uint32_t eflags;
+  struct bs{
+    unsigned CF:1;
+    unsigned ZF:1;
+    unsigned SF:1;
+    unsigned OF:1;
+  } eflags;
 
 } CPU_state;
 

@@ -96,13 +96,10 @@ static inline void rtl_is_add_carry(rtlreg_t* dest,
 
 #define make_rtl_setget_eflags(f) \
   static inline void concat(rtl_set_, f) (const rtlreg_t* src) { \
-    if (*src == 1) \
-      cpu.eflags |= 0x1<<concat(f,_); \
-    else \
-      cpu.eflags &= ~(0x1<<concat(f, _)); \
+    cpu.eflags.f = *src;\
   } \
   static inline void concat(rtl_get_, f) (rtlreg_t* dest) { \
-    *dest = (cpu.eflags>>concat(f, _))&0x1; \
+    *dest = cpu.eflags.f; \
   }
 
 make_rtl_setget_eflags(CF)
@@ -114,20 +111,20 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   uint32_t shift = width*8-1;
   if ((*result & ((0x2<<shift)-1)) == 0){
-    cpu.eflags |= 0x1<<6; //ZF = 1
+    cpu.eflags.ZF = 1; //ZF = 1
   }
   else{
-    cpu.eflags &= ~(0x1<<6); //ZF = 0
+    cpu.eflags.ZF = 0; //ZF = 0
   }
 }
 
 static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
   if (((*result >> (width*8-1)) & 0x1) == 1){
-    cpu.eflags |= 0x1<<7; //SF = 1
+    cpu.eflags.SF = 1; //SF = 1
   }
   else{
-    cpu.eflags &= ~(0x1<<7); //SF = 0
+    cpu.eflags.SF = 0; //SF = 0
   } 
 }
 
