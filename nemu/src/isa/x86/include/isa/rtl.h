@@ -89,11 +89,6 @@ static inline void rtl_is_add_carry(rtlreg_t* dest,
   }
 }
 
-#define CF_ 0
-#define OF_ 11
-#define ZF_ 6
-#define SF_ 7
-
 #define make_rtl_setget_eflags(f) \
   static inline void concat(rtl_set_, f) (const rtlreg_t* src) { \
     cpu.eflags.f = *src;\
