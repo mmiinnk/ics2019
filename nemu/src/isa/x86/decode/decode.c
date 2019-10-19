@@ -270,7 +270,8 @@ make_DHelper(J) {
   decinfo.jmp_pc = id_dest->simm + *pc;
 }
 
-make_DHelper(call) {
+make_DHelper(Ja) {
+  //This one is special for call/J + direct address
   // the target address can be computed in the decode stage
   decinfo.jmp_pc = id_dest->val;
 }
