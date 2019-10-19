@@ -10,7 +10,7 @@ void set_prepos_zero(rtlreg_t* dest, rtlreg_t* src1, rtlreg_t* src2){
 make_EHelper(add) {
   rtl_add(&s1, &id_dest->val, &id_src->val);
 
-  //operand_write(id_dest, &s1);
+  operand_write(id_dest, &s1);
 
   if (decinfo.width < 4){
     set_prepos_zero(&s1, &id_dest->val, &id_src->val);
@@ -86,13 +86,13 @@ make_EHelper(cmp) {
 
 make_EHelper(inc) {
   rtl_li(&id_src->val, 1);
-
-  operand_write(id_dest, &s1);
   
   rtl_add(&s1, &id_dest->val, &id_src->val);
   if (decinfo.width < 4){
     set_prepos_zero(&s1, &id_dest->val, &id_src->val);
   }
+
+  operand_write(id_dest, &s1);
   
   //check overflow->s0
   rtl_is_add_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
