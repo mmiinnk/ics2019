@@ -272,7 +272,7 @@ make_DHelper(J) {
 
 make_DHelper(call) {
   // the target address can be computed in the decode stage
-  decinfo.jmp_pc = id_dest->imm + *pc;
+  decinfo.jmp_pc = id_dest->val;
 }
 
 make_DHelper(push_SI) {
