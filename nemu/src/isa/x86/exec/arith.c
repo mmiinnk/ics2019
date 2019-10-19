@@ -38,6 +38,7 @@ make_EHelper(sub) {
   // s1 = dest - src
   rtl_sub(&s1, &id_dest->val, &id_src->val);
 
+  //write dest = s1
   operand_write(id_dest, &s1);
   
   //将前面的位置为0
@@ -55,9 +56,6 @@ make_EHelper(sub) {
   
   //update ZF and SF
   rtl_update_ZFSF(&s1, decinfo.width);
-
-  //dest = s1
-  //id_dest->val = s1;
 
   print_asm_template2(sub);
 }
