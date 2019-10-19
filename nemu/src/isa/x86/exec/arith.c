@@ -10,7 +10,7 @@ void set_prepos_zero(rtlreg_t* dest, rtlreg_t* src1, rtlreg_t* src2){
 make_EHelper(add) {
   rtl_add(&s1, &id_dest->val, &id_src->val);
 
-  operand_write(id_dest, &s1);
+  //operand_write(id_dest, &s1);
 
   if (decinfo.width < 4){
     set_prepos_zero(&s1, &id_dest->val, &id_src->val);
