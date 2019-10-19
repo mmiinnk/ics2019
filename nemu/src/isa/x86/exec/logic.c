@@ -64,7 +64,7 @@ make_EHelper(sar) {
 make_EHelper(shl) {
   rtl_shl(&s0, &id_dest->val, &id_src->val);
   // unnecessary to update CF and OF in NEMU
-  rtl_update_ZFSF(&s0, decinfo.width);
+  rtl_update_ZFSF(&s0, id_dest->width);
 
   operand_write(id_dest, &s0);
 
@@ -72,8 +72,9 @@ make_EHelper(shl) {
 }
 
 make_EHelper(shr) {
-  TODO();
+  rtl_shr(&s0, &id_dest->val, &id_src->val);
   // unnecessary to update CF and OF in NEMU
+  rtl_update_ZFSF(&s0, id_dest->width);
 
   print_asm_template2(shr);
 }
