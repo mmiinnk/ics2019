@@ -40,7 +40,7 @@ make_EHelper(leave) {
 make_EHelper(cltd) {
   if (decinfo.isa.is_operand_size_16) {
     s0 = cpu.eax;
-    s0 = (uint32_t)(((int)(s0<<16))>>31);
+    s0 = (((int)(s0<<16))>>31);
     reg_w(R_DX) = (uint16_t)s0;
   }
   else {
