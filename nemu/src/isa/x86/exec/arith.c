@@ -1,19 +1,26 @@
 #include "cpu/exec.h"
 
-void set_prepos_zero(rtlreg_t* dest, rtlreg_t* src1, rtlreg_t* src2){
-  uint32_t shift = decinfo.width*8-1;
-  *dest &= ((0x1<<(shift+1))-1);
-  *src1 &= ((0x1<<(shift+1))-1);
-  *src2 &= ((0x1<<(shift+1))-1);
-}
-
 make_EHelper(add) {
+  //s1 = dest + src
   rtl_add(&s1, &id_dest->val, &id_src->val);
 
-  //if (decinfo.width < 4){
-  //  set_prepos_zero(&s1, &id_dest->val, &id_src->val);
-  //}
+  operand_write(id_dest, &s1);
+
+  if (id_dest->width != 4){
+    rtl_andi(&s1, &s1, 0xffffffffu >> ((4 - id_dest->width) * 8));
+  }
+
+  rtl_update_ZFSF(&s1, id_dest->width);
+
+  //update CF
+  rtl_is_add_carry(&s0, &s1, &id_dest->val);
+  rtl_set_CF(&s0);
+
+  //update OF
+  rtl_is_add_overflow(&s0, &s1, &id_dest->val, &id_src->val, id_dest->width);
+  rtl_set_OF(&s0);
   
+  /*
   //check overflow->s0
   rtl_is_add_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
   rtl_set_OF(&s0);
@@ -27,7 +34,7 @@ make_EHelper(add) {
 
   //dest = s1
   operand_write(id_dest, &s1);
-
+  */
 
   print_asm_template2(add);
 }
