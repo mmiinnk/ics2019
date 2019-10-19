@@ -64,9 +64,9 @@ make_EHelper(cmp) {
   rtl_sub(&s1, &id_dest->val, &id_src->val);
   
   //将前面的位置为0
-  if (decinfo.width < 4){
-    set_prepos_zero(&s1, &id_dest->val, &id_src->val);
-  }
+  //if (decinfo.width < 4){
+  //  set_prepos_zero(&s1, &id_dest->val, &id_src->val);
+  //}
 
   //check overflow->s0
   rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
@@ -88,9 +88,10 @@ make_EHelper(inc) {
   
   // s1 = dest + 1
   rtl_add(&s1, &id_dest->val, &id_src->val);
-  if (decinfo.width < 4){
-    set_prepos_zero(&s1, &id_dest->val, &id_src->val);
-  }
+  
+  //if (decinfo.width < 4){
+  //  set_prepos_zero(&s1, &id_dest->val, &id_src->val);
+  //}
 
   
   //check overflow->s0
@@ -116,9 +117,10 @@ make_EHelper(dec) {
 
   
   rtl_sub(&s1, &id_dest->val, &id_src->val);
-  if (decinfo.width < 4){
-    set_prepos_zero(&s1, &id_dest->val, &id_src->val);
-  }
+  
+  //if (decinfo.width < 4){
+  //  set_prepos_zero(&s1, &id_dest->val, &id_src->val);
+  //}
   
   //check overflow->s0
   rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
