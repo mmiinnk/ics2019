@@ -39,13 +39,14 @@ make_EHelper(leave) {
 
 make_EHelper(cltd) {
   if (decinfo.isa.is_operand_size_16) {
-    s0 = cpu.eax;
+    rtl_lr(&s0, 0, 2);
     s0 = (((int)(s0<<16))>>31);
-    reg_w(R_DX) = (uint16_t)s0;
+    rtl_sr(2, &s0, 2);
   }
   else {
-    s0 = cpu.eax;
-    cpu.edx = ((int)s0)>>31;
+    rtl_lr(&s0, 0, 4);
+    s0 = (((int)(s0))>>31);
+    rtl_sr(2, &s0, 4);
   }
 
   print_asm(decinfo.isa.is_operand_size_16 ? "cwtl" : "cltd");
