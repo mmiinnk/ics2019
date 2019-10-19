@@ -10,8 +10,6 @@ void set_prepos_zero(rtlreg_t* dest, rtlreg_t* src1, rtlreg_t* src2){
 make_EHelper(add) {
   rtl_add(&s1, &id_dest->val, &id_src->val);
 
-  operand_write(id_dest, &s1);
-
   if (decinfo.width < 4){
     set_prepos_zero(&s1, &id_dest->val, &id_src->val);
   }
@@ -28,7 +26,7 @@ make_EHelper(add) {
   rtl_update_ZFSF(&s1, decinfo.width);
 
   //dest = s1
-  //id_dest->val = s1;
+  operand_write(id_dest, &s1);
 
 
   print_asm_template2(add);
@@ -38,8 +36,6 @@ make_EHelper(sub) {
   // s1 = dest - src
   rtl_sub(&s1, &id_dest->val, &id_src->val);
 
-  //write dest = s1
-  operand_write(id_dest, &s1);
   
   //将前面的位置为0
   if (decinfo.width < 4){
@@ -56,6 +52,9 @@ make_EHelper(sub) {
   
   //update ZF and SF
   rtl_update_ZFSF(&s1, decinfo.width);
+
+  //write dest = s1
+  operand_write(id_dest, &s1);
 
   print_asm_template2(sub);
 }
@@ -87,12 +86,12 @@ make_EHelper(cmp) {
 make_EHelper(inc) {
   rtl_li(&id_src->val, 1);
   
+  // s1 = dest + 1
   rtl_add(&s1, &id_dest->val, &id_src->val);
   if (decinfo.width < 4){
     set_prepos_zero(&s1, &id_dest->val, &id_src->val);
   }
 
-  operand_write(id_dest, &s1);
   
   //check overflow->s0
   rtl_is_add_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
@@ -105,9 +104,9 @@ make_EHelper(inc) {
   //update ZF and SF
   rtl_update_ZFSF(&s1, decinfo.width);
 
-  //dest = s1
-  //id_dest->val = s1;
 
+  // dest = s1
+  operand_write(id_dest, &s1);
 
   print_asm_template1(inc);
 }
@@ -115,7 +114,6 @@ make_EHelper(inc) {
 make_EHelper(dec) {
   rtl_li(&id_src->val, 1);
 
-  operand_write(id_dest, &s1);
   
   rtl_sub(&s1, &id_dest->val, &id_src->val);
   if (decinfo.width < 4){
@@ -133,9 +131,8 @@ make_EHelper(dec) {
   //update ZF and SF
   rtl_update_ZFSF(&s1, decinfo.width);
 
-  //dest = s1
-  //id_dest->val = s1;
-
+  // dest = s1
+  operand_write(id_dest, &s1);
 
   print_asm_template1(dec);
 }
