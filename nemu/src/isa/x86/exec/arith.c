@@ -20,48 +20,28 @@ make_EHelper(add) {
   rtl_is_add_overflow(&s0, &s1, &id_dest->val, &id_src->val, id_dest->width);
   rtl_set_OF(&s0);
   
-  /*
-  //check overflow->s0
-  rtl_is_add_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
-  rtl_set_OF(&s0);
-  
-  //check carry->s0
-  rtl_is_add_carry(&s0, &s1, &id_dest->val);
-  rtl_set_CF(&s0);
-  
-  //update ZF and SF
-  rtl_update_ZFSF(&s1, decinfo.width);
-
-  //dest = s1
-  operand_write(id_dest, &s1);
-  */
-
   print_asm_template2(add);
 }
 
 make_EHelper(sub) {
-  // s1 = dest - src
+  //s1 = dest - src
   rtl_sub(&s1, &id_dest->val, &id_src->val);
 
-  
-  //将前面的位置为0
-  //if (decinfo.width < 4){
-  //  set_prepos_zero(&s1, &id_dest->val, &id_src->val);
-  //}
+  operand_write(id_dest, &s1);
 
-  //check overflow->s0
-  rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
-  rtl_set_OF(&s0);
-  
-  //check carry->s0
+  if (id_dest->width != 4){
+    rtl_andi(&s1, &s1, 0xffffffffu >> ((4 - id_dest->width) * 8));
+  }
+
+  rtl_update_ZFSF(&s1, id_dest->width);
+
+  //update CF
   rtl_is_sub_carry(&s0, &s1, &id_dest->val);
   rtl_set_CF(&s0);
-  
-  //update ZF and SF
-  rtl_update_ZFSF(&s1, decinfo.width);
 
-  //write dest = s1
-  operand_write(id_dest, &s1);
+  //update OF
+  rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, id_dest->width);
+  rtl_set_OF(&s0);
 
   print_asm_template2(sub);
 }
@@ -70,22 +50,19 @@ make_EHelper(cmp) {
   // s1 = dest - src
   rtl_sub(&s1, &id_dest->val, &id_src->val);
   
-  //将前面的位置为0
-  //if (decinfo.width < 4){
-  //  set_prepos_zero(&s1, &id_dest->val, &id_src->val);
-  //}
+  if (id_dest->width != 4){
+    rtl_andi(&s1, &s1, 0xffffffffu >> ((4 - id_dest->width) * 8));
+  }
 
-  //check overflow->s0
-  rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
-  rtl_set_OF(&s0);
-  
-  //check carry->s0
+  rtl_update_ZFSF(&s1, id_dest->width);
+
+  //update CF
   rtl_is_sub_carry(&s0, &s1, &id_dest->val);
   rtl_set_CF(&s0);
-  
-  //update ZF and SF
-  rtl_update_ZFSF(&s1, decinfo.width);
 
+  //update OF
+  rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, id_dest->width);
+  rtl_set_OF(&s0);
 
   print_asm_template2(cmp);
 }
@@ -96,25 +73,21 @@ make_EHelper(inc) {
   // s1 = dest + 1
   rtl_add(&s1, &id_dest->val, &id_src->val);
   
-  //if (decinfo.width < 4){
-  //  set_prepos_zero(&s1, &id_dest->val, &id_src->val);
-  //}
+  operand_write(id_dest, &s1);
 
-  
-  //check overflow->s0
-  rtl_is_add_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
-  rtl_set_OF(&s0);
-  
-  //check carry->s0
+  if (id_dest->width != 4){
+    rtl_andi(&s1, &s1, 0xffffffffu >> ((4 - id_dest->width) * 8));
+  }
+
+  rtl_update_ZFSF(&s1, id_dest->width);
+
+  //update CF
   rtl_is_add_carry(&s0, &s1, &id_dest->val);
   rtl_set_CF(&s0);
-  
-  //update ZF and SF
-  rtl_update_ZFSF(&s1, decinfo.width);
 
-
-  // dest = s1
-  operand_write(id_dest, &s1);
+  //update OF
+  rtl_is_add_overflow(&s0, &s1, &id_dest->val, &id_src->val, id_dest->width);
+  rtl_set_OF(&s0);
 
   print_asm_template1(inc);
 }
@@ -122,27 +95,25 @@ make_EHelper(inc) {
 make_EHelper(dec) {
   rtl_li(&id_src->val, 1);
 
-  
+  // s1 = dest - 1
   rtl_sub(&s1, &id_dest->val, &id_src->val);
   
-  //if (decinfo.width < 4){
-  //  set_prepos_zero(&s1, &id_dest->val, &id_src->val);
-  //}
-  
-  //check overflow->s0
-  rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, decinfo.width);
-  rtl_set_OF(&s0);
-  
-  //check carry->s0
-  rtl_is_sub_carry(&s0, &s1, &id_dest->val);
-  rtl_set_CF(&s0);
-  
-  //update ZF and SF
-  rtl_update_ZFSF(&s1, decinfo.width);
-
-  // dest = s1
   operand_write(id_dest, &s1);
 
+  if (id_dest->width != 4){
+    rtl_andi(&s1, &s1, 0xffffffffu >> ((4 - id_dest->width) * 8));
+  }
+
+  rtl_update_ZFSF(&s1, id_dest->width);
+
+  //update CF
+  rtl_is_sub_carry(&s0, &s1, &id_dest->val);
+  rtl_set_CF(&s0);
+
+  //update OF
+  rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, id_dest->width);
+  rtl_set_OF(&s0);
+ 
   print_asm_template1(dec);
 }
 
