@@ -82,8 +82,8 @@ make_EHelper(inc) {
   rtl_update_ZFSF(&s1, id_dest->width);
 
   //update CF
-  rtl_is_add_carry(&s0, &s1, &id_dest->val);
-  rtl_set_CF(&s0);
+  //rtl_is_add_carry(&s0, &s1, &id_dest->val);
+  //rtl_set_CF(&s0);
 
   //update OF
   rtl_is_add_overflow(&s0, &s1, &id_dest->val, &id_src->val, id_dest->width);
@@ -107,8 +107,8 @@ make_EHelper(dec) {
   rtl_update_ZFSF(&s1, id_dest->width);
 
   //update CF
-  rtl_is_sub_carry(&s0, &s1, &id_dest->val);
-  rtl_set_CF(&s0);
+  //rtl_is_sub_carry(&s0, &s1, &id_dest->val);
+  //rtl_set_CF(&s0);
 
   //update OF
   rtl_is_sub_overflow(&s0, &s1, &id_dest->val, &id_src->val, id_dest->width);
