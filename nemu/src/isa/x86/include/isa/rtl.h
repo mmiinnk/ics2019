@@ -53,22 +53,27 @@ static inline void rtl_is_add_overflow(rtlreg_t* dest,
 static inline void rtl_is_sub_overflow(rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
   // dest <- is_overflow(src1 - src2)
+  /*
   if (cpu.eflags.SF ^ cpu.eflags.CF){
     *dest = 1;
   }
   else {
     *dest = 0;
   }
-/*
+  */
+
   uint32_t shift = width*8-1;
-  if ((*src2 == (0x1<< shift)) && ((*src1>>shift)&0x1) == 0){
-    *dest = 1;
+  if (*src2 == (0x1<< shift)){
+    if (((*src1>>shift)&0x1) == 0)
+      *dest = 1;
+    else{
+      *dest = 0;
+    }
     return;
   }
 
   t0 = ((~(*src2))+1);
   rtl_is_add_overflow(dest, res, src1, &t0, width);
-*/  
 }
 
 static inline void rtl_is_sub_carry(rtlreg_t* dest,
