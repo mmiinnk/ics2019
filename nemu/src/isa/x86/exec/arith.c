@@ -68,10 +68,10 @@ make_EHelper(cmp) {
 }
 
 make_EHelper(inc) {
-  rtl_li(&id_src->val, 1);
+  //rtl_li(&id_src->val, 1);
   
   // s1 = dest + 1
-  rtl_add(&s1, &id_dest->val, &id_src->val);
+  rtl_addi(&s1, &id_dest->val, 1);
   
   operand_write(id_dest, &s1);
 
@@ -93,10 +93,10 @@ make_EHelper(inc) {
 }
 
 make_EHelper(dec) {
-  rtl_li(&id_src->val, 1);
+  //rtl_li(&id_src->val, 1);
 
   // s1 = dest - 1
-  rtl_sub(&s1, &id_dest->val, &id_src->val);
+  rtl_subi(&s1, &id_dest->val, 1);
   
   operand_write(id_dest, &s1);
 
