@@ -55,7 +55,7 @@ static inline void rtl_is_sub_overflow(rtlreg_t* dest,
   // dest <- is_overflow(src1 - src2)
   
   uint32_t shift = width*8-1;
-  if (*src2 == (0x1<< shift) && ((*src1>>shift)&0x1) == 0){
+  if ((*src2 == (0x1<< shift)) && ((*src1>>shift)&0x1) == 0){
     *dest = 1;
     return;
   }
