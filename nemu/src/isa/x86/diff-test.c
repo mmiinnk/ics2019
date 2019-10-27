@@ -51,6 +51,12 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
     return false;
   }
 
+  if (cpu.eflag != ref_r->eflag){
+    printf("EFLAGS was wrong!\n");
+    return false;
+  }
+
+  /*
   if (cpu.eflags.CF != ref_r->eflags.CF){
     printf("CF was wrong!\n");
     return false;
@@ -70,6 +76,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
     printf("OF was wrong!\n");
     return false;
   }
+  */
   return true;
 }
 
