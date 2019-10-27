@@ -41,18 +41,15 @@ typedef struct {
 
   vaddr_t pc;
 
-  union{
-      struct bs{
-      unsigned CF:1;
-      unsigned vacancy1:5;
-      unsigned ZF:1;
-      unsigned SF:1;
-      unsigned vacancy2:3;
-      unsigned OF:1;
-      unsigned vacancy3:20;
-    } eflags;
-    rtlreg_t eflag;
-  };
+  struct bs{
+    unsigned CF:1;
+    unsigned vacancy1:5;
+    unsigned ZF:1;
+    unsigned SF:1;
+    unsigned vacancy2:3;
+    unsigned OF:1;
+    unsigned vacancy3:20;
+  } eflags;
 
 } CPU_state;
 
