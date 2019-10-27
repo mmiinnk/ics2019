@@ -47,6 +47,7 @@ typedef struct {
     unsigned SF:1;
     unsigned vacancy2:3;
     unsigned OF:1;
+    unsigned vacancy3:20;
   } eflags;
 
 } CPU_state;
