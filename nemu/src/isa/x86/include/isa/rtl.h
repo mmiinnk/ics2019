@@ -60,7 +60,7 @@ static inline void rtl_is_sub_overflow(rtlreg_t* dest,
     return;
   }
 
-  t0 = (~*src2+1);
+  t0 = ((~(*src2))+1);
   rtl_is_add_overflow(dest, res, src1, &t0, width);
   
 }
