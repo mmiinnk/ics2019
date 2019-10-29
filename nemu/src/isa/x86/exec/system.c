@@ -48,8 +48,6 @@ make_EHelper(in) {
 }
 
 make_EHelper(out) {
-  TODO();
-  /*
   if (decinfo.width == 1){
     pio_write_b(cpu.gpr[2]._16, cpu.gpr[0]._8[0]);
   }
@@ -61,6 +59,5 @@ make_EHelper(out) {
   else{
     pio_write_l(cpu.gpr[2]._16, cpu.eax);
   }
-  */
   print_asm_template2(out);
 }
