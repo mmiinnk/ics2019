@@ -48,7 +48,7 @@ make_EHelper(in) {
 }
 
 make_EHelper(out) {
-  if (decinfo.width == 1){
+  if (id_dest->width == 1){
     pio_write_b(cpu.gpr[2]._16, cpu.gpr[0]._8[0]);
   }
 
