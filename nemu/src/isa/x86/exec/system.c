@@ -48,7 +48,17 @@ make_EHelper(in) {
 }
 
 make_EHelper(out) {
-  TODO();
+  if (decinfo.width == 1){
+    pio_write_b(0x3f8, cpu.gpr[0]._8[0]);
+  }
+
+  else if (decinfo.isa.is_operand_size_16){
+    pio_write_w(0x3f8, cpu.gpr[0]._16);
+  }
+
+  else{
+    pio_write_l(0x3f8, cpu.eax);
+  }
 
   print_asm_template2(out);
 }
