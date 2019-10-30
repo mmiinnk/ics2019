@@ -48,16 +48,14 @@ make_EHelper(in) {
 }
 
 make_EHelper(out) {
-  if (id_dest->width == 1){
-    pio_write_b(cpu.gpr[2]._16, cpu.gpr[0]._8[0]);
-  }
+  switch (id_dest->width){
+    case 1:
+      pio_write_b(id_dest->val, id_src->val); break;
+    case 2:
+      pio_write_w(id_dest->val, id_src->val); break;
+    case 4:
+      pio_write_l(id_dest->val, id_src->val); break;
 
-  else if (decinfo.isa.is_operand_size_16){
-    pio_write_w(cpu.gpr[2]._16, cpu.gpr[0]._16);
-  }
-
-  else{
-    pio_write_l(cpu.gpr[2]._16, cpu.eax);
-  }
+    }
   print_asm_template2(out);
 }
