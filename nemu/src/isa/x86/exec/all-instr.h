@@ -28,6 +28,7 @@ make_EHelper(adc);
 make_EHelper(sbb);
 make_EHelper(inc);
 make_EHelper(dec);
+make_EHelper(neg);
 make_EHelper(mul);
 make_EHelper(div);
 make_EHelper(imul1);
