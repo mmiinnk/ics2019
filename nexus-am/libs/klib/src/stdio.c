@@ -60,6 +60,11 @@ int printf(const char *fmt, ...) {
 				s = va_arg(ap, char*);
 				print_str(s);
 				break;
+			
+			case 'c':
+				i = va_arg(ap, int);
+				_putc(i);
+				break;
 
 			case 'd':
 				i = va_arg(ap, int);
@@ -108,6 +113,12 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 				s = va_arg(ap, char*);
 				strcpy(str, s);
 				str += strlen(s);
+				break;
+
+			case 'c':
+				i = va_arg(ap, int);
+				*str = (char)i;
+				str++;
 				break;
 
 			case 'd':
