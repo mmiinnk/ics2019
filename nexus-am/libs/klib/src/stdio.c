@@ -59,7 +59,7 @@ int operation_on_str(char *dest, char *src, int type){
 
 	default:
 		printf("Operation_on_str went wrong!\n");
-		//assert(1 == 0);
+		assert(1 == 0);
 		break;
 	}
 	
@@ -120,7 +120,7 @@ int operation_on_num(char *dest, unsigned int num,int type, int base){
 
 	default:
 		printf("Operation_on_num went wrong!\n");
-		//assert(1 == 0);
+		assert(1 == 0);
 		break;
 	}
 	return len;
@@ -162,7 +162,7 @@ int choose_different_cases(const char **fmt_ptr,va_list ap, int type, char *str)
 
 			default:
 				printf("choose_different_cases went wrong!\n");
-				//assert(1 == 0);
+				assert(1 == 0);
 				break;
 			}
 			
@@ -222,7 +222,7 @@ int choose_different_cases(const char **fmt_ptr,va_list ap, int type, char *str)
 					}
 
 				default:
-					//assert(1 == 0);
+					assert(1 == 0);
 					break;
 				}
 			}
