@@ -42,7 +42,24 @@ void pio_write_w(ioaddr_t, uint32_t);
 void pio_write_b(ioaddr_t, uint32_t);
 
 make_EHelper(in) {
-  TODO();
+  switch (id_dest->width){
+    case 1:{
+      s1 = pio_read_b(id_src->val);
+      operand_write(id_dest, &s1); 
+      break;
+    }
+      
+    case 2:{
+      s1 = pio_read_w(id_src->val);
+      operand_write(id_dest, &s1); 
+      break;
+    }
+    case 4:{
+      s1 = pio_read_l(id_src->val);
+      operand_write(id_dest, &s1); 
+      break;
+    }
+  }
 
   print_asm_template2(in);
 }
@@ -55,7 +72,6 @@ make_EHelper(out) {
       pio_write_w(id_dest->val, id_src->val); break;
     case 4:
       pio_write_l(id_dest->val, id_src->val); break;
-
     }
   print_asm_template2(out);
 }
