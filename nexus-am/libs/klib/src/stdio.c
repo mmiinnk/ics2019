@@ -20,74 +20,129 @@ char *convert(unsigned int num, int base){
   return ptr;
 }
 
+void print_str(char *s){
+	for (int i=0; s[i] != 0; i++){
+		_putc(s[i]);
+	}
+}
+
+void print_num(unsigned int i, int base){
+	if (base == 10){
+		if (((int)i) < 0){
+			_putc('-');
+			i = -i;
+		}
+	}
+	
+	char* s = convert(i, base);
+	print_str(s);
+}
+
 int printf(const char *fmt, ...) {
-  return 0;
+	unsigned int i;
+	char *s;
+
+	va_list ap;
+  	int len;
+	const char *start = fmt;
+  	va_start(ap, fmt);
+
+	for (; *fmt != '\0'; fmt++){
+    	if(*fmt != '%'){
+			_putc(*fmt);
+			continue;
+		}
+
+    	fmt++;
+
+		switch(*fmt){
+			case 's':
+				s = va_arg(ap, char*);
+				print_str(s);
+				break;
+
+			case 'd':
+				i = va_arg(ap, int);
+				print_num(i, 10);
+				break;
+			
+			case 'o':
+				i = va_arg(ap, int);
+				print_num(i, 8);
+				break;
+			
+			case 'x':
+				i = va_arg(ap, int);
+				print_num(i, 16);
+				break;
+			
+			default:
+				assert(1 == 0);
+		}
+	}
+
+	va_end(ap);
+
+	len = fmt - start;
+
+  	return len;
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-  char *str = out;
+  	char *str = out;
   
-  char *s;
-  unsigned int i;
+  	char *s;
+  	unsigned int i;
 
-  for (; *fmt != '\0'; fmt++)
-  {
-    if(*fmt != '%'){
-	*str = *fmt;
-	
-	str++;
-	continue;
-    }
-
-    fmt++;
-
-    switch(*fmt){
-	    case 's':
-		s = va_arg(ap, char*);
-		strcpy(str, s);
-		
-		str += strlen(s);
-		break;
-	    case 'd':
-		i = va_arg(ap, int);
-		if (((int)i) < 0){
-		  *str = '-';
-		  str++;
+	for (; *fmt != '\0'; fmt++){
+    	if(*fmt != '%'){
+			*str = *fmt;
+			str++;
+			continue;
 		}
-		s = convert(i, 10);
-		strcpy(str, s);
-		
-		str += strlen(s);
-		break;
-	    case 'o':
-		i = va_arg(ap, int);
-		if (((int)i) < 0){
-		  *str = '-';
-		  str++;
+
+    	fmt++;
+
+		switch(*fmt){
+			case 's':
+				s = va_arg(ap, char*);
+				strcpy(str, s);
+				str += strlen(s);
+				break;
+
+			case 'd':
+				i = va_arg(ap, int);
+				if (((int)i) < 0){
+					*str = '-';
+					i = -i;
+					str++;
+				}
+				s = convert(i, 10);
+				strcpy(str, s);
+				str += strlen(s);
+				break;
+			
+			case 'o':
+				i = va_arg(ap, int);
+				s = convert(i, 8);
+				strcpy(str, s);
+				str += strlen(s);
+				break;
+			
+			case 'x':
+				i = va_arg(ap, int);
+				s = convert(i, 16);
+				strcpy(str, s);
+				str += strlen(s);
+				break;
+			
+			default:
+				assert(1 == 0);
 		}
-		s = convert(i, 8);
-		strcpy(str, s);
-		str += strlen(s);
-		break;
-	    case 'x':
-		i = va_arg(ap, int);
-		if (((int)i) < 0){
-		  *str = '-';
-		  str++;
-		}
-		s = convert(i, 16);
-		strcpy(str, s);
-		str += strlen(s);
-		break;
-	    default:
-		assert(1 == 0);
+	}
 
-    }
-  }
-
-  *str = '\0';
-
-  return str-out;
+  	*str = '\0';
+  	return str-out;
 }
 
 int sprintf(char *out, const char *fmt, ...) {
