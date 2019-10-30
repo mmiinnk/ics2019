@@ -7,7 +7,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   //ref_difftest_getregs(&r);
 
   if (cpu.eax != ref_r->eax){
-    printf("Eax was Wrong!\n");
+    printf("Eax was Wrong! And it should be 0x%x.\n", ref_r->eax);
     return false;
   }
     
