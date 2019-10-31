@@ -133,6 +133,7 @@ int cases_choose(const char **fmt_ptr, va_list ap, char *dest){
 			}
 			strcpy(dest, temp_str);
 			dest += str_length;
+			break;
 		}
 		default:
 			printf("Please Implement Me!!!\n");
