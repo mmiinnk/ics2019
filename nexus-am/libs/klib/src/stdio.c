@@ -99,7 +99,6 @@ int operation_on_num(char *dest, unsigned int num,int type, int base){
 				len++;
 				num = -num;
 			}
-			
 		}
 		src = convert(num, base);
 		len += strlen(src);

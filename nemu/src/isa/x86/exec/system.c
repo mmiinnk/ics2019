@@ -44,18 +44,18 @@ void pio_write_b(ioaddr_t, uint32_t);
 make_EHelper(in) {
   switch (id_dest->width){
     case 1:{
-      s1 = pio_read_b(id_src->val);
+      rtl_li(&s1, pio_read_b(id_src->val));
       operand_write(id_dest, &s1); 
       break;
     }
       
     case 2:{
-      s1 = pio_read_w(id_src->val);
+      rtl_li(&s1, pio_read_w(id_src->val));
       operand_write(id_dest, &s1); 
       break;
     }
     case 4:{
-      s1 = pio_read_l(id_src->val);
+      rtl_li(&s1, pio_read_l(id_src->val));
       operand_write(id_dest, &s1); 
       break;
     }
