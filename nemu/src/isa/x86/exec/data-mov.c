@@ -6,8 +6,15 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
-  rtl_push(&id_dest->val);
-
+  if (id_dest->type == OP_TYPE_MEM){
+    rtl_push(&id_dest->addr);
+  }
+  else
+  {
+    rtl_push(&id_dest->val);
+  }
+  
+  
   print_asm_template1(push);
 }
 
@@ -19,7 +26,7 @@ make_EHelper(pop) {
 }
 
 make_EHelper(pusha) {
-  rtl_push(&id_dest->addr);
+  TODO();
 
   print_asm("pusha");
 }
