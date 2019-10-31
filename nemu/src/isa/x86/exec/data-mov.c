@@ -19,7 +19,7 @@ make_EHelper(pop) {
 }
 
 make_EHelper(pusha) {
-  TODO();
+  rtl_push(&id_dest->addr);
 
   print_asm("pusha");
 }
