@@ -212,13 +212,10 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 		case '1':case '2':case '3':case '4':case '5':case '6':case '7':case '8':case '9':
 		{
 			const char *start = fmt;
-			//char *str_start = str;
-			//int num_len = 0;
 			while(is_digit(*fmt)){
-				//num_len++;
 				fmt += 1;
 			}
-			int least_width = str_to_num(start, fmt-start);
+			int least_width = str_to_num(start, fmt-start+1);
 			char temp_str[100];
 			char *temp_p = temp_str;
 
