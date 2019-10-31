@@ -220,7 +220,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 			}
 			int least_width = str_to_num(start, fmt-start);
 			char temp_str[100];
-			//char *temp_p = temp_str;
+			char *temp_p = temp_str;
 
 			switch(*fmt){
 				case 's':
@@ -236,11 +236,12 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 				case 'd':
 					i = va_arg(ap, int);
 					if (((int)i) < 0){
-						temp_str[0] = '-';
+						*temp_p = '-';
 						i = -i;
+						temp_p++;
 					}
 					s = convert(i, 10);
-					strcpy(&temp_str[1], s);
+					strcpy(temp_p, s);
 					break;
 			
 				case 'o':
