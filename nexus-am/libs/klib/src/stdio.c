@@ -5,6 +5,8 @@
 
 enum{print, sprint};
 
+va_list ap;
+
 char *convert(unsigned int num, int base){
   static char Representation[] = "0123456789ABCDEF";
   static char buffer[50];
@@ -72,7 +74,7 @@ int operation_on_str(char *dest, char *src, int type){
  * type指示了不同的类型
  * @return 打印/拷贝的字符的长度
  **/
-int operation_on_num(char *dest, unsigned int num,int type, int base){
+int operation_on_num(char *dest, unsigned int num, int type, int base){
 	int len = 0;
 	char *src;
 	switch (type)
@@ -267,7 +269,7 @@ int printf(const char *fmt, ...) {
 	//unsigned int i;
 	//char *s;
 
-	va_list ap;
+	//va_list ap;
   	int len = 0;
 	//const char *start = fmt;
   	va_start(ap, fmt);
@@ -314,7 +316,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 }
 
 int sprintf(char *out, const char *fmt, ...) {
-  va_list ap;
+  //va_list ap;
   int len;
   va_start(ap, fmt);
 
