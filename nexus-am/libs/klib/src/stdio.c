@@ -3,7 +3,7 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-enum{print, sprint, test};
+enum{print, sprint};
 
 
 char *convert(unsigned int num, int base){
@@ -250,8 +250,9 @@ int choose_different_cases(const char **fmt_ptr,va_list ap, int type, char *str)
 	return str_len;
 }
 
+
 int printf(const char *fmt, ...) {
-	//unsigned int i;
+/*	//unsigned int i;
 	//char *s;
 
 	va_list ap;
@@ -273,8 +274,10 @@ int printf(const char *fmt, ...) {
 
 	va_end(ap);
 
-  	return len;
+  	return len;*/
+	return 0;
 }
+
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
   	char *str = out;
