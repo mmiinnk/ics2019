@@ -146,9 +146,9 @@ int cases_choose(const char **fmt_ptr, va_list *ap, char *dest){
 int vsprintf(char *out, const char *fmt, va_list ap) {
   	char *str = out;
   
-  	//char *s;
-  	//unsigned int i;
-	//char c = ' ';
+  	char *s;
+  	unsigned int i;
+	char c = ' ';
 
 	for (; *fmt != '\0'; fmt++){
     	if(*fmt != '%'){
@@ -159,8 +159,8 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
     	fmt++;
 
-		str += cases_choose(&fmt, &ap, str);
-/*
+		//str += cases_choose(&fmt, &ap, str);
+
 		switch(*fmt){
 		case 's':
 			s = va_arg(ap, char*);
@@ -280,7 +280,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
 		default:
 			printf("Please Implement Me!!!!!\n");
-		}*/
+		}
 	}
   	*str = '\0';
   	return str-out;
