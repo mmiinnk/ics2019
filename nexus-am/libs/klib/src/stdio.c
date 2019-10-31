@@ -3,9 +3,7 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-enum{print, sprint, test};
-
-va_list ap;
+enum{print, sprint};
 
 char *convert(unsigned int num, int base){
   static char Representation[] = "0123456789ABCDEF";
@@ -269,7 +267,7 @@ int printf(const char *fmt, ...) {
 	//unsigned int i;
 	//char *s;
 
-	//static va_list ap;
+	va_list ap;
   	int len = 0;
 	//const char *start = fmt;
   	va_start(ap, fmt);
@@ -316,7 +314,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 }
 
 int sprintf(char *out, const char *fmt, ...) {
-  //static va_list ap;
+  va_list ap;
   int len;
   va_start(ap, fmt);
 
