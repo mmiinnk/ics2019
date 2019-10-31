@@ -274,7 +274,9 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 		}
 
 		default:
-			printf("Please Implement Me!!!\n");
+			_putc('!');
+			_putc('!');
+			_putc('\n');
 		}
 	}
   	*str = '\0';
