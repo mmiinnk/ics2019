@@ -280,8 +280,8 @@ int printf(const char *fmt, ...) {
 int vsprintf(char *out, const char *fmt, va_list ap) {
   	char *str = out;
   
-  	//char *s;
-  	//unsigned int i;
+  	char *s;
+  	unsigned int i;
 
 	for (; *fmt != '\0'; fmt++){
     	if(*fmt != '%'){
@@ -292,8 +292,8 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
     	fmt++;
 
-		str += choose_different_cases(&fmt, ap, sprint, str);
-/*
+		//str += choose_different_cases(&fmt, ap, sprint, str);
+
 		switch(*fmt){
 			case 's':
 				s = va_arg(ap, char*);
@@ -335,7 +335,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 			
 			default:				
 				assert(1 == 0);
-		}*/
+		}
 	}
 
   	*str = '\0';
