@@ -135,19 +135,19 @@ int str_to_num(const char *str, int len){
 }
 
 
-int choose_different_cases(const char **fmt_ptr,va_list ap, int type, char *str){
+int choose_different_cases(const char **fmt_ptr, va_list *ap, int type, char *str){
 	char *s;
 	char c = ' ';
 	unsigned int i;
 	int str_len = 0;
 	switch(*(*fmt_ptr)){
 		case 's':
-			s = va_arg(ap, char*);
+			s = va_arg(*ap, char*);
 			str_len += operation_on_str(str, s, type);
 			break;
 			
 		case 'c':
-			i = va_arg(ap, int);
+			i = va_arg(*ap, int);
 			switch (type)
 			{
 			case print:
@@ -169,17 +169,17 @@ int choose_different_cases(const char **fmt_ptr,va_list ap, int type, char *str)
 			break;
 
 		case 'd':
-			i = va_arg(ap, int);
+			i = va_arg(*ap, int);
 			str_len += operation_on_num(str, i, type, 10);
 			break;
 			
 		case 'o':
-			i = va_arg(ap, int);
+			i = va_arg(*ap, int);
 			str_len += operation_on_num(str, i, type, 8);
 			break;
 			
 		case 'x':
-			i = va_arg(ap, int);
+			i = va_arg(*ap, int);
 			str_len += operation_on_num(str, i, type, 16);
 			break;
 			
@@ -269,7 +269,7 @@ int printf(const char *fmt, ...) {
 
     	fmt++;
 
-		len += choose_different_cases(&fmt, ap, print, NULL);
+		len += choose_different_cases(&fmt, &ap, print, NULL);
 	}
 
 	va_end(ap);
@@ -292,7 +292,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
     	fmt++;
 
-		str += choose_different_cases(&fmt, ap, sprint, str);
+		str += choose_different_cases(&fmt, &ap, sprint, str);
 /*
 		switch(*fmt){
 			case 's':
