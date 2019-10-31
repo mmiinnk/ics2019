@@ -52,7 +52,7 @@ int printf(const char *fmt, ...) {
   	return len;
 }
 
-int cases_choose(const char **fmt_ptr, va_list ap, char *dest){
+int cases_choose(const char **fmt_ptr, va_list *ap, char *dest){
 	char *s;
 	unsigned int i;
 	char c;
@@ -60,19 +60,19 @@ int cases_choose(const char **fmt_ptr, va_list ap, char *dest){
 
 	switch(*(*fmt_ptr)){
 		case 's':
-			s = va_arg(ap, char*);
+			s = va_arg(*ap, char*);
 			strcpy(dest, s);
 			dest += strlen(s);
 			break;
 			
 		case 'c':
-			i = va_arg(ap, int);
+			i = va_arg(*ap, int);
 			*dest = (char)i;
 			dest++;
 			break;
 
 		case 'd':
-			i = va_arg(ap, int);
+			i = va_arg(*ap, int);
 			if (((int)i) < 0){
 				*dest = '-';
 				i = -i;
@@ -84,21 +84,21 @@ int cases_choose(const char **fmt_ptr, va_list ap, char *dest){
 			break;
 			
 		case 'o':
-			i = va_arg(ap, int);
+			i = va_arg(*ap, int);
 			s = convert(i, 8);
 			strcpy(dest, s);
 			dest += strlen(s);
 			break;
 			
 		case 'x':
-			i = va_arg(ap, int);
+			i = va_arg(*ap, int);
 			s = convert(i, 16);
 			strcpy(dest, s);
 			dest += strlen(s);
 			break;
 
 		case 'u':
-			i = va_arg(ap, int);
+			i = va_arg(*ap, int);
 			s = convert(i, 10);
 			strcpy(dest, s);
 			dest += strlen(s);
@@ -159,7 +159,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
     	fmt++;
 
-		str += cases_choose(&fmt, ap, str);
+		str += cases_choose(&fmt, &ap, str);
 /*
 		switch(*fmt){
 		case 's':
