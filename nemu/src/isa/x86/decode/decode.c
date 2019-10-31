@@ -264,6 +264,12 @@ make_DHelper(a2O) {
   decode_op_O(pc, id_dest, false);
 }
 
+// special for xchg
+make_DHelper(xchg_r2a) {
+  decode_op_r(pc, id_src, true);
+  decode_op_a(pc, id_dest, true);
+}
+
 make_DHelper(J) {
   decode_op_SI(pc, id_dest, false);
   // the target address can be computed in the decode stage
