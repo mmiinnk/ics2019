@@ -170,7 +170,7 @@ static inline void rtl_rol(rtlreg_t* dest, const rtlreg_t* src1, const rtlreg_t*
   while(t0 != 0){
     rtl_msb(&t1, dest, width);
     *dest = (*dest)*2 + t1;
-    t1--;
+    t0--;
   }
 }
 
