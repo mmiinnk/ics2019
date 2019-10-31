@@ -98,3 +98,26 @@ make_EHelper(not) {
 
   print_asm_template1(not);
 }
+
+make_EHelper(rol){
+  rtl_rol(&s1, &id_dest->val, &id_src->val, id_dest->width);
+  
+  // set CF
+  s0 = s1&0x1;
+  rtl_set_CF(&s0);
+
+  operand_write(id_dest, &s1);
+
+  // set OF
+  if (id_src->val == 1){
+    rtl_msb(&s0, &s1, id_dest->width);
+    if (s0 == (s1&0x1)){
+      s0 = 0;
+    }
+    else{
+      s0 = 1;
+    }
+    rtl_set_OF(&s0);
+  }
+
+}

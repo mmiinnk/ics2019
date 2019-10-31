@@ -155,12 +155,23 @@ static inline void rtl_setrelopi(uint32_t relop, rtlreg_t *dest,
 
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
-  TODO();
+  *dest = ((*src1)<<(31 - (width * 8 - 1)))>>31;
 }
 
 static inline void rtl_mux(rtlreg_t* dest, const rtlreg_t* cond, const rtlreg_t* src1, const rtlreg_t* src2) {
   // dest <- (cond ? src1 : src2)
   TODO();
+}
+
+static inline void rtl_rol(rtlreg_t* dest, const rtlreg_t* src1, const rtlreg_t* src2,int width){
+  t0 = *src2;
+  *dest = *src1;
+
+  while(t0 != 0){
+    rtl_msb(&t1, dest, width);
+    *dest = (*dest)*2 + t1;
+    t1--;
+  }
 }
 
 #include "isa/rtl.h"
