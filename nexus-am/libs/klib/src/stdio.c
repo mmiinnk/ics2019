@@ -215,7 +215,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 			while(is_digit(*fmt)){
 				fmt += 1;
 			}
-			int least_width = str_to_num(start, fmt-start+1);
+			int least_width = str_to_num(start, fmt-start);
 			char temp_str[100];
 			char *temp_p = temp_str;
 
@@ -273,9 +273,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 		}
 
 		default:
-			_putc('!');
-			_putc('!');
-			_putc('\n');
+			printf("Please Implement Me!!!!!\n");
 		}
 	}
   	*str = '\0';
