@@ -71,7 +71,7 @@ make_DHelper(a2O);
 //make_DHelper(xchg_r2a);
 
 make_DHelper(J);
-make_DHelper(Ja);
+//make_DHelper(Ja);
 
 make_DHelper(push_SI);
 
