@@ -271,6 +271,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 			}
 
 			strcpy(str, temp_str);
+			break;
 		}
 
 		default:
