@@ -5,8 +5,6 @@
 
 enum{print, sprint};
 
-va_list ap;
-
 char *convert(unsigned int num, int base){
   static char Representation[] = "0123456789ABCDEF";
   static char buffer[50];
@@ -266,38 +264,116 @@ int choose_different_cases(const char **fmt_ptr, va_list ap, int type, char *str
 }
 
 int printf(const char *fmt, ...) {
-	//unsigned int i;
-	//char *s;
-
-	//va_list ap;
-  	int len = 0;
-	//const char *start = fmt;
+	va_list ap;
+  	int len;
+	char out[1000];
   	va_start(ap, fmt);
 
-	
+	len = vsprintf(out, fmt, ap);
 
-	for (; *fmt != '\0'; fmt++){
-    	if(*fmt != '%'){
-			_putc(*fmt);
-			len++;
-			continue;
-		}
-
-    	fmt++;
-
-		len += choose_different_cases(&fmt, ap, print, NULL);
+	for (int i = 0; i < len; i++){
+		_putc(out[i]);
 	}
-
+	
 	va_end(ap);
 
   	return len;
 }
 
+void cases_choose(char **fmt_ptr, va_list ap, char *dest){
+	char *s;
+	unsigned int i;
+	char c;
+
+	switch(*(*fmt_ptr)){
+		case 's':
+			s = va_arg(ap, char*);
+			strcpy(dest, s);
+			dest += strlen(s);
+			break;
+			
+		case 'c':
+			i = va_arg(ap, int);
+			*dest = (char)i;
+			dest++;
+			break;
+
+		case 'd':
+			i = va_arg(ap, int);
+			if (((int)i) < 0){
+				*dest = '-';
+				i = -i;
+				dest++;
+			}
+			s = convert(i, 10);
+			strcpy(dest, s);
+			dest += strlen(s);
+			break;
+			
+		case 'o':
+			i = va_arg(ap, int);
+			s = convert(i, 8);
+			strcpy(dest, s);
+			dest += strlen(s);
+			break;
+			
+		case 'x':
+			i = va_arg(ap, int);
+			s = convert(i, 16);
+			strcpy(dest, s);
+			dest += strlen(s);
+			break;
+
+		case 'u':
+			i = va_arg(ap, int);
+			s = convert(i, 10);
+			strcpy(dest, s);
+			dest += strlen(s);
+			break;
+			
+		case '0':
+			c = '0';
+			(*fmt_ptr) += 1;
+			while (*(*fmt_ptr) == '0'){
+				(*fmt_ptr) += 1;
+			}
+				
+		case '1':case '2':case '3':case '4':case '5':case '6':case '7':case '8':case '9':
+		{
+			const char *start = *fmt_ptr;
+			//char *str_start = dest;
+			//int num_len = 0;
+			while(is_digit(*(*fmt_ptr))){
+				//num_len++;
+				(*fmt_ptr) += 1;
+			}
+			int least_width = str_to_num(start, (*fmt_ptr)-start);
+			char temp_str[100];
+
+			cases_choose(fmt_ptr, ap, temp_str);
+			int str_length = strlen(temp_str);
+			if (least_width > str_length){
+				for (int i = 0; i < least_width - str_length; i++){
+					*dest = c;
+					dest++;
+				}
+			}
+			strcpy(dest, temp_str);
+			dest += str_length;
+		}
+		default:
+			printf("Please Implement Me!!!\n");
+	}
+}
+
+
+
 int vsprintf(char *out, const char *fmt, va_list ap) {
   	char *str = out;
   
-  	//char *s;
-  	//unsigned int i;
+  	char *s;
+  	unsigned int i;
+	char c = ' ';
 
 	for (; *fmt != '\0'; fmt++){
     	if(*fmt != '%'){
@@ -308,15 +384,135 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
     	fmt++;
 
+		switch(*fmt){
+		case 's':
+			s = va_arg(ap, char*);
+			strcpy(str, s);
+			str += strlen(s);
+			break;
+			
+		case 'c':
+			i = va_arg(ap, int);
+			*str = (char)i;
+			str++;
+			break;
+
+		case 'd':
+			i = va_arg(ap, int);
+			if (((int)i) < 0){
+				*str = '-';
+				i = -i;
+				str++;
+			}
+			s = convert(i, 10);
+			strcpy(str, s);
+			str += strlen(s);
+			break;
+			
+		case 'o':
+			i = va_arg(ap, int);
+			s = convert(i, 8);
+			strcpy(str, s);
+			str += strlen(s);
+			break;
+			
+		case 'x':
+			i = va_arg(ap, int);
+			s = convert(i, 16);
+			strcpy(str, s);
+			str += strlen(s);
+			break;
+
+		case 'u':
+			i = va_arg(ap, int);
+			s = convert(i, 10);
+			strcpy(str, s);
+			str += strlen(s);
+			break;
+			
+		case '0':
+			c = '0';
+			fmt += 1;
+			while (*fmt == '0'){
+				fmt += 1;
+			}
+				
+		case '1':case '2':case '3':case '4':case '5':case '6':case '7':case '8':case '9':
+		{
+			const char *start = fmt;
+			//char *str_start = str;
+			//int num_len = 0;
+			while(is_digit(*fmt)){
+				//num_len++;
+				fmt += 1;
+			}
+			int least_width = str_to_num(start, fmt-start);
+			char temp_str[100];
+			//char *temp_p = temp_str;
+
+			switch(*fmt){
+				case 's':
+					s = va_arg(ap, char*);
+					strcpy(temp_str, s);
+					break;
+			
+				case 'c':
+					i = va_arg(ap, int);
+					temp_str[0] = (char)i;
+					break;
+
+				case 'd':
+					i = va_arg(ap, int);
+					if (((int)i) < 0){
+						temp_str[0] = '-';
+						i = -i;
+					}
+					s = convert(i, 10);
+					strcpy(&temp_str[1], s);
+					break;
+			
+				case 'o':
+					i = va_arg(ap, int);
+					s = convert(i, 8);
+					strcpy(temp_str, s);
+					break;
+			
+				case 'x':
+					i = va_arg(ap, int);
+					s = convert(i, 16);
+					strcpy(temp_str, s);
+					break;
+
+				case 'u':
+					i = va_arg(ap, int);
+					s = convert(i, 10);
+					strcpy(temp_str, s);
+					break;
+			}
+			
+			int str_length = strlen(temp_str);
+			if (least_width > str_length){
+				for (int i = 0; i < least_width - str_length; i++){
+					*str = c;
+					str++;
+				}
+			}
+
+			strcpy(str, temp_str);
+		}
+
+		default:
+			printf("Please Implement Me!!!\n");
 		str += choose_different_cases(&fmt, ap, sprint, str);
 
+		}
 	}
   	*str = '\0';
   	return str-out;
 }
 
 int sprintf(char *out, const char *fmt, ...) {
-  //va_list ap;
+  va_list ap;
   int len;
   va_start(ap, fmt);
 
