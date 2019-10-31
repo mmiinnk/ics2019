@@ -86,6 +86,11 @@ int operation_on_num(char *dest, unsigned int num,int type, int base){
 				num = -num;
 			}
 		}
+
+		if (base == -1){
+			base = 10;
+		}
+
 		src = convert(num, base);
 		len += strlen(src);
 		print_str(src);
@@ -98,8 +103,11 @@ int operation_on_num(char *dest, unsigned int num,int type, int base){
 				dest++;
 				len++;
 				num = -num;
-			}
-			
+			}	
+		}
+
+		if (base == -1){
+			base = 10;
 		}
 		src = convert(num, base);
 		len += strlen(src);
@@ -181,6 +189,11 @@ int choose_different_cases(const char **fmt_ptr, va_list *ap, int type, char *st
 		case 'x':
 			i = va_arg(*ap, int);
 			str_len += operation_on_num(str, i, type, 16);
+			break;
+
+		case 'u':
+			i = va_arg(*ap, int);
+			str_len += operation_on_num(str, i, type, -1);
 			break;
 			
 		case '0':
