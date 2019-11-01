@@ -5,7 +5,6 @@
 
 #define W 400
 #define H 300
-//static uint32_t fb[W * H] = {};
 
 size_t __am_video_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
