@@ -3,7 +3,6 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 size_t strlen(const char *s) {
-  assert(s);
   size_t count = 0;
   while(s[count] != '\0'){
     count++;
