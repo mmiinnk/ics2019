@@ -27,7 +27,6 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_VIDEO_FBCTL: {
       _DEV_VIDEO_FBCTL_t *ctl = (_DEV_VIDEO_FBCTL_t *)buf;
-      /*
       int width = screen_width();
       
       uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
@@ -38,7 +37,6 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
           start[y * width + x] = ctl->pixels[y * ctl->w + x];
         }
       }
-      */
       if (ctl->sync) {
         outl(SYNC_ADDR, 0);
       }
