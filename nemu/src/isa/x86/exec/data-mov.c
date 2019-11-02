@@ -19,7 +19,22 @@ make_EHelper(pop) {
 }
 
 make_EHelper(pusha) {
-  TODO();
+  id_dest->width = 4;
+  if (decinfo.isa.is_operand_size_16){
+    id_dest->width = 2;
+  }
+
+  // s0 = old esp
+  rtl_lr(&s0, 4, id_dest->width);
+
+  for (int i = 0; i < 8; i++){
+    if (i == 4){
+      rtl_push(&s0);
+      continue;
+    }
+    rtl_lr(&s1, i, id_dest->width);
+    rtl_push(&s1);
+  }
 
   print_asm("pusha");
 }
