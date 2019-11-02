@@ -57,8 +57,23 @@ make_EHelper(popa) {
 }
 
 make_EHelper(leave) {
-  rtl_sr(4, &cpu.ebp, 4);
-  rtl_pop(&cpu.ebp);
+  id_dest->width = 4;
+  if (decinfo.isa.is_operand_size_16){
+    id_dest->width = 2;
+  }
+
+  // s0 = ebp/bp
+  rtl_lr(&s0, 5, id_dest->width);
+  //rtl_sr(4, &cpu.ebp, 4);
+
+  // esp/sp = s0
+  rtl_sr(4, &s0, id_dest->width);
+  
+  // s0 = pop()
+  rtl_pop(&s0);
+
+  // ebp/bp = s0
+  rtl_sr(5, &s0, id_dest->width);
 
   print_asm("leave");
 }
