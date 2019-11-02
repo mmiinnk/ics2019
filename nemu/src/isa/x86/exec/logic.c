@@ -100,6 +100,23 @@ make_EHelper(not) {
 }
 
 make_EHelper(rol){
+  rtl_mv(&s0, &id_dest->val);
+  rtl_andi(&s0, &s0, 0xffffffffu >> ((4 - id_dest->width) * 8));
+  s1 = 8 * id_dest->width - id_src->val;
+  rtl_shr(&s0, &s0, &s1);
+  rtl_shl(&id_dest->val, &id_dest->val, &id_src->val);
+  rtl_or(&id_dest->val, &id_dest->val, &s0);
+  rtl_andi(&id_dest->val, &id_dest->val, 0xffffffffu >> ((4 - id_dest->width) * 8));
+  operand_write(id_dest, &id_dest->val);
+
+  if (id_src->val == 0x1) {
+    rtl_get_CF(&s1);
+    rtl_msb(&s0, &id_dest->val, id_dest->width);
+    rtl_setrelop(RELOP_NE, &s0, &s0, &s1);
+    rtl_set_OF(&s0);
+  }
+
+  /*
   rtl_rol(&s1, &id_dest->val, &id_src->val, id_dest->width);
   
   // set CF
@@ -118,6 +135,6 @@ make_EHelper(rol){
       s0 = 1;
     }
     rtl_set_OF(&s0);
-  }
-
+  }*/
 }
+
