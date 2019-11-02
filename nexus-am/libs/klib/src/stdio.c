@@ -38,7 +38,7 @@ int str_to_num(const char *str, int len){
 int printf(const char *fmt, ...) {
 	va_list ap;
   	int len;
-	char out[1000];
+	char out[100];
   	va_start(ap, fmt);
 
 	len = vsprintf(out, fmt, ap);
