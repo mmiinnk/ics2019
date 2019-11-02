@@ -6,7 +6,7 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
-    rtl_push(&id_dest->val);
+  rtl_push(&id_dest->val);
   
   print_asm_template1(push);
 }
@@ -66,7 +66,7 @@ make_EHelper(leave) {
   }
 
   // s0 = ebp/bp
-  rtl_lr(&s0, 5, id_dest->width);
+  rtl_lr(&s0, R_EBP, id_dest->width);
   //rtl_sr(4, &cpu.ebp, 4);
 
   // esp/sp = s0
@@ -83,14 +83,14 @@ make_EHelper(leave) {
 
 make_EHelper(cltd) {
   if (decinfo.isa.is_operand_size_16) {
-    rtl_lr(&s0, 0, 2);
+    rtl_lr(&s0, R_AX, 2);
     s0 = (((int)(s0<<16))>>31);
-    rtl_sr(2, &s0, 2);
+    rtl_sr(R_DX, &s0, 2);
   }
   else {
-    rtl_lr(&s0, 0, 4);
+    rtl_lr(&s0, R_EAX, 4);
     s0 = (((int)(s0))>>31);
-    rtl_sr(2, &s0, 4);
+    rtl_sr(R_EDX, &s0, 4);
   }
 
   print_asm(decinfo.isa.is_operand_size_16 ? "cwtl" : "cltd");
