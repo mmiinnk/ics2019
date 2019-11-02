@@ -70,13 +70,13 @@ make_EHelper(leave) {
   //rtl_sr(4, &cpu.ebp, 4);
 
   // esp/sp = s0
-  rtl_sr(4, &s0, id_dest->width);
+  rtl_sr(R_ESP, &s0, id_dest->width);
   
   // s0 = pop()
   rtl_pop(&s0);
 
   // ebp/bp = s0
-  rtl_sr(5, &s0, id_dest->width);
+  rtl_sr(R_EBP, &s0, id_dest->width);
 
   print_asm("leave");
 }
@@ -98,14 +98,17 @@ make_EHelper(cltd) {
 
 make_EHelper(cwtl) {
   if (decinfo.isa.is_operand_size_16) {
-    rtl_lr(&s0, 0, 1);
-    s0 = (((int)s0 << 24)>>24);
-    rtl_sr(0, &s0, 2);
+    rtl_lr(&s0, R_AL, 1);
+    rtl_sext(&s0, &s0, 1);
+    rtl_andi(&s0, &s0, 0x0000ffff);
+    //s0 = (((int)s0 << 24)>>24);
+    rtl_sr(R_AX, &s0, 2);
   }
   else {
-    rtl_lr(&s0, 0, 2);
-    s0 = (((int)s0 << 16)>>16);
-    rtl_sr(0, &s0, 4);
+    rtl_lr(&s0, R_AX, 2);
+    rtl_sext(&s0, &s0, 2);
+    //s0 = (((int)s0 << 16)>>16);
+    rtl_sr(R_EAX, &s0, 4);
   }
 
   print_asm(decinfo.isa.is_operand_size_16 ? "cbtw" : "cwtl");
