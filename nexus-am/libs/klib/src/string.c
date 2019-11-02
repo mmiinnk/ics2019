@@ -4,7 +4,7 @@
 
 size_t strlen(const char *s) {
   if (s == NULL){
-    return 0;
+    return -1;
   }
   size_t count = 0;
   while(s[count] != '\0'){
@@ -38,7 +38,9 @@ char* strncpy(char* dst, const char* src, size_t n) {
 }
 
 char* strcat(char* dst, const char* src) {
-  assert(dst != NULL && src != NULL);
+  if (dst == NULL) return NULL;
+  if (src == NULL) return dst;
+
   size_t dst_len = strlen(dst);
   size_t i;
 
@@ -69,8 +71,9 @@ int strcmp(const char* s1, const char* s2) {
 }
 
 int strncmp(const char* s1, const char* s2, size_t n) {
-  assert(s1);
-  assert(s2);
+  if (s1 == NULL || s2 == NULL){
+    return 0;
+  }
   if (n == 0)
     return 0;
 
@@ -118,7 +121,7 @@ void* memcpy(void* out, const void* in, size_t n) {
 }
 
 int memcmp(const void* s1, const void* s2, size_t n){
-  assert(s1 != NULL && s2 != NULL);
+  //assert(s1 != NULL && s2 != NULL);
   if (n == 0)
     return 0;
 
