@@ -19,9 +19,9 @@ make_EHelper(jcc) {
 }
 
 make_EHelper(jmp_rm) {
-  //decinfo.jmp_pc = id_dest->val;
-  //rtl_j(decinfo.jmp_pc);
-  rtl_j(id_dest->val);
+  decinfo.jmp_pc = id_dest->val;
+  rtl_j(decinfo.jmp_pc);
+  //rtl_j(id_dest->val);
 
   print_asm("jmp *%s", id_dest->str);
 }
@@ -36,6 +36,7 @@ make_EHelper(call) {
 
 make_EHelper(ret) {
   rtl_pop(&decinfo.seq_pc);
+  rtl_j(decinfo.jmp_pc);
 
   print_asm("ret");
 }
