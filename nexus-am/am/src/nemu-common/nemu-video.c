@@ -38,10 +38,10 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
       uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
 
       int cp_int = min(w, W - x);
-      uint32_t *start = fb + y*W + x;
+      //uint32_t *start = fb + y*W + x;
       for (int i = 0; i < h && y + i < H; i++){
         for (int j = 0; j < cp_int; j++){
-          start[i * W + j] = ctl->pixels[i * w + j];
+          fb[(y + i)*W + x + j] = ctl->pixels[i * w + j];
         }
       }
 
