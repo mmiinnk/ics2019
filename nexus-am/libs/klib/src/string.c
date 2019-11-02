@@ -3,6 +3,9 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 size_t strlen(const char *s) {
+  if (s == NULL){
+    return 0;
+  }
   size_t count = 0;
   while(s[count] != '\0'){
     count++;
@@ -23,6 +26,7 @@ char *strcpy(char* dst,const char* src) {
 }
 
 char* strncpy(char* dst, const char* src, size_t n) {
+  assert(dst != NULL && src != NULL);
   size_t i;
 
   for (i = 0; i < n && src[i] != '\0'; i++)
@@ -34,13 +38,14 @@ char* strncpy(char* dst, const char* src, size_t n) {
 }
 
 char* strcat(char* dst, const char* src) {
+  assert(dst != NULL && src != NULL);
   size_t dst_len = strlen(dst);
   size_t i;
 
   for (i = 0; src[i] != '\0'; i++)
     dst[dst_len + i] = src[i];
+  
   dst[dst_len + i] = '\0';
-
 
   return dst;
 }
@@ -80,6 +85,10 @@ int strncmp(const char* s1, const char* s2, size_t n) {
 }
 
 void* memset(void* v,int c,size_t n) {
+  if (v == NULL){
+    return v;
+  }
+
   const unsigned char uc = c;
   unsigned char *vu = v;
   for (; 0 < n; ++vu, --n)
@@ -89,6 +98,9 @@ void* memset(void* v,int c,size_t n) {
 }
 
 void* memcpy(void* out, const void* in, size_t n) {
+  if (out == NULL){
+    return out;
+  }
   if (n == 0)
     return out;
 
@@ -103,6 +115,7 @@ void* memcpy(void* out, const void* in, size_t n) {
 }
 
 int memcmp(const void* s1, const void* s2, size_t n){
+  assert(s1 != NULL && s2 != NULL);
   if (n == 0)
     return 0;
 

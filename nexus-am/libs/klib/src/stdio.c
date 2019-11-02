@@ -299,7 +299,9 @@ int sprintf(char *out, const char *fmt, ...) {
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
-  return 0;
+	printf("Please implement me!\n");
+	assert(0);
+	return 0;
 }
 
 #endif
