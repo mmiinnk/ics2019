@@ -62,7 +62,7 @@ make_EHelper(in) {
 }
 
 make_EHelper(out) {
-  switch (id_dest->width){
+  switch (id_src->width){
     case 1:
       pio_write_b(id_dest->val, id_src->val); break;
     case 2:
