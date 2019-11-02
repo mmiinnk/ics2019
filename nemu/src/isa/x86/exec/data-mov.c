@@ -45,12 +45,15 @@ make_EHelper(popa) {
     id_dest->width = 2;
   }
 
-  for (int i = 7; i >= 0; i--){
+  for (int i = 7; i >= 0; i--){ 
+    rtl_pop(&s0);
+
+    // if esp --> throw away
     if (i == 4){
-      rtl_pop(&s0);
       continue;
     }
-    rtl_pop(&s0);
+
+    // else cpu.gpr[i] = s0
     rtl_sr(i, &s0, id_dest->width);
   }
   print_asm("popa");
