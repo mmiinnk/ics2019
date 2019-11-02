@@ -42,8 +42,9 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
       int cp_int = min(w, W - x);
 
       for (int i = 0; i < h && y + i < H; i++){
+        int offset = (y + i)*W + x;
         for (int j = 0; j < cp_int; j++){
-          fb[(y + i)*W + x + j] = pixels[j];
+          fb[offset + j] = pixels[j];
         }
         pixels += w;
       }
