@@ -40,8 +40,19 @@ make_EHelper(pusha) {
 }
 
 make_EHelper(popa) {
-  TODO();
+  id_dest->width = 4;
+  if (decinfo.isa.is_operand_size_16){
+    id_dest->width = 2;
+  }
 
+  for (int i = 7; i >= 0; i--){
+    if (i == 4){
+      rtl_pop(&s0);
+      continue;
+    }
+    rtl_pop(&s0);
+    rtl_sr(i, &s0, id_dest->width);
+  }
   print_asm("popa");
 }
 
