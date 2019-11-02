@@ -45,22 +45,19 @@ make_EHelper(in) {
   switch (id_dest->width){
     case 1:{
       rtl_li(&s1, pio_read_b(id_src->val));
-      operand_write(id_dest, &s1); 
       break;
     }
       
     case 2:{
       rtl_li(&s1, pio_read_w(id_src->val));
-      operand_write(id_dest, &s1); 
       break;
     }
     case 4:{
       rtl_li(&s1, pio_read_l(id_src->val));
-      operand_write(id_dest, &s1); 
       break;
     }
   }
-
+  operand_write(id_dest, &s1);
   print_asm_template2(in);
 }
 
