@@ -51,8 +51,11 @@ char* strcat(char* dst, const char* src) {
 }
 
 int strcmp(const char* s1, const char* s2) {
-  assert(s1);
-  assert(s2);
+  //assert(s1);
+  //assert(s2);
+  if (s1 == NULL || s2 == NULL){
+    return 0;
+  }
   size_t i;
   size_t len1 = strlen(s1);
   size_t len2 = strlen(s2);
