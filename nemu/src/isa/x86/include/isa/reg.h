@@ -54,6 +54,18 @@ typedef struct {
     uint32_t eflags;
   };
 
+  union{
+    struct {
+      struct{
+        unsigned byte:8;
+      } bytes[4];
+    } sr[5];
+    struct
+    {
+      uint32_t CS, DS, ES, FS, GS;
+    };
+  };
+  
 } CPU_state;
 
 static inline int check_reg_index(int index) {
