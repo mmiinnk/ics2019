@@ -35,8 +35,11 @@ static inline make_DopHelper(SI) {
   if (op->width == 4){
     op->simm = (int)um;
   }
-  else {
+  else if (op->width == 1){
     op->simm = ((int)(um<<24))>>24;
+  } 
+  else if (op->width == 2){
+    op->simm = ((int)(um<<16))>>16;
   }
 
   rtl_li(&op->val, op->simm);
