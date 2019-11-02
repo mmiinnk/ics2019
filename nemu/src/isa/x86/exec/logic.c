@@ -181,3 +181,22 @@ make_EHelper(rcl) {
     rtl_set_OF(&s0);
   }
 }
+
+make_EHelper(ror) {
+  rtl_andi(&id_dest->val, &id_dest->val, 0xffffffffu >> ((4 - id_dest->width) * 8));
+  rtl_mv(&s0, &id_dest->val);
+  s1 = 8 * id_dest->width - id_src->val;
+  rtl_shl(&s0, &s0, &s1);
+  rtl_shr(&id_dest->val, &id_dest->val, &id_src->val);
+  rtl_or(&id_dest->val, &id_dest->val, &s0);
+  rtl_andi(&id_dest->val, &id_dest->val, 0xffffffffu >> ((4 - id_dest->width) * 8));
+  operand_write(id_dest, &id_dest->val);
+
+  if (id_src->val == 0x1) {
+    rtl_shri(&s1, &id_dest->val, 8*id_dest->width-2);
+    rtl_andi(&s1, &s1, 0x1);
+    rtl_msb(&s0, &id_dest->val, id_dest->width);
+    rtl_setrelop(RELOP_NE, &s0, &s0, &s1);
+    rtl_set_OF(&s0);
+  }
+}
