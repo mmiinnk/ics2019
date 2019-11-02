@@ -55,6 +55,8 @@ make_EHelper(in) {
     case 4:{
       rtl_li(&s1, pio_read_l(id_src->val));
       break;
+    default: 
+      assert(0);
     }
   }
   operand_write(id_dest, &s1);
@@ -69,6 +71,8 @@ make_EHelper(out) {
       pio_write_w(id_dest->val, id_src->val); break;
     case 4:
       pio_write_l(id_dest->val, id_src->val); break;
+    default:
+      assert(0);
     }
   print_asm_template2(out);
 }
