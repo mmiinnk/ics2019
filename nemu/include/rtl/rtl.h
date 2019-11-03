@@ -13,11 +13,11 @@ bool interpret_relop(uint32_t relop, const rtlreg_t src1, const rtlreg_t src2);
 
 /* RTL basic instructions */
 
-inline void interpret_rtl_li(rtlreg_t* dest, uint32_t imm) {
+static inline void interpret_rtl_li(rtlreg_t* dest, uint32_t imm) {
   *dest = imm;
 }
 
-inline void interpret_rtl_mv(rtlreg_t* dest, const rtlreg_t *src1) {
+static inline void interpret_rtl_mv(rtlreg_t* dest, const rtlreg_t *src1) {
   *dest = *src1;
 }
 
@@ -78,7 +78,7 @@ static inline void interpret_rtl_idiv64_r(rtlreg_t* dest,
   *dest = dividend % divisor;
 }
 
-static inline void interpret_rtl_lm(rtlreg_t *dest, const rtlreg_t* addr, int len) {
+inline void interpret_rtl_lm(rtlreg_t *dest, const rtlreg_t* addr, int len) {
   *dest = vaddr_read(*addr, len);
 }
 
