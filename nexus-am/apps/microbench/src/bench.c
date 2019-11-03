@@ -60,7 +60,7 @@ static unsigned long score(Benchmark *b, unsigned long tsc, unsigned long msec) 
 }
 
 int main(const char *args) {
-  /*
+  
   const char *setting_name = args;
   if (args == NULL || strcmp(args, "") == 0) {
     printf("Empty mainargs. Use \"ref\" by default\n");
@@ -76,9 +76,9 @@ int main(const char *args) {
            "must be in {test, train, ref}\n", setting_name);
     _halt(1);
   }
-  */
-  int setting_id = 0;
-  const char setting_name[10] = "test";
+  
+  //int setting_id = 0;
+  //const char setting_name[10] = "test";
 
   _ioe_init();
 
