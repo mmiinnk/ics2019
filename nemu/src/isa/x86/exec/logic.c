@@ -100,6 +100,7 @@ make_EHelper(not) {
 }
 
 make_EHelper(rol){
+  /*
   rtl_mv(&s0, &id_dest->val);
   rtl_andi(&s0, &s0, 0xffffffffu >> ((4 - id_dest->width) * 8));
   s1 = 8 * id_dest->width - id_src->val;
@@ -115,8 +116,8 @@ make_EHelper(rol){
     rtl_setrelop(RELOP_NE, &s0, &s0, &s1);
     rtl_set_OF(&s0);
   }
-
-  /*
+*/
+  
   rtl_rol(&s1, &id_dest->val, &id_src->val, id_dest->width);
   
   // set CF
@@ -135,7 +136,7 @@ make_EHelper(rol){
       s0 = 1;
     }
     rtl_set_OF(&s0);
-  }*/
+  }
 }
 
 make_EHelper(rcr) {
