@@ -55,39 +55,55 @@ char* strcat(char* dst, const char* src) {
 int strcmp(const char* s1, const char* s2) {
   //assert(s1);
   //assert(s2);
-  if (s1 == NULL || s2 == NULL){
-    return 0;
-  }
-  size_t i;
-  size_t len1 = strlen(s1);
-  size_t len2 = strlen(s2);
+  //if (s1 == NULL || s2 == NULL){
+  //  return 0;
+  //}
+  //size_t i;
+  //size_t len1 = strlen(s1);
+  //size_t len2 = strlen(s2);
 
-  for (i = 0; i <= len1 && i <= len2; i++){
-    int ret = (unsigned)s1[i] - (unsigned)s2[i];
-    if (ret != 0)
-      return ret;
+  //for (i = 0; i <= len1 && i <= len2; i++){
+  //  int ret = (unsigned)s1[i] - (unsigned)s2[i];
+  //  if (ret != 0)
+  //    return ret;
+  //}
+
+  while (*s1++ == *s2++){
+    if (*s1 == '\0') return 0;
   }
-  return 0;
+  if (*s1 > *s2) return 1;
+  else
+  {
+    return -1;
+  }
 }
 
 int strncmp(const char* s1, const char* s2, size_t n) {
-  if (s1 == NULL || s2 == NULL){
-    return 0;
-  }
-  if (n == 0)
-    return 0;
+  //if (s1 == NULL || s2 == NULL){
+  //  return 0;
+  //}
+  //if (n == 0)
+  //  return 0;
 
   size_t i;
-  size_t len1 = strlen(s1);
-  size_t len2 = strlen(s2);
+  //size_t len1 = strlen(s1);
+  //size_t len2 = strlen(s2);
 
-  for (i = 0; i < n && i <= len1 && i <= len2; i++){
-    int ret = (unsigned)s1[i] - (unsigned)s2[i];
-    if (ret != 0)
-      return ret;
+  //for (i = 0; i < n && i <= len1 && i <= len2; i++){
+  //  int ret = (unsigned)s1[i] - (unsigned)s2[i];
+  //  if (ret != 0)
+  //    return ret;
+  //}
+
+  for (i = 0; i < n && s1[i] == s2[i]; i++){
+    if (s1[i] == '\0') return 0;
   }
-
-  return 0;
+  if (i >= n) return 0;
+  if (s1[i] > s2[i]) return 1;
+  else{
+    return -1;
+  } 
+  //return 0;
 }
 
 void* memset(void* v,int c,size_t n) {
