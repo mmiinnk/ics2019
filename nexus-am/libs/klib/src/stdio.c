@@ -162,6 +162,16 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 		//str += cases_choose(&fmt, &ap, str);
 
 		switch(*fmt){
+		case 'p':
+			strcpy(str, "0x");
+			str += 2;
+			void* temp_point;
+			temp_point = va_arg(ap, void*);
+			s = convert((unsigned int)temp_point, 16);
+			strcpy(str, s);
+			str += strlen(s);
+			break;
+		
 		case 's':
 			s = va_arg(ap, char*);
 			strcpy(str, s);
