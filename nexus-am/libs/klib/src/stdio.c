@@ -3,6 +3,7 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
+#ifndef __ISA_NATIVE__
 char *convert(unsigned int num, int base){
   static char Representation[] = "0123456789ABCDEF";
   static char buffer[50];
@@ -19,6 +20,26 @@ char *convert(unsigned int num, int base){
 
   return ptr;
 }
+#endif
+
+#ifdef __ISA_NATIVE__
+char *convert(unsigned long long num, int base){
+  static char Representation[] = "0123456789ABCDEF";
+  static char buffer[50];
+  char *ptr;
+
+  ptr = &buffer[49];
+  *ptr = '\0';
+
+  do{
+    ptr--;
+    *ptr = Representation[num%base];
+    num /= base;
+  }while(num != 0);
+
+  return ptr;
+}
+#endif
 
 int is_digit(char c){
 	if ('0' <= c && c <= '9')
@@ -167,7 +188,14 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 			str += 2;
 			void* temp_point;
 			temp_point = va_arg(ap, void*);
+			#ifdef __ISA_NATIVE__
+			unsigned long long temp = (unsigned long long)temp_point;
+			s = convert(temp, 16);
+			#endif
+			#ifndef __ISA_NATIVE__
 			s = convert((unsigned int)temp_point, 16);
+			#endif
+
 			strcpy(str, s);
 			str += strlen(s);
 			break;
