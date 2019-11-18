@@ -2,8 +2,14 @@
 
 make_EHelper(lidt) {
   //TODO();
+
+  cpu.idtr.length = vaddr_read(id_dest->val, 2);
+  cpu.idtr.baseAddress = vaddr_read(id_dest->val + 2, 2);
   if (id_dest->width == 2){
-    
+    cpu.idtr.baseAddress += (vaddr_read(id_dest->val + 4, 1) << 16);
+  }
+  else{
+    cpu.idtr.baseAddress += (vaddr_read(id_dest->val + 4, 2) << 16);
   }
 
 
