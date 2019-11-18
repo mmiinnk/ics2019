@@ -65,6 +65,11 @@ typedef struct {
       uint32_t CS, DS, ES, FS, GS;
     };
   };
+
+  struct{
+    uint32_t baseAddress;
+    uint16_t length;
+  } idtr;
   
 } CPU_state;
 

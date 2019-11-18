@@ -1,7 +1,12 @@
 #include "cpu/exec.h"
 
 make_EHelper(lidt) {
-  TODO();
+  //TODO();
+  if (id_dest->width == 2){
+    
+  }
+
+
 
   print_asm_template1(lidt);
 }
