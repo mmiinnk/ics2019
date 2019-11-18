@@ -1,4 +1,5 @@
 #include "cpu/exec.h"
+void raise_intr(uint32_t, vaddr_t*);
 
 make_EHelper(lidt) {
   //TODO();
@@ -11,8 +12,6 @@ make_EHelper(lidt) {
   else{
     cpu.idtr.baseAddress += (vaddr_read(id_dest->val + 4, 2) << 16);
   }
-
-
 
   print_asm_template1(lidt);
 }
@@ -32,7 +31,9 @@ make_EHelper(mov_cr2r) {
 }
 
 make_EHelper(int) {
-  TODO();
+  //TODO();
+  raise_intr(id_dest->val, &s0);
+  rtl_j(s0);
 
   print_asm("int %s", id_dest->str);
 
