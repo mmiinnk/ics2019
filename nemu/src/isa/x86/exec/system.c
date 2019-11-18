@@ -4,13 +4,13 @@ void raise_intr(uint32_t, vaddr_t*);
 make_EHelper(lidt) {
   //TODO();
 
-  cpu.idtr.length = vaddr_read(id_dest->val, 2);
-  cpu.idtr.baseAddress = vaddr_read(id_dest->val + 2, 2);
+  cpu.idtr.length = vaddr_read(id_dest->addr, 2);
+  cpu.idtr.baseAddress = vaddr_read(id_dest->addr + 2, 2);
   if (id_dest->width == 2){
-    cpu.idtr.baseAddress += (vaddr_read(id_dest->val + 4, 1) << 16);
+    cpu.idtr.baseAddress += (vaddr_read(id_dest->addr + 4, 1) << 16);
   }
   else{
-    cpu.idtr.baseAddress += (vaddr_read(id_dest->val + 4, 2) << 16);
+    cpu.idtr.baseAddress += (vaddr_read(id_dest->addr + 4, 2) << 16);
   }
 
   print_asm_template1(lidt);
