@@ -1,5 +1,5 @@
 #include "cpu/exec.h"
-void raise_intr(uint32_t, vaddr_t*);
+void raise_intr(uint32_t, vaddr_t);
 
 make_EHelper(lidt) {
   //TODO();
@@ -32,8 +32,7 @@ make_EHelper(mov_cr2r) {
 
 make_EHelper(int) {
   //TODO();
-  raise_intr(id_dest->val, &s0);
-  rtl_j(s0);
+  raise_intr(id_dest->val, decinfo.seq_pc);
 
   print_asm("int %s", id_dest->str);
 
