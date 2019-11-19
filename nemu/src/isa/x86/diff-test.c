@@ -47,7 +47,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   }
     
   if (cpu.pc != ref_r->pc){
-    printf("PC was Wrong!\n");
+    printf("PC was Wrong! And it should be 0x%x.\n", ref_r->eax);
     return false;
   }
 
