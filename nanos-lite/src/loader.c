@@ -5,8 +5,8 @@
 # define Elf_Ehdr Elf64_Ehdr
 # define Elf_Phdr Elf64_Phdr
 #else
-# define Elf_Ehdr Elf32_Ehdr
-# define Elf_Phdr Elf32_Phdr
+# define Elf_Ehdr Elf32_Ehdr //ELF Header
+# define Elf_Phdr Elf32_Phdr //程序头表
 #endif
 
 size_t get_ramdisk_size();
@@ -14,9 +14,25 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  Elf_Phdr Phdr;
-  ramdisk_read(&Phdr, 0, get_ramdisk_size());
-  return Phdr.p_vaddr + Phdr.p_offset;
+  Elf_Ehdr ELFHeader;
+  ramdisk_read(&ELFHeader, 0, 52);
+  Elf_Phdr Phdr_Table[ELFHeader.e_phnum];
+  ramdisk_read(Phdr_Table, ELFHeader.e_phoff, ELFHeader.e_phnum * ELFHeader.e_phentsize);
+  Elf_Phdr *p;
+  for (int i = 0; i < ELFHeader.e_phnum; ++i){
+    p = &Phdr_Table[i];
+    if (p->p_type == PT_LOAD){
+      char buf[p->p_memsz];
+      ramdisk_read(buf, p->p_offset, p->p_memsz);
+      memcpy((void *)p->p_vaddr, buf, p->p_memsz);
+      char temp[p->p_memsz - p->p_filesz];
+      for (int i = 0; i < p->p_memsz - p->p_filesz; ++i){
+        temp[i] = 0;
+      }
+      memcpy((void *)(p->p_vaddr + p->p_filesz), temp, p->p_memsz - p->p_filesz);
+    }
+  }
+  return ELFHeader.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
