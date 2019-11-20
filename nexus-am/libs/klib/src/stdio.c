@@ -6,10 +6,10 @@
 #ifndef __ISA_NATIVE__
 char *convert(unsigned int num, int base){
   static char Representation[] = "0123456789ABCDEF";
-  static char buffer[50];
+  static char buffer[80];
   char *ptr;
 
-  ptr = &buffer[49];
+  ptr = &buffer[79];
   *ptr = '\0';
 
   do{
@@ -142,7 +142,7 @@ int cases_choose(const char **fmt_ptr, va_list *ap, char *dest){
 				(*fmt_ptr) += 1;
 			}
 			int least_width = str_to_num(start, (*fmt_ptr)-start);
-			char temp_str[300];
+			char temp_str[500];
 
 			cases_choose(fmt_ptr, ap, temp_str);
 			int str_length = strlen(temp_str);
@@ -259,7 +259,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 				fmt += 1;
 			}
 			int least_width = str_to_num(start, fmt-start);
-			char temp_str[300];
+			char temp_str[500];
 			char *temp_p = temp_str;
 
 			switch(*fmt){
