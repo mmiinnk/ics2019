@@ -18,18 +18,18 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   ramdisk_read(&ELFHeader, 0, 52);
   Elf_Phdr Phdr_Table[ELFHeader.e_phnum];
   ramdisk_read(Phdr_Table, ELFHeader.e_phoff, ELFHeader.e_phnum * ELFHeader.e_phentsize);
+  printf("Success 1\n");
   Elf_Phdr *p;
   for (int i = 0; i < ELFHeader.e_phnum; ++i){
     p = &Phdr_Table[i];
     if (p->p_type == PT_LOAD){
       char buf[p->p_memsz];
-      ramdisk_read(buf, p->p_offset, p->p_memsz);
-      memcpy((void *)p->p_vaddr, buf, p->p_memsz);
-      char temp[p->p_memsz - p->p_filesz];
-      for (int i = 0; i < p->p_memsz - p->p_filesz; ++i){
-        temp[i] = 0;
+      ramdisk_read(buf, p->p_offset, p->p_filesz);
+      printf("Success 2\n");
+      for (int i = 0; i < (p->p_memsz - p->p_filesz); ++i){
+        buf[p->p_filesz + i] = 0;
       }
-      memcpy((void *)(p->p_vaddr + p->p_filesz), temp, p->p_memsz - p->p_filesz);
+      memcpy((void *)p->p_vaddr, buf, p->p_memsz);
     }
   }
   return ELFHeader.e_entry;
