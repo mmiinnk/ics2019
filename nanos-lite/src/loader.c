@@ -15,19 +15,19 @@ size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr ELFHeader;
-  ramdisk_read(&ELFHeader, 0, 52);
+  ramdisk_read(&ELFHeader, 0, sizeof(ELFHeader));
   Elf_Phdr Phdr_Table[ELFHeader.e_phnum];
   ramdisk_read(Phdr_Table, ELFHeader.e_phoff, ELFHeader.e_phnum * ELFHeader.e_phentsize);
-  printf("Success 1\n");
+  //printf("Success 1\n");
   Elf_Phdr *p;
   for (int i = 0; i < ELFHeader.e_phnum; ++i){
     p = &Phdr_Table[i];
     if (p->p_type == PT_LOAD){
       char buf[p->p_memsz];
       ramdisk_read(buf, p->p_offset, p->p_filesz);
-      printf("Success 2\n");
-      for (int i = 0; i < (p->p_memsz - p->p_filesz); ++i){
-        buf[p->p_filesz + i] = 0;
+      //printf("Success 2\n");
+      for (int j = 0; j < (p->p_memsz - p->p_filesz); ++j){
+        buf[p->p_filesz + j] = 0;
       }
       memcpy((void *)p->p_vaddr, buf, p->p_memsz);
     }
