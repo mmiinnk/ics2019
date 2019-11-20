@@ -16,6 +16,7 @@ static inline uintptr_t sys_write(_Context *c){
   int fd = c->GPR2;
   char *buf = (char *)c->GPR3;
   size_t count = c->GPR4;
+  
   if (fd == 1 || fd == 2){
     for (int i = 0; i < count; ++i){
       _putc(buf[i]);
@@ -25,7 +26,7 @@ static inline uintptr_t sys_write(_Context *c){
   else{
     c->GPRx = -1;
   }
-  return count;
+  return 1;
 }
 
 _Context* do_syscall(_Context *c) {
