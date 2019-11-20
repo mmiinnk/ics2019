@@ -8,7 +8,7 @@ static inline uintptr_t sys_yield(_Context *c){
 }
 
 static inline uintptr_t sys_exit(_Context *c){
-  _halt(c->GPR1);
+  _halt(c->GPR2);
   return 1;
 }
 
