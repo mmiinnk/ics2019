@@ -59,7 +59,7 @@ int str_to_num(const char *str, int len){
 int printf(const char *fmt, ...) {
 	va_list ap;
   	int len;
-	char out[500];
+	char out[800];
   	va_start(ap, fmt);
 
 	len = vsprintf(out, fmt, ap);
@@ -142,7 +142,7 @@ int cases_choose(const char **fmt_ptr, va_list *ap, char *dest){
 				(*fmt_ptr) += 1;
 			}
 			int least_width = str_to_num(start, (*fmt_ptr)-start);
-			char temp_str[100];
+			char temp_str[300];
 
 			cases_choose(fmt_ptr, ap, temp_str);
 			int str_length = strlen(temp_str);
@@ -259,7 +259,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 				fmt += 1;
 			}
 			int least_width = str_to_num(start, fmt-start);
-			char temp_str[50];
+			char temp_str[300];
 			char *temp_p = temp_str;
 
 			switch(*fmt){
