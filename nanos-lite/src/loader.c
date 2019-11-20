@@ -14,9 +14,9 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  //uint8_t buf[get_ramdisk_size()];
-  ramdisk_read((void* )0x3000000, 0, get_ramdisk_size());
-  return (uintptr_t)0x3000000;
+  Elf_Phdr Phdr;
+  ramdisk_read(&Phdr, 0, get_ramdisk_size());
+  return Phdr.p_vaddr + Phdr.p_offset;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
