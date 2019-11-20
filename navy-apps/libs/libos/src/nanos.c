@@ -64,6 +64,7 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
+  /*
   extern char end;
   static intptr_t program_break = &end;
   intptr_t temp_program_break = program_break;
@@ -74,7 +75,8 @@ void *_sbrk(intptr_t increment) {
   }
   else{
     return (void *)-1;
-  }
+  }*/
+  return (void*)-1;
   
 }
 
