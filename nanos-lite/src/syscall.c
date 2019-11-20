@@ -17,15 +17,15 @@ static inline uintptr_t sys_write(_Context *c){
   char *buf = (char *)c->GPR3;
   size_t count = c->GPR4;
   if (fd == 1 || fd == 2){
-    for (int i = 0; i < count; ++i)
+    for (int i = 0; i < count; ++i){
       _putc(buf[i]);
+    }
     c->GPRx = count;
   }
   else{
     c->GPRx = -1;
   }
-
-  return 1;
+  return count;
 }
 
 _Context* do_syscall(_Context *c) {
