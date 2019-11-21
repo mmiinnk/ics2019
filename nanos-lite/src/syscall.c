@@ -17,7 +17,7 @@ static inline uintptr_t sys_write(_Context *c){
   char *buf = (char *)c->GPR3;
   size_t count = c->GPR4;
   
-  Log("%s\n", buf[0]);
+  //Log("%s\n", buf[0]);
   
   if (fd == 1 || fd == 2){
     for (int i = 0; i < count; ++i){
