@@ -62,8 +62,9 @@ int fs_open(const char *pathname, int flags, int mode){
 ssize_t fs_read(int fd, void *buf, size_t len){
   Finfo *File = &file_table[fd];
   if ((File->open_offset + len) > File->size){
-    printf("The open_offset will be over the Bound of File!\n");
-    return -1;
+    for (int i = 0; i < (File->size - File->open_offset); ++i){
+      File->open_offset += ramdisk_read(buf, File->disk_offset + File->open_offset, 1);
+    }
   }
   File->open_offset += ramdisk_read(buf, File->disk_offset + File->open_offset, len);
   return len;
