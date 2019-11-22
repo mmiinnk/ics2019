@@ -2,7 +2,7 @@
 #include <assert.h>
 
 int main() {
-  printf("haha\n");
+  //printf("haha\n");
   FILE *fp = fopen("/share/texts/num", "r+");
   printf("Succefully open!\n");
   assert(fp);
@@ -15,6 +15,7 @@ int main() {
   int i, n;
   for (i = 500; i < 1000; i ++) {
     fscanf(fp, "%d", &n);
+    printf("n = %d, i = %d\n", n, i);
     assert(n == i + 1);
   }
 

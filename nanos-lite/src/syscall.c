@@ -60,7 +60,7 @@ static inline uintptr_t sys_read(_Context *c){
 }
 
 static inline uintptr_t sys_lseek(_Context *c){
-  c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
+  c->GPRx = fs_lseek(c->GPR2, (off_t)c->GPR3, c->GPR4);
   //printf("Successfully use sys_open!\n");
   return 1;
 }
