@@ -59,6 +59,12 @@ static inline uintptr_t sys_read(_Context *c){
   return 1;
 }
 
+static inline uintptr_t sys_lseek(_Context *c){
+  c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
+  //printf("Successfully use sys_open!\n");
+  return 1;
+}
+
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -75,6 +81,7 @@ _Context* do_syscall(_Context *c) {
     case SYS_open:  sys_open(c);  break;
     case SYS_close: sys_close(c); break;
     case SYS_read:  sys_read(c);  break;
+    case SYS_lseek: sys_lseek(c); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
