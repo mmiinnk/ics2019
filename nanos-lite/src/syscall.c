@@ -54,13 +54,13 @@ _Context* do_syscall(_Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
-  printf("%d\n", a[0]);
+  //printf("%d\n", a[0]);
   switch (a[0]) {
     case SYS_yield: sys_yield(c); break;
     case SYS_exit:  sys_exit(c);  break;
     case SYS_write: sys_write(c); break;
     case SYS_brk:   sys_brk(c);   break;
-    case SYS_open:  sys_open(c);  break;
+    //case SYS_open:  sys_open(c);  break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
