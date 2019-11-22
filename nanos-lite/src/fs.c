@@ -61,7 +61,7 @@ int fs_open(const char *pathname, int flags, int mode){
 
 ssize_t fs_read(int fd, void *buf, size_t len){
   Finfo *File = &file_table[fd];
-  if ((File->open_offset + len) > File->size){
+  if ((File->open_offset + len + 1) > File->size){
     printf("The open_offset will be over the Bound of File!\n");
     return -1;
   }
