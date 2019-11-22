@@ -43,7 +43,7 @@ static inline uintptr_t sys_brk(_Context *c){
 }
 
 static inline uintptr_t sys_open(_Context *c){
-  fs_open((char *)c->GPR1, c->GPR2, c->GPR3);
+  c->GPRx = fs_open((char *)c->GPR1, c->GPR2, c->GPR3);
   return 1;
 }
 
