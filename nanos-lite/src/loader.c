@@ -12,12 +12,6 @@
 
 //typedef unsigned int size_t;
 
-int fs_open(const char *pathname, int flags, int mode);
-ssize_t fs_read(int fd, void *buf, size_t len);
-ssize_t fs_write(int fd, const void *buf, size_t len);
-off_t fs_lseek(int fd, off_t offset, int whence);
-int fs_close(int fd);
-
 static uintptr_t loader(PCB *pcb, const char *filename) {
   int fd = fs_open(filename, 0, 0);
 
