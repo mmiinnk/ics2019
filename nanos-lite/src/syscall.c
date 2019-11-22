@@ -32,7 +32,7 @@ static inline uintptr_t sys_write(_Context *c){
     c->GPRx = count;
   }
   else{
-    c->GPRx = -1;
+    fs_write(fd, (void *)c->GPR3, c->GPR4);
   }
   return 1;
 }
@@ -43,7 +43,18 @@ static inline uintptr_t sys_brk(_Context *c){
 }
 
 static inline uintptr_t sys_open(_Context *c){
-  c->GPRx = fs_open((char *)c->GPR1, c->GPR2, c->GPR3);
+  c->GPRx = fs_open((char *)c->GPR2, c->GPR3, c->GPR4);
+  //printf("Successfully use sys_open!\n");
+  return 1;
+}
+
+static inline uintptr_t sys_close(_Context *c){
+  c->GPRx = fs_close(c->GPR2);
+  return 1;
+}
+
+static inline uintptr_t sys_read(_Context *c){
+  c->GPRx = fs_read(c->GPR2, (void *)c->GPR3, c->GPR4);
   //printf("Successfully use sys_open!\n");
   return 1;
 }
@@ -62,6 +73,8 @@ _Context* do_syscall(_Context *c) {
     case SYS_write: sys_write(c); break;
     case SYS_brk:   sys_brk(c);   break;
     case SYS_open:  sys_open(c);  break;
+    case SYS_close: sys_close(c); break;
+    case SYS_read:  sys_read(c);  break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
