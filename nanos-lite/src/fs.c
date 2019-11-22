@@ -55,7 +55,8 @@ int fs_open(const char *pathname, int flags, int mode){
     }
   }
   //printf("Can't find the file!\n");
-  assert(0);
+  //assert(0);
+  return -1;
 }
 
 ssize_t fs_read(int fd, void *buf, size_t len){
