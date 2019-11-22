@@ -42,11 +42,10 @@ static inline uintptr_t sys_brk(_Context *c){
   return 1;
 }
 
-/*
 static inline uintptr_t sys_open(_Context *c){
   c->GPRx = fs_open((char *)c->GPR1, c->GPR2, c->GPR3);
   return 1;
-}*/
+}
 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
@@ -61,7 +60,7 @@ _Context* do_syscall(_Context *c) {
     case SYS_exit:  sys_exit(c);  break;
     case SYS_write: sys_write(c); break;
     case SYS_brk:   sys_brk(c);   break;
-    //case SYS_open:  sys_open(c);  break;
+    case SYS_open:  sys_open(c);  break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
