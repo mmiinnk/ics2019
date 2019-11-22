@@ -10,8 +10,6 @@
 # define Elf_Phdr Elf32_Phdr //程序头表
 #endif
 
-typedef long int off_t;
-typedef int ssize_t;
 //typedef unsigned int size_t;
 
 int fs_open(const char *pathname, int flags, int mode);

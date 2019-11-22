@@ -10,6 +10,9 @@
 #include "debug.h"
 
 typedef char bool;
+typedef long int off_t;
+typedef int ssize_t;
+
 #define true 1
 #define false 0
 
