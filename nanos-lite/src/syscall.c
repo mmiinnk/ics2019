@@ -44,7 +44,7 @@ static inline uintptr_t sys_brk(_Context *c){
 
 static inline uintptr_t sys_open(_Context *c){
   c->GPRx = fs_open((char *)c->GPR1, c->GPR2, c->GPR3);
-  printf("Successfully use sys_open!\n");
+  //printf("Successfully use sys_open!\n");
   return 1;
 }
 
