@@ -1,4 +1,5 @@
 #include "proc.h"
+#include "../include/fs.h"
 #include <elf.h>
 
 #ifdef __ISA_AM_NATIVE__
@@ -9,28 +10,47 @@
 # define Elf_Phdr Elf32_Phdr //程序头表
 #endif
 
-size_t get_ramdisk_size();
-size_t ramdisk_read(void *buf, size_t offset, size_t len);
-size_t ramdisk_write(const void *buf, size_t offset, size_t len);
+typedef long int off_t;
+typedef int ssize_t;
+//typedef unsigned int size_t;
+
+int fs_open(const char *pathname, int flags, int mode);
+ssize_t fs_read(int fd, void *buf, size_t len);
+ssize_t fs_write(int fd, const void *buf, size_t len);
+off_t fs_lseek(int fd, off_t offset, int whence);
+int fs_close(int fd);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
+  int fd = fs_open(filename, 0, 0);
+
   Elf_Ehdr ELFHeader;
-  ramdisk_read(&ELFHeader, 0, sizeof(ELFHeader));
+  fs_read(fd, &ELFHeader, sizeof(ELFHeader));
   Elf_Phdr Phdr_Table[ELFHeader.e_phnum];
-  ramdisk_read(Phdr_Table, ELFHeader.e_phoff, ELFHeader.e_phnum * ELFHeader.e_phentsize);
+
+  fs_lseek(fd, ELFHeader.e_phoff, SEEK_SET);
+  fs_read(fd, Phdr_Table, ELFHeader.e_phnum * ELFHeader.e_phentsize);
+  //ramdisk_read(Phdr_Table, disk_offset + ELFHeader.e_phoff, ELFHeader.e_phnum * ELFHeader.e_phentsize);
   //printf("Success 1\n");
+  
   Elf_Phdr *p;
   for (int i = 0; i < ELFHeader.e_phnum; ++i){
     p = &Phdr_Table[i];
     if (p->p_type == PT_LOAD){
       char buf[p->p_memsz];
-      ramdisk_read(buf, p->p_offset, p->p_filesz);
+
+      fs_lseek(fd, p->p_offset, SEEK_SET);
+      fs_read(fd, buf, p->p_filesz);
+      //ramdisk_read(buf, disk_offset + p->p_offset, p->p_filesz);
       //printf("Success 2\n");
       for (int j = 0; j < (p->p_memsz - p->p_filesz); ++j){
         buf[p->p_filesz + j] = 0;
       }
       memcpy((void *)p->p_vaddr, buf, p->p_memsz);
     }
+  }
+  if (fs_close(fd) != 0){
+    printf("Fail to close the File!\n");
+    assert(0);
   }
   return ELFHeader.e_entry;
 }

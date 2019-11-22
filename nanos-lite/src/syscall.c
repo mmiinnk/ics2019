@@ -22,7 +22,6 @@ static inline uintptr_t sys_write(_Context *c){
   if (fd == 1 || fd == 2){
     for (int i = 0; i < count; ++i){
       _putc(buf[i]);
-      
     }
     c->GPRx = count;
   }
