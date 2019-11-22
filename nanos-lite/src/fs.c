@@ -1,7 +1,7 @@
 #include "../include/fs.h"
 
-typedef long int off_t;
-typedef int ssize_t;
+//typedef uint32_t off_t;
+//typedef uint32_t ssize_t;
 typedef unsigned int size_t;
 
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
@@ -61,7 +61,7 @@ int fs_open(const char *pathname, int flags, int mode){
 
 ssize_t fs_read(int fd, void *buf, size_t len){
   Finfo *File = &file_table[fd];
-  if ((File->open_offset + len + 1) > File->size){
+  if ((File->open_offset + len) > File->size){
     printf("The open_offset will be over the Bound of File!\n");
     return -1;
   }
