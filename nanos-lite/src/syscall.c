@@ -22,7 +22,7 @@ static inline uintptr_t sys_write(_Context *c){
   int fd = c->GPR2;
   //char *buf = (char *)c->GPR3;
   size_t len = c->GPR4;
-  printf("len = %d\n", len);
+  //printf("len = %d\n", len);
   
   //Log("%s\n", buf[0]);
   
