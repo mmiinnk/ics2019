@@ -79,8 +79,9 @@ ssize_t fs_read(int fd, void *buf, size_t len){
 ssize_t fs_write(int fd, const void *buf, size_t len){
   Finfo *File = &file_table[fd];
   if ((File->open_offset + len) > File->size){
-    printf("The open_offset will be over the Bound of File!\n");
-    return -1;
+    len = File->size - File->open_offset;
+    File->open_offset += ramdisk_write(buf, File->disk_offset + File->open_offset, len);
+    return len;
   }
   File->open_offset += ramdisk_write(buf, File->disk_offset + File->open_offset, len);
   return len;
