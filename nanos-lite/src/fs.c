@@ -66,9 +66,9 @@ ssize_t fs_read(int fd, void *buf, size_t len){
     printf("File size = %d\n", File->size);
     printf("File->open_offset = %d, len = %d, File->size - File->open_offset = %d\n", File->open_offset, len, File->size - File->open_offset);
     printf("The open_offset will be over the Bound of File!\n");
-    for (int i = 0; i < (File->size - File->open_offset); ++i){
-      File->open_offset += ramdisk_read(buf, File->disk_offset + File->open_offset, 1);
-    }
+    //for (int i = 0; i < (File->size - File->open_offset); ++i){
+      File->open_offset += ramdisk_read(buf, File->disk_offset + File->open_offset, File->size - File->open_offset);
+    //}
     return File->size - File->open_offset;
   }
   File->open_offset += ramdisk_read(buf, File->disk_offset + File->open_offset, len);
