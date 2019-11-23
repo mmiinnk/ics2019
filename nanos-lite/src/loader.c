@@ -45,7 +45,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     assert(0);
   }
   //printf("Successfully Loaded!\n");
-  return ELFHeader.e_entry;
+  return fs_ramdiskoffset(fd) + ELFHeader.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {

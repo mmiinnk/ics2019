@@ -11,6 +11,7 @@ int fs_close(int fd);
 size_t serial_write(const void *buf, size_t offset, size_t len);
 size_t dispinfo_read(void *buf, size_t offset, size_t len);
 size_t fb_write(const void *buf, size_t offset, size_t len);
+off_t fs_ramdiskoffset(int fd);
 
 #ifndef SEEK_SET
 enum {SEEK_SET, SEEK_CUR, SEEK_END};
