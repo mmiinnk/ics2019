@@ -14,6 +14,7 @@ typedef char bool;
 #ifndef __ISA_AM_NATIVE__
 typedef long int off_t;
 typedef int ssize_t;
+typedef unsigned int size_t;
 #endif
 
 #define true 1

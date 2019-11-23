@@ -2,16 +2,13 @@
 
 //typedef uint32_t off_t;
 //typedef uint32_t ssize_t;
-typedef unsigned int size_t;
-
-size_t ramdisk_read(void *buf, size_t offset, size_t len);
-size_t ramdisk_write(const void *buf, size_t offset, size_t len);
-size_t serial_write(const void *buf, size_t offset, size_t len);
-size_t dispinfo_read(void *buf, size_t offset, size_t len);
-size_t fb_write(const void *buf, size_t offset, size_t len);
+//typedef unsigned int size_t;
 
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
+
+size_t ramdisk_read(void *buf, size_t offset, size_t len);
+size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
 typedef struct {
   char *name;         //文件名
