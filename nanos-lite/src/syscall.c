@@ -32,7 +32,7 @@ static inline uintptr_t sys_write(_Context *c){
     c->GPRx = count;
   }
   else{
-    fs_write(fd, (void *)c->GPR3, c->GPR4);
+    c->GPRx = fs_write(fd, (void *)c->GPR3, c->GPR4);
   }
   return 1;
 }

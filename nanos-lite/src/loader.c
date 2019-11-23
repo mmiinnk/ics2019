@@ -44,7 +44,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     printf("Fail to close the File!\n");
     assert(0);
   }
-  printf("Successfully Loaded!\n");
+  //printf("Successfully Loaded!\n");
   return ELFHeader.e_entry;
 }
 
