@@ -48,7 +48,11 @@ make_EHelper(ret_imm) {
 }
 
 make_EHelper(call_rm) {
-  decinfo.jmp_pc = id_dest->val;
+  if (decinfo.isa.is_operand_size_16){
+    decinfo.jmp_pc = (id_dest->val)&(0xffff);
+  }else{
+    decinfo.jmp_pc = id_dest->val;
+  }
   rtl_push(&decinfo.seq_pc);
   rtl_j(decinfo.jmp_pc);
 
