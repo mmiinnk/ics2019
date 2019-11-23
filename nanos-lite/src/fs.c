@@ -86,12 +86,14 @@ ssize_t fs_read(int fd, void *buf, size_t len){
 ssize_t fs_write(int fd, const void *buf, size_t len){
   Finfo *File = &file_table[fd];
 
-  printf("len = %d\n", len);
+  //
 
   if ((File->open_offset + len) > File->size){
     len = File->size - File->open_offset;
   }
-
+  
+  printf("len = %d\n", len);
+  
   if (File->write != NULL){
     File->open_offset += File->write(buf, File->open_offset, len);
   }
