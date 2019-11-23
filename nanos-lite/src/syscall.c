@@ -20,7 +20,7 @@ static inline uintptr_t sys_exit(_Context *c){
 
 static inline uintptr_t sys_write(_Context *c){
   int fd = c->GPR2;
-  char *buf = (char *)c->GPR3;
+  //char *buf = (char *)c->GPR3;
   size_t len = c->GPR4;
   
   //Log("%s\n", buf[0]);
@@ -32,7 +32,7 @@ static inline uintptr_t sys_write(_Context *c){
   //  c->GPRx = count;
   //}
   //else{
-  c->GPRx = fs_write(fd, buf, len);
+  c->GPRx = fs_write(fd, (void *)c->GPR3, len);
   //}
   return 1;
 }
