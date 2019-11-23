@@ -21,19 +21,19 @@ static inline uintptr_t sys_exit(_Context *c){
 static inline uintptr_t sys_write(_Context *c){
   int fd = c->GPR2;
   char *buf = (char *)c->GPR3;
-  size_t count = c->GPR4;
+  size_t len = c->GPR4;
   
   //Log("%s\n", buf[0]);
   
-  if (fd == 1 || fd == 2){
-    for (int i = 0; i < count; ++i){
-      _putc(buf[i]);
-    }
-    c->GPRx = count;
-  }
-  else{
-    c->GPRx = fs_write(fd, (void *)c->GPR3, c->GPR4);
-  }
+  //if (fd == 1 || fd == 2){
+  //  for (int i = 0; i < count; ++i){
+  //    _putc(buf[i]);
+  //  }
+  //  c->GPRx = count;
+  //}
+  //else{
+  c->GPRx = fs_write(fd, buf, len);
+  //}
   return 1;
 }
 

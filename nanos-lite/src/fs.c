@@ -6,6 +6,7 @@ typedef unsigned int size_t;
 
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
+size_t serial_write(const void *buf, size_t offset, size_t len);
 
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
@@ -34,8 +35,8 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
   {"stdin", 0, 0, 0, invalid_read, invalid_write},
-  {"stdout", 0, 0, 0, invalid_read, invalid_write},
-  {"stderr", 0, 0, 0, invalid_read, invalid_write},
+  {"stdout", 0, 0, 0, invalid_read, serial_write},
+  {"stderr", 0, 0, 0, invalid_read, serial_write},
 #include "files.h"
 };
 
@@ -78,9 +79,16 @@ ssize_t fs_read(int fd, void *buf, size_t len){
 
 ssize_t fs_write(int fd, const void *buf, size_t len){
   Finfo *File = &file_table[fd];
+
+  if (File->write != NULL){
+    File->open_offset += File->write(buf, 0, len);
+    return len;
+  }
+
   if ((File->open_offset + len) > File->size){
     len = File->size - File->open_offset;
   }
+
   File->open_offset += ramdisk_write(buf, File->disk_offset + File->open_offset, len);
   return len;
 }
