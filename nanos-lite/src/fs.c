@@ -90,7 +90,7 @@ ssize_t fs_write(int fd, const void *buf, size_t len){
     len = File->size - File->open_offset;
   }
 
-  if (File->write != NULL){
+  if (File->write != 0){
     File->open_offset += File->write(buf, File->open_offset, len);
   }
   else{
