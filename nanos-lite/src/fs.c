@@ -1,4 +1,4 @@
-#include "../include/fs.h"
+#include "fs.h"
 
 //typedef uint32_t off_t;
 //typedef uint32_t ssize_t;
