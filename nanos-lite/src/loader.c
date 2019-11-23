@@ -45,6 +45,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     assert(0);
   }
   //printf("Successfully Loaded!\n");
+  printf("Entry = %u", ELFHeader.e_entry);
   return ELFHeader.e_entry;
 }
 
