@@ -2,6 +2,7 @@
 #include <amdev.h>
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
+  printf("haha\n");
   const char *tempbuf = buf;
   for (size_t i = 0; i < len; i++){
     _putc(tempbuf[i]);
