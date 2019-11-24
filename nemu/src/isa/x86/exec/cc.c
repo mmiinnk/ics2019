@@ -20,7 +20,7 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
   switch (subcode & 0xe) {
     case CC_O:  *dest = (OF == 1) ? 1 : 0; break;
     //case CC_NO: *dest = (OF == 0) ? 1 : 0; break;
-    case CC_B:  *dest = (CF == 1) ? 1 : 0; break;
+    case CC_B:  *dest = (CF == 1 && ZF == 0) ? 1 : 0; break;
     //case CC_NB: *dest = (CF == 0) ? 1 : 0; break;
     case CC_E:  *dest = (ZF == 1) ? 1 : 0; break;
 	  //case CC_NE: *dest = (ZF == 0) ? 1 : 0; break;

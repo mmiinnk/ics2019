@@ -6,7 +6,7 @@ static _Context* do_event(_Event e, _Context* c) {
   //Log("Successfully reach do_event!\n");
   switch (e.event) {
     case _EVENT_YIELD: printf("Successfully handled YIELD!\n"); break;
-    case _EVENT_SYSCALL: return do_syscall(c); break;
+    case _EVENT_SYSCALL: do_syscall(c); break;
     default: panic("Unhandled event ID = %d", e.event);
   }
 
