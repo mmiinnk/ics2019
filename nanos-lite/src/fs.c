@@ -107,7 +107,7 @@ ssize_t fs_write(int fd, const void *buf, size_t len){
 }
 
 off_t fs_lseek(int fd, off_t offset, int whence){
-  Log("Reach fs_lseek!");
+  //Log("Reach fs_lseek!");
   switch (whence){
     case SEEK_SET: file_table[fd].open_offset = offset; return file_table[fd].open_offset;
     case SEEK_CUR: file_table[fd].open_offset += offset; return file_table[fd].open_offset;
