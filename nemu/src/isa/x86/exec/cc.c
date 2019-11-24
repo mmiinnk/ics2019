@@ -28,8 +28,8 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
 	  //case CC_NBE:*dest = (CF == 0 && ZF == 0) ? 1 : 0; break;
     case CC_S:  *dest = (SF == 1) ? 1 : 0; break;
 	  //case CC_NS: *dest = (SF == 0) ? 1 : 0; break;
-	//case CC_P:  *dest = (PF == 1) ? 1 : 0; break;
-	//case CC_NP: *dest = (PF == 0) ? 1 : 0; break;
+	  //case CC_P:  *dest = (PF == 1) ? 1 : 0; break;
+	  //case CC_NP: *dest = (PF == 0) ? 1 : 0; break;
     case CC_L:  *dest = (SF != OF && ZF == 0) ? 1 : 0; break;
 	  //case CC_NL: *dest = (SF == OF) ? 1 : 0; break;
     case CC_LE: *dest = (SF != OF || ZF == 1) ? 1 : 0; break;
