@@ -57,13 +57,12 @@ int fs_open(const char *pathname, int flags, int mode){
   for (int i = 0; i < NR_FILES; i++){
     printf("%s\n", file_table[i].name);
     if (strcmp(file_table[i].name, pathname) == 0){
-      
       file_table[i].open_offset = 0;
       return i;
     }
   }
   printf("Can't find the file! It's name is '%s'\n", pathname);
-  //assert(0);
+  assert(0);
   return -1;
 }
 
