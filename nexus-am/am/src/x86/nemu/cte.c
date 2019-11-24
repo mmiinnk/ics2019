@@ -23,6 +23,7 @@ _Context* __am_irq_handle(_Context *c) {
 
     //printf("ev.event = %d\n", ev.event);
     //printf("user_handler = %p\n", &user_handler);
+    user_handler = (void *)0x001003ec;
     next = user_handler(ev, c);
     printf("Successfully do user_handler!\n");
     if (next == NULL) {
