@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
 	  printf("Sorry! Maybe you have to debug again.\n");
 
 */
-	is_batch_mode = true;
+	is_batch_mode = false;
   	/* Receive commands from user. */
 	ui_mainloop(is_batch_mode);
 
