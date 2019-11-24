@@ -21,10 +21,10 @@ _Context* __am_irq_handle(_Context *c) {
       default: ev.event = _EVENT_ERROR; break;
     }
 
-    //printf("ev.event = %d\n", ev.event);
-    //printf("user_handler = %p\n", &user_handler);
+    printf("ev.event = %d\n", ev.event);
+    printf("user_handler = %p\n", &user_handler);
     next = user_handler(ev, c);
-    //printf("Successfully do user_handler!\n");
+    printf("Successfully do user_handler!\n");
     if (next == NULL) {
       next = c;
     }

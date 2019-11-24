@@ -38,6 +38,8 @@ static Finfo file_table[] __attribute__((used)) = {
   {"stderr", 0, 0, 0, invalid_read, serial_write},
   {"/dev/fb", 0, 0, 0, invalid_read, fb_write},
   {"/proc/dispinfo", 0, 0, 0, dispinfo_read, invalid_write},
+  {"/dev/events", 0, 0, 0, invalid_read, invalid_write},
+  {"/dev/fbsync", 0, 0, 0, invalid_read, invalid_write},
 #include "files.h"
 };
 
@@ -51,14 +53,15 @@ void init_fs() {
 int fs_open(const char *pathname, int flags, int mode){
   //int fd = -1;
   //printf("%s\n", pathname);
-  for (int i = 0; i < (sizeof(file_table) / sizeof(file_table[0])); i++){
+  for (int i = 0; i < NR_FILES; i++){
     if (strcmp(file_table[i].name, pathname) == 0){
       //printf("%s\n", file_table[i].name);
+      file_table[i].open_offset = 0;
       return i;
     }
   }
-  //printf("Can't find the file!\n");
-  //assert(0);
+  printf("Can't find the file! It's name is '%s'\n", pathname);
+  assert(0);
   return -1;
 }
 
@@ -66,8 +69,9 @@ ssize_t fs_read(int fd, void *buf, size_t len){
   Finfo *File = &file_table[fd];
 
   if (File->read != NULL){
-    File->open_offset += File->read(buf, File->open_offset, len);
-    return len;
+    size_t reallen = File->read(buf, File->open_offset, len);
+    File->open_offset += reallen;
+    return reallen;
   }
 
   //printf("len = %d\n", len);
@@ -103,6 +107,7 @@ ssize_t fs_write(int fd, const void *buf, size_t len){
 }
 
 off_t fs_lseek(int fd, off_t offset, int whence){
+  Log("Reach fs_lseek!");
   switch (whence){
     case SEEK_SET: file_table[fd].open_offset = offset; return file_table[fd].open_offset;
     case SEEK_CUR: file_table[fd].open_offset += offset; return file_table[fd].open_offset;
@@ -114,8 +119,4 @@ off_t fs_lseek(int fd, off_t offset, int whence){
 int fs_close(int fd){
   file_table[fd].open_offset = 0;
   return 0;
-}
-
-off_t fs_ramdiskoffset(int fd){
-  return file_table[fd].disk_offset;
 }
