@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 int main() {
-  //printf("haha hei!\n");
+  printf("haha hei!\n");
   NDL_Bitmap *bmp = (NDL_Bitmap*)malloc(sizeof(NDL_Bitmap));
   //printf("malloc successfully!\n");
   NDL_LoadBitmap(bmp, "/share/pictures/projectn.bmp");
