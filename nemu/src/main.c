@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
   int is_batch_mode = init_monitor(argc, argv);
 
-
+/*
   FILE *fp = NULL;
   fp = fopen("/home/victor/ics2019/nemu/tools/gen-expr/input","r");
   
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
   else
 	  printf("Sorry! Maybe you have to debug again.\n");
 
-
+*/
 	is_batch_mode = false;
   	/* Receive commands from user. */
 	ui_mainloop(is_batch_mode);
