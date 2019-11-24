@@ -43,12 +43,12 @@ static char dispinfo[128] __attribute__((used)) = {};
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   //Log("Reach dispinfo_read!");
   strncpy(buf, dispinfo + offset, len);
-  printf("%s\n", (char *)buf);
+  //printf("%s\n", (char *)buf);
   return strlen((char *)buf);
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  Log("Reach fb_write");
+  //Log("Reach fb_write");
   offset /= 4;
   for (int i = 0; i < len/4; i++){
     int x = (offset + i) % screen_width();
@@ -70,6 +70,6 @@ void init_device() {
   // described in the Navy-apps convention
   sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d\0", screen_width(), screen_height());
   Log("Successfully write dispinfo!");
-  printf("%s\n", dispinfo);
+  //printf("%s\n", dispinfo);
   //Log("VGA WIDTH:%d HEIGHT:%d", screen_width(), screen_height());
 }
