@@ -37,7 +37,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       for (int j = 0; j < (p->p_memsz - p->p_filesz); ++j){
         buf[p->p_filesz + j] = 0;
       }
-      memcpy((void *)p->p_vaddr, buf, p->p_memsz);
+      //vaddr_write(p->p_vaddr, buf, p->p_memsz);
     }
   }
   if (fs_close(fd) != 0){
