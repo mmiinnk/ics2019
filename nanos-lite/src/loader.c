@@ -17,27 +17,30 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   Elf_Ehdr ELFHeader;
   fs_read(fd, &ELFHeader, sizeof(ELFHeader));
-  Elf_Phdr Phdr_Table[ELFHeader.e_phnum];
+  //Elf_Phdr Phdr_Table[ELFHeader.e_phnum];
 
-  fs_lseek(fd, ELFHeader.e_phoff, SEEK_SET);
-  fs_read(fd, Phdr_Table, ELFHeader.e_phnum * ELFHeader.e_phentsize);
+  //fs_lseek(fd, ELFHeader.e_phoff, SEEK_SET);
+  //fs_read(fd, Phdr_Table, ELFHeader.e_phnum * ELFHeader.e_phentsize);
   //ramdisk_read(Phdr_Table, disk_offset + ELFHeader.e_phoff, ELFHeader.e_phnum * ELFHeader.e_phentsize);
   //printf("Success 1\n");
   
-  Elf_Phdr *p;
   for (int i = 0; i < ELFHeader.e_phnum; ++i){
-    p = &Phdr_Table[i];
-    if (p->p_type == PT_LOAD){
-      char buf[p->p_memsz];
+    Elf_Phdr p;
+    //p = &Phdr_Table[i];
+    fs_lseek(fd, ELFHeader.e_phoff, SEEK_SET);
+    fs_read(fd, &p, i * ELFHeader.e_phentsize);
+    
+    if (p.p_type == PT_LOAD){
+      char buf[p.p_memsz];
 
-      fs_lseek(fd, p->p_offset, SEEK_SET);
-      fs_read(fd, buf, p->p_filesz);
+      fs_lseek(fd, p.p_offset, SEEK_SET);
+      fs_read(fd, buf, p.p_filesz);
       //ramdisk_read(buf, disk_offset + p->p_offset, p->p_filesz);
       //printf("Success 2\n");
-      for (int j = 0; j < (p->p_memsz - p->p_filesz); ++j){
-        buf[p->p_filesz + j] = 0;
+      for (int j = 0; j < (p.p_memsz - p.p_filesz); ++j){
+        buf[p.p_filesz + j] = 0;
       }
-      memcpy((void *)p->p_vaddr, buf, p->p_memsz);
+      memcpy((void *)p.p_vaddr, buf, p.p_memsz);
     }
   }
   if (fs_close(fd) != 0){
