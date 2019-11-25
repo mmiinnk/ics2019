@@ -55,10 +55,11 @@ int fs_open(const char *pathname, int flags, int mode){
   //printf("%s\n", pathname);
   //printf("NR_FILES = %d\n", NR_FILES);
   for (int i = 0; i < NR_FILES; i++){
-    printf("i = %d\n", i);
-    if (i == 44){
+    //printf("i = %d\n", i);
+    /*if (i == 44){
       printf("%s\n", file_table[i].name);
     }
+    */
     //printf("%s\n", file_table[i].name);
     if (strcmp(file_table[i].name, pathname) == 0){
       file_table[i].open_offset = 0;
