@@ -7,18 +7,18 @@ ssize_t fs_write(int fd, const void *buf, size_t len);
 off_t fs_lseek(int fd, off_t offset, int whence);
 int fs_close(int fd);
 
-static inline uintptr_t sys_yield(_Context *c){
+void sys_yield(_Context *c){
   _yield();
   c->GPRx = 0;
-  return 1;
+  //return 1;
 }
 
-static inline uintptr_t sys_exit(_Context *c){
+void sys_exit(_Context *c){
   _halt(c->GPR2);
-  return 1;
+  //return 1;
 }
 
-static inline uintptr_t sys_write(_Context *c){
+void sys_write(_Context *c){
   int fd = c->GPR2;
   //char *buf = (char *)c->GPR3;
   size_t len = c->GPR4;
@@ -35,35 +35,35 @@ static inline uintptr_t sys_write(_Context *c){
   //else{
   c->GPRx = fs_write(fd, (void *)c->GPR3, len);
   //}
-  return 1;
+  //return 1;
 }
 
-static inline uintptr_t sys_brk(_Context *c){
+void sys_brk(_Context *c){
   c->GPRx = 0;
-  return 1;
+  //return 1;
 }
 
-static inline uintptr_t sys_open(_Context *c){
+void sys_open(_Context *c){
   c->GPRx = fs_open((char *)c->GPR2, c->GPR3, c->GPR4);
   //printf("Successfully use sys_open!\n");
-  return 1;
+  //return 1;
 }
 
-static inline uintptr_t sys_close(_Context *c){
+void sys_close(_Context *c){
   c->GPRx = fs_close(c->GPR2);
-  return 1;
+  //return 1;
 }
 
-static inline uintptr_t sys_read(_Context *c){
+void sys_read(_Context *c){
   c->GPRx = fs_read(c->GPR2, (void *)c->GPR3, c->GPR4);
   //printf("Successfully use sys_open!\n");
-  return 1;
+  //return 1;
 }
 
-static inline uintptr_t sys_lseek(_Context *c){
+void sys_lseek(_Context *c){
   c->GPRx = fs_lseek(c->GPR2, (off_t)c->GPR3, c->GPR4);
   //printf("Successfully use sys_open!\n");
-  return 1;
+  //return 1;
 }
 
 _Context* do_syscall(_Context *c) {
