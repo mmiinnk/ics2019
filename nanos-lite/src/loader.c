@@ -33,8 +33,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     p = &Phdr_Table[i];
     if (p->p_type == PT_LOAD){
       char buf[p->p_memsz];
-      printf("Buf Address = %p", buf);
-      printf("p->memsz = 0x%x", p->p_memsz);
+      printf("Buf Address = %p\n", buf);
+      printf("p->memsz = 0x%x\n", p->p_memsz);
 
       fs_lseek(fd, p->p_offset, SEEK_SET);
       fs_read(fd, buf, p->p_filesz);
