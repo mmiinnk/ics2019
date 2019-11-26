@@ -129,7 +129,7 @@ void* memcpy(void* out, const void* in, size_t n) {
   unsigned char *p1 = out;
   const unsigned char *p2 = in;
   for ( ;n > 0; n--){
-    assert((int)p1 != 0x1c03820);
+    assert((int)p1 != 0x1c04820);
     *p1 = *p2;
     p1++;
     p2++;
