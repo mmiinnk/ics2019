@@ -47,23 +47,18 @@ typedef struct {
       unsigned vacancy1:5;
       unsigned ZF:1;
       unsigned SF:1;
-      unsigned vacancy2:3;
+      unsigned vacancy2:1;
+      unsigned IF:1;
+      unsigned vacancy3:1;
       unsigned OF:1;
-      unsigned vacancy3:20;
+      unsigned vacancy4:20;
     };
     uint32_t eflags;
   };
 
-  union{
-    struct {
-      struct{
-        unsigned byte:8;
-      } bytes[4];
-    } sr[5];
-    struct
-    {
-      uint32_t CS, DS, ES, FS, GS;
-    };
+  struct
+  {
+    uint32_t CS, DS, ES, FS, GS;
   };
 
   struct{
