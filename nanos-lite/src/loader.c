@@ -38,6 +38,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         buf[p->p_filesz + j] = 0;
       }
       printf("p_memsz = 0x%x\n", p->p_memsz);
+      printf("p->vaddr = 0x%x", p->p_vaddr);
       memcpy((void *)p->p_vaddr, buf, p->p_memsz);
     }
   }
