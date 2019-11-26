@@ -128,7 +128,7 @@ make_EHelper(movzx) {
 }
 
 make_EHelper(movsb){
-  TODO();
+  //TODO();
   /*
   switch (id_dest->width){
     case 1: cpu.sr[2].bytes[cpu.edi] = cpu.sr[1].bytes[cpu.esi]; break;
