@@ -40,7 +40,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
       fs_lseek(fd, p->p_offset, SEEK_SET);
       fs_read(fd, buf, p->p_filesz);
-      printf("Successfully read the ith Phdr!\n");
+      printf("Successfully read the %dth Phdr!\n", i);
       //ramdisk_read(buf, disk_offset + p->p_offset, p->p_filesz);
       //printf("Success 2\n");
       for (int j = 0; j < (p->p_memsz - p->p_filesz); ++j){
