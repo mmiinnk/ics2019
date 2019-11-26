@@ -39,13 +39,7 @@ make_EHelper(mov_cr2r) {
 
 make_EHelper(int) {
   //TODO();
-  if (id_dest->val == 0x80){
-    s0 = cpu.pc;
-  }
-  else{
-    s0 = decinfo.seq_pc;
-  }
-  raise_intr(id_dest->val, s0);
+  raise_intr(id_dest->val, decinfo.seq_pc);
 
   print_asm("int %s", id_dest->str);
 
