@@ -36,6 +36,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       printf("Buf Address = %p\n", buf);
       printf("p->memsz = 0x%x\n", p->p_memsz);
       printf("last one in buf = %p\n", &buf[p->p_memsz - 1]);
+      printf("i = %d\n", i);
 
       fs_lseek(fd, p->p_offset, SEEK_SET);
       fs_read(fd, buf, p->p_filesz);
