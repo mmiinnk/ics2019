@@ -16,12 +16,15 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   int fd = fs_open(filename, 0, 0);
 
   Elf_Ehdr ELFHeader;
-  printf("ELFHeader = 0x%x\n", &ELFHeader);
+  //printf("ELFHeader = 0x%x\n", &ELFHeader);
   fs_read(fd, &ELFHeader, sizeof(ELFHeader));
+  printf("Successfully read ELFHeader!\n");
+  
   Elf_Phdr Phdr_Table[ELFHeader.e_phnum];
 
   fs_lseek(fd, ELFHeader.e_phoff, SEEK_SET);
   fs_read(fd, Phdr_Table, ELFHeader.e_phnum * ELFHeader.e_phentsize);
+  printf("Successfully read Phdr_Table!\n");
   //ramdisk_read(Phdr_Table, disk_offset + ELFHeader.e_phoff, ELFHeader.e_phnum * ELFHeader.e_phentsize);
   //printf("Success 1\n");
   
