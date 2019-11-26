@@ -8,6 +8,9 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
   rtl_push(&cpu.eflags);
   rtl_push(&cpu.CS);
   rtl_push(&ret_addr);
+  if (NO > cpu.idtr.length){
+    assert(0);
+  }
   uint32_t p = cpu.idtr.baseAddress + NO*8;
   //uint32_t gatedesc_lo = vaddr_read(p, 4);
   //uint32_t gatedesc_hi = vaddr_read(p + 4, 4);
