@@ -42,7 +42,7 @@ make_EHelper(mov_cr2r) {
 
 make_EHelper(int) {
   //TODO();
-  if (id_dest->val == 0x80){
+  if (id_dest->val == 0x81){
     s0 = cpu.pc;
   }
   else{
