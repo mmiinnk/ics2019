@@ -11,7 +11,8 @@ make_EHelper(lidt) {
     rtl_andi(&s0, &s0, 0xffffff);
   }
   cpu.idtr.baseAddress = s0;
-
+  print_asm_template1(lidt);
+}
 /*
   cpu.idtr.length = vaddr_read(id_dest->addr, 2);
   cpu.idtr.baseAddress = vaddr_read(id_dest->addr + 2, 2);
@@ -23,8 +24,7 @@ make_EHelper(lidt) {
   }
 */
 
-  print_asm_template1(lidt);
-}
+
 
 make_EHelper(mov_r2cr) {
   TODO();
@@ -42,12 +42,7 @@ make_EHelper(mov_cr2r) {
 
 make_EHelper(int) {
   //TODO();
-  if (id_dest->val == 0x81){
-    s0 = cpu.pc;
-  }
-  else{
-    s0 = decinfo.seq_pc;
-  }
+ 
   raise_intr(id_dest->val, decinfo.seq_pc);
 
   print_asm("int %s", id_dest->str);
