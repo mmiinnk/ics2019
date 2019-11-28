@@ -129,7 +129,7 @@ make_EHelper(movzx) {
 
 make_EHelper(movsb){
   //TODO();
-  assert(0);
+  //assert(0);
 
   //if (decinfo.isa.is_operand_size_16){
   //  rtl_lm(&s0, &cpu.gpr[6]._16, 1);
