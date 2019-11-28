@@ -263,6 +263,7 @@ fread (void *__restrict  buf,
        size_t count,
        FILE *__restrict fp)
 {
+  printf("Successfully go into fread!\n");
    return _fread_r (_REENT, buf, size, count, fp);
 }
 #endif
