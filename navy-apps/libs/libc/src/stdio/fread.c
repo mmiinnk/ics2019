@@ -253,7 +253,6 @@ _fread_r (struct _reent * ptr,
     }
 #endif
   _newlib_flockfile_end (fp);
-  printf("Count = %d\n", count);
   return count;
 }
 
@@ -264,7 +263,7 @@ fread (void *__restrict  buf,
        size_t count,
        FILE *__restrict fp)
 {
-  printf("Successfully go into fread!\n");
+  //printf("Successfully go into fread!\n");
    return _fread_r (_REENT, buf, size, count, fp);
 }
 #endif
