@@ -139,6 +139,7 @@ make_EHelper(movsb){
     rtl_lm(&s0, &cpu.esi, 1);
     rtl_sm(&cpu.edi, &s0, 1);
     rtl_addi(&cpu.esi, &cpu.esi, 1);
+    rtl_addi(&cpu.edi, &cpu.edi, 1);
   //}
 }
 
