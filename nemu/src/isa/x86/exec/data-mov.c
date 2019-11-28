@@ -128,22 +128,17 @@ make_EHelper(movzx) {
 }
 
 make_EHelper(movsb){
+  //TODO();
+  assert(0);
 
-  TODO();
-  /*
-  switch (id_dest->width){
-    case 1: cpu.sr[2].bytes[cpu.edi] = cpu.sr[1].bytes[cpu.esi]; break;
-    case 2: cpu.sr[2].bytes[cpu.edi] = cpu.sr[1].bytes[cpu.esi];
-            cpu.sr[2].bytes[cpu.edi + 1] = cpu.sr[1].bytes[cpu.esi + 1];
-            break;
-    case 4: cpu.sr[2].bytes[cpu.edi] = cpu.sr[1].bytes[cpu.esi];
-            cpu.sr[2].bytes[cpu.edi + 1] = cpu.sr[1].bytes[cpu.esi + 1];
-            cpu.sr[2].bytes[cpu.edi + 2] = cpu.sr[1].bytes[cpu.esi + 2];
-            cpu.sr[2].bytes[cpu.edi + 3] = cpu.sr[1].bytes[cpu.esi + 3];
-            break;
-
-  }
-*/
+  //if (decinfo.isa.is_operand_size_16){
+  //  rtl_lm(&s0, &cpu.gpr[6]._16, 1);
+  //  rtl_sm(&cpu.gpr[7]._16, &s0, 1);
+  //}
+  //else{
+    rtl_lm(&s0, &cpu.esi, 1);
+    rtl_sm(&cpu.edi, &s0, 1);
+  //}
 }
 
 make_EHelper(lea) {
