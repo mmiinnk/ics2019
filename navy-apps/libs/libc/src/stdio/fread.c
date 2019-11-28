@@ -253,6 +253,7 @@ _fread_r (struct _reent * ptr,
     }
 #endif
   _newlib_flockfile_end (fp);
+  printf("Count = %d\n", count);
   return count;
 }
 
