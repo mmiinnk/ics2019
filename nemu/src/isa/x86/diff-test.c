@@ -37,7 +37,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   }
     
   if (cpu.esi != ref_r->esi){
-    printf("Esi was Wrong!\n");
+    printf("Esi was Wrong! And it should be 0x%x.\n", ref_r->esi);
     return false;
   }
     
