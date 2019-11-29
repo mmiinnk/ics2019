@@ -32,3 +32,26 @@ make_EHelper(nemu_trap) {
   print_asm("nemu trap");
   return;
 }
+
+make_EHelper(rol) {
+  // rotate left
+  // $cl: src
+  s0 = id_src->val;
+  for (; s0 != 0; s0--)
+  {
+    s1 = (id_dest->val >> (id_dest->width * 8 - 1)) & 0x1;
+    id_dest->val *= 2;
+    id_dest->val += s1;
+  }
+  operand_write(id_dest, &id_dest->val);
+  if (id_src->val == 1)
+  {
+    s1 = (id_dest->val >> (id_dest->width * 8 - 1)) & 0x1;
+    if (s1 != cpu.CF) cpu.OF = 1;
+    else cpu.OF = 0;
+  }
+
+  print_asm("rol");
+  return;
+  
+}
