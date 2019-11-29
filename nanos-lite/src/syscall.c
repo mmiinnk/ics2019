@@ -4,7 +4,7 @@
 int fs_open(const char *pathname, int flags, int mode);
 ssize_t fs_read(int fd, void *buf, size_t len);
 ssize_t fs_write(int fd, const void *buf, size_t len);
-off_t fs_lseek(int fd, off_t offset, int whence);
+size_t fs_lseek(int fd, size_t offset, int whence);
 int fs_close(int fd);
 
 void sys_yield(_Context *c){
@@ -61,7 +61,7 @@ void sys_read(_Context *c){
 }
 
 void sys_lseek(_Context *c){
-  c->GPRx = fs_lseek(c->GPR2, (off_t)c->GPR3, c->GPR4);
+  c->GPRx = fs_lseek(c->GPR2, (size_t)c->GPR3, c->GPR4);
   //printf("Successfully use sys_open!\n");
   //return 1;
 }

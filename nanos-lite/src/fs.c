@@ -1,9 +1,5 @@
 #include "fs.h"
 
-//typedef uint32_t off_t;
-//typedef uint32_t ssize_t;
-//typedef unsigned int size_t;
-
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
 
@@ -13,8 +9,8 @@ size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 typedef struct {
   char *name;         //文件名
   size_t size;        //文件大小
-  off_t disk_offset;  //文件在ramdisk中的偏移
-  off_t open_offset;  //文件被打开之后的读写指针
+  size_t disk_offset;  //文件在ramdisk中的偏移
+  size_t open_offset;  //文件被打开之后的读写指针
   ReadFn read;
   WriteFn write;
 } Finfo;
@@ -107,7 +103,7 @@ ssize_t fs_write(int fd, const void *buf, size_t len){
   return len;
 }
 
-off_t fs_lseek(int fd, off_t offset, int whence){
+size_t fs_lseek(int fd, size_t offset, int whence){
   //Log("Reach fs_lseek!");
   switch (whence){
     case SEEK_SET: file_table[fd].open_offset = offset; return file_table[fd].open_offset;

@@ -27,7 +27,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   }
     
   if (cpu.esp != ref_r->esp){
-    printf("Esp was Wrong!\n");
+    printf("Esp was Wrong!\n And it should be 0x%x.\n", ref_r->esp);
     return false;
   }
     
