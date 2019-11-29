@@ -127,20 +127,19 @@ make_EHelper(movzx) {
   print_asm_template2(movzx);
 }
 
-make_EHelper(movsb){
+make_EHelper(movs){
   //TODO();
   //assert(0);
 
-  //if (decinfo.isa.is_operand_size_16){
-  //  rtl_lm(&s0, &cpu.gpr[6]._16, 1);
-  //  rtl_sm(&cpu.gpr[7]._16, &s0, 1);
-  //}
-  //else{
-    rtl_lm(&s0, &cpu.esi, 1);
-    rtl_sm(&cpu.edi, &s0, 1);
-    rtl_addi(&cpu.esi, &cpu.esi, 1);
-    rtl_addi(&cpu.edi, &cpu.edi, 1);
-  //}
+  if (id_dest->width != 1){
+    id_dest->width = decinfo.isa.is_operand_size_16 ? 2 : 4;
+  }
+
+  rtl_lm(&s0, &cpu.esi, id_dest->width);
+  rtl_sm(&cpu.edi, &s0, id_dest->width);
+  rtl_addi(&cpu.esi, &cpu.esi, id_dest->width);
+  rtl_addi(&cpu.edi, &cpu.edi, id_dest->width);
+  print_asm_template2(movs);
 }
 
 make_EHelper(lea) {

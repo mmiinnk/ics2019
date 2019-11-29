@@ -13,7 +13,7 @@ make_EHelper(leave);
 make_EHelper(cltd);
 make_EHelper(cwtl);
 make_EHelper(xchg);
-make_EHelper(movsb);
+make_EHelper(movs);
 
 make_EHelper(operand_size);
 
