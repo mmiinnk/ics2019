@@ -1,18 +1,30 @@
 #include "cpu/exec.h"
-
-void raise_intr(uint32_t NO, vaddr_t ret_addr);
+void raise_intr(uint32_t, vaddr_t);
 
 make_EHelper(lidt) {
-  rtl_lm(&s0, &id_dest->addr, 2);
+  //TODO();
+  rtl_lm(&s0, &id_dest->addr,2);
   cpu.idtr.length = s0;
-  s1 = id_dest->addr + 2;
-  rtl_lm(&s0, &s1, 4);
+  rtl_addi(&s1, &id_dest->addr, 2);
+  rtl_lm(&s0, &s1 ,4);
+  if (id_dest->width == 2){
+    rtl_andi(&s0, &s0, 0xffffff);
+  }
   cpu.idtr.baseAddress = s0;
-  if (id_dest->width == 2)
-    cpu.idtr.baseAddress = s0 & 0xffffff;
-
   print_asm_template1(lidt);
 }
+/*
+  cpu.idtr.length = vaddr_read(id_dest->addr, 2);
+  cpu.idtr.baseAddress = vaddr_read(id_dest->addr + 2, 2);
+  if (id_dest->width == 2){
+    cpu.idtr.baseAddress += (vaddr_read(id_dest->addr + 4, 1) << 16);
+  }
+  else{
+    cpu.idtr.baseAddress += (vaddr_read(id_dest->addr + 4, 2) << 16);
+  }
+*/
+
+
 
 make_EHelper(mov_r2cr) {
   TODO();
@@ -29,6 +41,8 @@ make_EHelper(mov_cr2r) {
 }
 
 make_EHelper(int) {
+  //TODO();
+ 
   raise_intr(id_dest->val, decinfo.seq_pc);
 
   print_asm("int %s", id_dest->str);
@@ -37,11 +51,19 @@ make_EHelper(int) {
 }
 
 make_EHelper(iret) {
-  rtl_pop(&s0);
+  //TODO();
+  /*
+  rtl_pop(&decinfo.jmp_pc);
   rtl_pop(&cpu.CS);
   rtl_pop(&cpu.eflags);
-  rtl_j(s0);
+  rtl_j(decinfo.jmp_pc);
+  */
 
+  rtl_pop(&s0);
+	rtl_pop(&cpu.CS);
+	rtl_pop(&cpu.eflags);
+	rtl_j(s0);
+  
   print_asm("iret");
 }
 
@@ -53,37 +75,37 @@ void pio_write_w(ioaddr_t, uint32_t);
 void pio_write_b(ioaddr_t, uint32_t);
 
 make_EHelper(in) {
-  switch (id_dest->width)
-  {
-  case 4: id_dest->val = pio_read_l(id_src->val); break;
-  case 2: id_dest->val = pio_read_w(id_src->val); break;
-  case 1: id_dest->val = pio_read_b(id_src->val); break;
-  default:
-    assert(0);
+  switch (id_dest->width){
+    case 1:{
+      rtl_li(&s1, pio_read_b(id_src->val));
+      break;
+    }
+      
+    case 2:{
+      rtl_li(&s1, pio_read_w(id_src->val));
+      break;
+    }
+    case 4:{
+      rtl_li(&s1, pio_read_l(id_src->val));
+      break;
+    default: 
+      assert(0);
+    }
   }
-  operand_write(id_dest, &id_dest->val);
-
+  operand_write(id_dest, &s1);
   print_asm_template2(in);
-
-  //#if defined (DIFF_TEST)
-    //difftest_skip_ref();
-  //#endif
 }
 
 make_EHelper(out) {
-  switch (id_src->width)
-  {
-  case 4: pio_write_l(id_dest->val, id_src->val); break;
-  case 2: pio_write_w(id_dest->val, id_src->val); break;
-  case 1: pio_write_b(id_dest->val, id_src->val); break;
-  
-  default:
-    assert(0);
-  }
-
+  switch (id_src->width){
+    case 1:
+      pio_write_b(id_dest->val, id_src->val); break;
+    case 2:
+      pio_write_w(id_dest->val, id_src->val); break;
+    case 4:
+      pio_write_l(id_dest->val, id_src->val); break;
+    default:
+      assert(0);
+    }
   print_asm_template2(out);
-
-  //#if defined (DIFF_TEST)
-    //difftest_skip_ref();
-  //#endif
 }
