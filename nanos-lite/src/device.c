@@ -55,6 +55,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   int x = (offset / 4) % width;
   for (int i = 0; i < (len / 4); i++)
   {
+    printf("pixels = %d\n", ((uint32_t *)buf)[i]);
     draw_rect(&((uint32_t *)buf)[i], x, y, 1, 1);
     if (x == width)
     {
