@@ -48,14 +48,13 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  Log("Reach fb_write");
-  printf("Offset = %d\n", offset);
+  //Log("Reach fb_write");
+  //printf("Offset = %d\n", offset);
   int width = screen_width();
   int y = (offset / 4) / width;
   int x = (offset / 4) % width;
   for (int i = 0; i < (len / 4); i++)
   {
-    printf("pixels = %d\n", ((uint32_t *)buf)[i]);
     draw_rect(&((uint32_t *)buf)[i], x, y, 1, 1);
     if (x == width)
     {
