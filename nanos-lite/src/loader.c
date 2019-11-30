@@ -43,7 +43,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       //printf("Successfully read the %dth Phdr!\n", i);
       //ramdisk_read(buf, disk_offset + p->p_offset, p->p_filesz);
       //printf("Success 2\n");
-      memset((void *)(p->p_vaddr + p->p_filesz), 0, (p->p_memsz - p->p_filesz));
+      if (p->p_memsz - p->p_filesz > 0){
+        memset((void *)(p->p_vaddr + p->p_filesz), 0, (p->p_memsz - p->p_filesz));
+      }
     }
   }
   if (fs_close(fd) != 0){
