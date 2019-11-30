@@ -14,6 +14,7 @@ int main() {
   NDL_OpenDisplay(bmp->w, bmp->h);
   printf("opendisplay successfully!\n");
   NDL_DrawRect(bmp->pixels, 0, 0, bmp->w, bmp->h);
+  printf("NDL_DramRect successfully!\n");
   NDL_Render();
   NDL_CloseDisplay();
   while (1);
