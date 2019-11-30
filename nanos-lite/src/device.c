@@ -1,7 +1,7 @@
 #include "common.h"
 #include <amdev.h>
 
-ssize_t fs_read(int fd, void *buf, size_t len);
+size_t fs_read(int fd, void *buf, size_t len);
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
   //printf("haha\n");
@@ -48,7 +48,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  Log("Reach fb_write");
+  //Log("Reach fb_write");
   offset /= 4;
   for (int i = 0; i < len/4; i++){
     int x = (offset + i) % screen_width();
