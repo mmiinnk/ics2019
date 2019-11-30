@@ -32,31 +32,25 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   for (int i = 0; i < ELFHeader.e_phnum; ++i){
     p = &Phdr_Table[i];
     if (p->p_type == PT_LOAD){
-      char buf[p->p_memsz];
-      printf("Buf Address = %p\n", buf);
-      printf("p->memsz = 0x%x\n", p->p_memsz);
-      printf("last one in buf = %p\n", &buf[p->p_memsz - 1]);
-      printf("i = %d\n", i);
+      //char buf[p->p_memsz];
+      //printf("Buf Address = %p\n", buf);
+      //printf("p->memsz = 0x%x\n", p->p_memsz);
+      //printf("last one in buf = %p\n", &buf[p->p_memsz - 1]);
+      //printf("i = %d\n", i);
 
       fs_lseek(fd, p->p_offset, SEEK_SET);
-      fs_read(fd, buf, p->p_filesz);
-      printf("Successfully read the %dth Phdr!\n", i);
+      fs_read(fd, (void *)p->p_vaddr, p->p_filesz);
+      //printf("Successfully read the %dth Phdr!\n", i);
       //ramdisk_read(buf, disk_offset + p->p_offset, p->p_filesz);
       //printf("Success 2\n");
-      for (int j = 0; j < (p->p_memsz - p->p_filesz); ++j){
-        buf[p->p_filesz + j] = 0;
-      }
-      //printf("p_memsz = 0x%x\n", p->p_memsz);
-      printf("p->vaddr = 0x%x\n", p->p_vaddr);
-      printf("size of buf = 0x%x\n\n", sizeof(buf));
-      memcpy((void *)p->p_vaddr, buf, p->p_memsz);
+      memset((void *)(p->p_vaddr + p->p_filesz), 0, (p->p_memsz - p->p_filesz));
     }
   }
   if (fs_close(fd) != 0){
     printf("Fail to close the File!\n");
     assert(0);
   }
-  printf("Successfully Loaded!\n");
+  //printf("Successfully Loaded!\n");
   //printf("Entry = 0x%x\n", ELFHeader.e_entry);
   return ELFHeader.e_entry;
 }
