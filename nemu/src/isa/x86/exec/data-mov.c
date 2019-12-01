@@ -19,6 +19,17 @@ make_EHelper(pop) {
 }
 
 make_EHelper(pusha) {
+  rtl_mv(&s0, &cpu.esp);
+  rtl_push(&cpu.eax);
+	rtl_push(&cpu.ecx);
+  rtl_push(&cpu.edx);
+  rtl_push(&cpu.ebx);
+	rtl_push(&s0);
+	rtl_push(&cpu.ebp);
+	rtl_push(&cpu.esi);
+  rtl_push(&cpu.edi);
+
+/*
   id_dest->width = 4;
   //if (decinfo.isa.is_operand_size_16){
   //  id_dest->width = 2;
@@ -34,12 +45,23 @@ make_EHelper(pusha) {
     }
     rtl_lr(&s1, i, id_dest->width);
     rtl_push(&s1);
-  }
+  }*/
 
   print_asm("pusha");
 }
 
 make_EHelper(popa) {
+  rtl_pop(&cpu.edi);
+	rtl_pop(&cpu.esi);
+	rtl_pop(&cpu.ebp);
+	rtl_pop(&s0);
+	rtl_pop(&cpu.ebx);
+	rtl_pop(&cpu.edx);
+	rtl_pop(&cpu.ecx);
+  rtl_pop(&cpu.eax);
+
+
+/*
   id_dest->width = 4;
   //if (decinfo.isa.is_operand_size_16){
   //  id_dest->width = 2;
@@ -55,7 +77,7 @@ make_EHelper(popa) {
 
     // else cpu.gpr[i] = s0
     rtl_sr(i, &s0, id_dest->width);
-  }
+  }*/
   print_asm("popa");
 }
 
