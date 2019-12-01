@@ -222,6 +222,16 @@ static int cmd_delete(char *args){
 	return 0;
 }
 
+bool is_detach = false;
+static int cmd_detach(char *args){
+	is_detach = true;
+	return 0;
+}
+
+static int cmd_attach(char *args){
+	return 0;
+}
+
 
 static struct {
   char *name;
@@ -236,7 +246,9 @@ static struct {
   { "x", "Scan the memory", cmd_scan_mem},
   { "p", "Evaluate the value", cmd_evaluate},
   { "w", "Creat a watchpoint", cmd_watchpoint},
-  { "d", "Delete watchpoint", cmd_delete}
+  { "d", "Delete watchpoint", cmd_delete},
+  { "detach", "Detach Diff-test", cmd_detach},
+  { "attach", "Attach Diff-test", cmd_attach}
 
   /* TODO: Add more commands */
 
