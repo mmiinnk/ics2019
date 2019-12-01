@@ -53,29 +53,15 @@ char* strcat(char* dst, const char* src) {
 }
 
 int strcmp(const char* s1, const char* s2) {
-  //assert(s1);
-  //assert(s2);
-  //if (s1 == NULL || s2 == NULL){
-  //  return 0;
-  //}
-  //size_t i;
-  //size_t len1 = strlen(s1);
-  //size_t len2 = strlen(s2);
-
-  //for (i = 0; i <= len1 && i <= len2; i++){
-  //  int ret = (unsigned)s1[i] - (unsigned)s2[i];
-  //  if (ret != 0)
-  //    return ret;
-  //}
-
-  while (*s1++ == *s2++){
-    if (*s1 == '\0') return 0;
-  }
-  if (*s1 > *s2) return 1;
-  else
-  {
-    return -1;
-  }
+    int ret = 0;
+    while( !(ret = *(unsigned char*)s1 - *(unsigned char*)s2) && *s2)
+    {
+        s1 ++;
+        s2 ++;
+    }
+    if( ret < 0) ret = -1;
+    else if(ret > 0) ret = 1;
+    return ret;
 }
 
 int strncmp(const char* s1, const char* s2, size_t n) {
