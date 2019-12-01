@@ -51,7 +51,7 @@ typedef struct {
       unsigned IF:1;
       unsigned vacancy3:1;
       unsigned OF:1;
-      unsigned vacancy4:20;
+      unsigned vacancy4:4;
     };
     uint32_t eflags;
   };
