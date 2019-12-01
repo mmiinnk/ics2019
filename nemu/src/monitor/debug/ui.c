@@ -14,6 +14,8 @@ void isa_reg_display(void);
 WP* new_wp();
 void watchpoint_display(void);
 void delete_watchpoint(int);
+void difftest_detach();
+void difftest_attach();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -222,13 +224,13 @@ static int cmd_delete(char *args){
 	return 0;
 }
 
-bool is_detach = false;
 static int cmd_detach(char *args){
-	is_detach = true;
+	difftest_detach();
 	return 0;
 }
 
 static int cmd_attach(char *args){
+	difftest_attach();
 	return 0;
 }
 
