@@ -19,9 +19,9 @@ void sys_exit(_Context *c){
 }
 
 void sys_write(_Context *c){
-  int fd = c->GPR2;
+  //int fd = c->GPR2;
   //char *buf = (char *)c->GPR3;
-  size_t len = c->GPR4;
+  //size_t len = c->GPR4;
   //printf("len = %d\n", len);
   
   //Log("%s\n", buf[0]);
@@ -33,7 +33,7 @@ void sys_write(_Context *c){
   //  c->GPRx = count;
   //}
   //else{
-  c->GPRx = fs_write(fd, (void *)c->GPR3, len);
+  c->GPRx = fs_write(c->GPR2, (void *)c->GPR3, c->GPR4);
   //}
   //return 1;
 }
