@@ -94,8 +94,8 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
 
 void isa_difftest_attach(void) {
   difftest_init();
-  difftest_memcpy_from_dut(0, (void *)0, 0x7c00);
-  difftest_memcpy_from_dut(0x100000, (void *)0x100000, PMEM_SIZE - 0x100000);
+  difftest_memcpy_from_dut(0, guest_to_host(0), 0x7c00);
+  difftest_memcpy_from_dut(0x100000, guest_to_host(0x100000), PMEM_SIZE - 0x100000);
   difftest_memcpy_from_dut(0x7e00, &cpu.idtr, 6);
   uint8_t instruction[] = {0x0f, 0x01, 0x1D, 0x00, 0x7e, 0x00, 0x00};
   difftest_memcpy_from_dut(0x7e40, instruction, sizeof(instruction));
