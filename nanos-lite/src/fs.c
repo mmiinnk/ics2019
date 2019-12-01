@@ -48,7 +48,7 @@ void init_fs() {
 
 int fs_open(const char *pathname, int flags, int mode){
   //int fd = -1;
-  //printf("%s\n", pathname);
+  printf("%s\n", pathname);
   //printf("NR_FILES = %d\n", NR_FILES);
   for (int i = 0; i < NR_FILES; i++){
     //printf("i = %d\n", i);
