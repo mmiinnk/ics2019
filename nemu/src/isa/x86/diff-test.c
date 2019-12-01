@@ -93,6 +93,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
 }
 
 void isa_difftest_attach(void) {
+  difftest_init();
   difftest_memcpy_from_dut(0, (void *)0, 0x7c00);
   difftest_memcpy_from_dut(0x100000, (void *)0x100000, PMEM_SIZE - 0x100000);
   difftest_memcpy_from_dut(0x7e00, &cpu.idtr, 6);
