@@ -90,7 +90,7 @@ void init_device() {
 
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
-  sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d\0", screen_width(), screen_height());
+  sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d", screen_width(), screen_height());
   Log("Successfully write dispinfo!");
   //printf("%s\n", dispinfo);
   //Log("VGA WIDTH:%d HEIGHT:%d", screen_width(), screen_height());
