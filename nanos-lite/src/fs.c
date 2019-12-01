@@ -35,6 +35,7 @@ static Finfo file_table[] __attribute__((used)) = {
   {"/dev/fb", 0, 0, 0, invalid_read, fb_write},
   {"/proc/dispinfo", 0, 0, 0, dispinfo_read, invalid_write},
   {"/dev/events", 0, 0, 0, events_read, invalid_write},
+  //{"/dev/fbsync", 0, 0, 0, invalid_read, fbsync_write},
 #include "files.h"
 };
 
@@ -54,10 +55,11 @@ int fs_open(const char *pathname, int flags, int mode){
     //if (i == 44){
     //  printf("%s\n", file_table[i].name);
     //}
-    //printf("%s\n", file_table[i].name);
+    printf("%s\n", file_table[i].name);
     //printf("%s\n", pathname);
     if (strcmp(file_table[i].name, pathname) == 0){
       file_table[i].open_offset = 0;
+      printf("Found!\n\n");
       return i;
     }
   }
