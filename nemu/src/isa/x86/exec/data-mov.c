@@ -130,6 +130,7 @@ make_EHelper(movzx) {
 make_EHelper(movs){
   //TODO();
   //assert(0);
+  /*
 
   if (id_dest->width != 1){
     id_dest->width = decinfo.isa.is_operand_size_16 ? 2 : 4;
@@ -139,6 +140,15 @@ make_EHelper(movs){
   rtl_sm(&cpu.edi, &s0, id_dest->width);
   rtl_addi(&cpu.esi, &cpu.esi, id_dest->width);
   rtl_addi(&cpu.edi, &cpu.edi, id_dest->width);
+  */
+   if (id_dest->width != 1)
+    id_dest->width = decinfo.isa.is_operand_size_16 ? 2 : 4;
+  s0 = cpu.esi;
+  rtl_lm(&s1, &s0, id_dest->width);
+  s0 = cpu.edi;
+  rtl_sm(&s0, &s1, id_dest->width);
+  cpu.esi += id_dest->width;
+  cpu.edi += id_dest->width;
   print_asm_template2(movs);
 }
 
