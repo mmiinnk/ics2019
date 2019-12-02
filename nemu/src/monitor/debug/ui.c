@@ -234,6 +234,36 @@ static int cmd_attach(char *args){
 	return 0;
 }
 
+static int cmd_save(char *args){
+	char *path = strtok(NULL, " ");
+	if (path == NULL){
+		printf("Please give the path!\n");
+		return 0;
+	}
+	FILE *fp = fopen(path, "w");
+	assert(fp);
+	fwrite(&cpu, 1, sizeof(cpu), fp);
+	fwrite(pmem, 1, PMEM_SIZE, fp);
+	fclose(fp);
+	printf("Successfully save the Status!\n");
+	return 0;
+}
+
+static int cmd_load(char *args){
+	char *path = strtok(NULL, " ");
+	if (path == NULL){
+		printf("Please give the path!\n");
+		return 0;
+	}
+	FILE *fp = fopen(path, "w");
+	assert(fp);
+	fread(&cpu, 1, sizeof(cpu), fp);
+	fread(pmem, 1, PMEM_SIZE, fp);
+	fclose(fp);
+	printf("Successfully load the Status!\n");
+	return 0;
+}
+
 
 static struct {
   char *name;
@@ -250,7 +280,9 @@ static struct {
   { "w", "Creat a watchpoint", cmd_watchpoint},
   { "d", "Delete watchpoint", cmd_delete},
   { "detach", "Detach Diff-test", cmd_detach},
-  { "attach", "Attach Diff-test", cmd_attach}
+  { "attach", "Attach Diff-test", cmd_attach},
+  { "save", "Save the Status", cmd_save},
+  { "load", "Load the Status", cmd_load}
 
   /* TODO: Add more commands */
 
