@@ -255,7 +255,7 @@ static int cmd_load(char *args){
 		printf("Please give the path!\n");
 		return 0;
 	}
-	FILE *fp = fopen(path, "w");
+	FILE *fp = fopen(path, "r");
 	assert(fp);
 	fread(&cpu, 1, sizeof(cpu), fp);
 	fread(pmem, 1, PMEM_SIZE, fp);
