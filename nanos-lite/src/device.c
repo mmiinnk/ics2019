@@ -86,7 +86,7 @@ size_t fbsync_write(const void *buf, size_t offset, size_t len) {
 }
 
 void init_device() {
-  //Log("Initializing devices...");
+  Log("Initializing devices...");
   _ioe_init();
 
   // TODO: print the string to array `dispinfo` with the format
