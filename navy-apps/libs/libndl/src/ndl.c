@@ -50,6 +50,7 @@ int NDL_CloseDisplay() {
 }
 
 int NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+  printf("has_nwm = %d\n", has_nwm);
   if (has_nwm) {
     for (int i = 0; i < h; i ++) {
       printf("\033[X%d;%d", x, y + i);
