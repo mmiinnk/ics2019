@@ -67,7 +67,7 @@ _Context *_kcontext(_Area stack, void (*entry)(void *), void *arg) {
   //printf("newC->eip = %p\n", newC->eip);
   newC->cs = 8;
   //newC->eflags = 0x2;
-  *((uintptr_t *)stack.start) = (uintptr_t)newC;
+  //*((uintptr_t *)stack.start) = (uintptr_t)newC;
   return newC;;
 }
 
