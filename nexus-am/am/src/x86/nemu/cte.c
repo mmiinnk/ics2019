@@ -30,6 +30,8 @@ _Context* __am_irq_handle(_Context *c) {
       next = c;
     }
   }
+  printf("next = %p\n", next);
+  printf("c = %p\n", c);
 
   return next;
 }
