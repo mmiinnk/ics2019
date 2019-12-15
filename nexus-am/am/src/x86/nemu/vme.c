@@ -84,8 +84,9 @@ int _map(_AddressSpace *as, void *va, void *pa, int prot) {
 }
 
 _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, void *args) {
-  _Context* newC = (_Context*)(ustack.end - 12) - 1;
-  newC->eip = (uintptr_t)entry;
-  newC->cs = 8;
-  return newC;;
+  ustack.end -= 16;
+  _Context* c= (_Context*)(ustack.end) - 1;
+  c->eip = (uintptr_t)entry;
+  c->cs = 8;
+  return c;;
 }

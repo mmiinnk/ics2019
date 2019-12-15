@@ -59,16 +59,10 @@ int _cte_init(_Context*(*handler)(_Event, _Context*)) {
 }
 
 _Context *_kcontext(_Area stack, void (*entry)(void *), void *arg) {
-  _Context* newC = (_Context*)stack.end - 1;
-  // printf("newC = %p\n", newC);
-  // printf("stack.end = %p\n", stack.end);
-  newC->eip = (uintptr_t)entry;
-  //printf("entry = %p\n", entry);
-  //printf("newC->eip = %p\n", newC->eip);
-  newC->cs = 8;
-  //newC->eflags = 0x2;
-  //*((uintptr_t *)stack.start) = (uintptr_t)newC;
-  return newC;;
+  _Context* c = (_Context*)stack.end - 1;
+  c->eip = (uintptr_t)entry;
+  c->cs = 8;
+  return c;;
 }
 
 void _yield() {
