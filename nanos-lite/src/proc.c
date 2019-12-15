@@ -4,6 +4,7 @@
 
 void naive_uload(PCB *pcb, const char *filename);
 void context_kload(PCB *pcb, void *entry);
+void context_uload(PCB *pcb, const char *filename);
 
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
@@ -27,10 +28,17 @@ void init_proc() {
 
   switch_boot_pcb();
 
-  // Log("Initializing processes...");
+  Log("Initializing processes...");
 
   // // load program here
   // naive_uload(NULL, "/bin/init");
+
+
+  // init_proc()
+  context_uload(&pcb[1], "/bin/init");
+
+  // schedule()
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 }
 
 _Context* schedule(_Context *prev) {
