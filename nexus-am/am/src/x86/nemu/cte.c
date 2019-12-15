@@ -60,7 +60,7 @@ _Context *_kcontext(_Area stack, void (*entry)(void *), void *arg) {
   _Context* newC = (_Context*)stack.end - 1;
   newC->eip = (uintptr_t)entry;
   newC->cs = 8;
-  newC->eflags = 0x2;
+  //newC->eflags = 0x2;
   return newC;;
 }
 
