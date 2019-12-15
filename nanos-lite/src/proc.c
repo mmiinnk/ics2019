@@ -28,12 +28,13 @@ void init_proc() {
 
   // init_proc()
   context_kload(&pcb[0], (void *)hello_fun);
+  switch_boot_pcb();
+
   context_uload(&pcb[1], "/bin/init");
-  
   // schedule()
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   
-  switch_boot_pcb();
+  
 
   // load program here
   // naive_uload(NULL, "/bin/init");
