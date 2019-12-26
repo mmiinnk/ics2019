@@ -8,16 +8,16 @@ paddr_t page_translate(vaddr_t vaddr){
 
 
 uint32_t isa_vaddr_read(vaddr_t addr, int len) {
-  // if ((addr&0xfff) + len > 0xfff + 1){
-  //   printf("Data cross the page boundary\n");
-  //   /*special case, handle later*/
-  //   assert(0);
-  // }
-  // else
-  // {
-  //   paddr_t paddr = page_translate(addr);
-  //   return paddr_read(paddr, len);
-  // }
+  if ((addr&0xfff) + len > 0xfff + 1){
+    printf("Data cross the page boundary\n");
+    /*special case, handle later*/
+    assert(0);
+  }
+  else
+  {
+    paddr_t paddr = page_translate(addr);
+    return paddr_read(paddr, len);
+  }
   
   return paddr_read(addr, len);
 }
