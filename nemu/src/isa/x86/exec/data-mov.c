@@ -184,3 +184,19 @@ make_EHelper(xchg){
   operand_write(id_dest, &id_src->val);
   operand_write(id_src, &s0);
 }
+
+make_EHelper(mov_r2CR){
+  switch(id_dest->reg){
+    case 0: rtl_lr(&cpu.CR0, id_src->reg, 4); break;
+    case 3: rtl_lr(&cpu.CR3, id_src->reg, 4); break;
+    default: panic("Unkonwn Control Register!\n");
+  }
+}
+
+make_EHelper(mov_CR2r){
+  switch(id_src->reg){
+    case 0: rtl_sr(id_dest->reg, &cpu.CR0, 4); break;
+    case 3: rtl_sr(id_dest->reg, &cpu.CR3, 4); break;
+    default: panic("Unkonwn Control Register!\n");
+  }
+}

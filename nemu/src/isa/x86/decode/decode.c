@@ -323,6 +323,15 @@ make_DHelper(out_a2dx) {
   print_Dop(id_dest->str, OP_STR_SIZE, "(%%dx)");
 }
 
+// Special for CRs
+make_DHelper(mov_r2CR){
+  decode_op_rm(pc, id_src, true, id_dest, false);
+}
+
+make_DHelper(mov_CR2r){
+  decode_op_rm(pc, id_dest, false, id_src, true);
+}
+
 void operand_write(Operand *op, rtlreg_t* src) {
   if (op->type == OP_TYPE_REG) { rtl_sr(op->reg, src, op->width); }
   else if (op->type == OP_TYPE_MEM) { rtl_sm(&op->addr, src, op->width); }
