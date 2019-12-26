@@ -65,6 +65,8 @@ typedef struct {
     uint32_t baseAddress;
     uint16_t length;
   } idtr;
+
+  uint32_t CR0, CR3;
   
 } CPU_state;
 
