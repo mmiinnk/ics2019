@@ -47,6 +47,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         filesz_temp -= PGSIZE;
         vaddr_temp += PGSIZE;
       }
+      printf("%d\n", filesz_temp);
 
       if (zero_len > 0 && zero_len > (-filesz_temp)){
         void *pa = new_page(1);
@@ -55,7 +56,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       #endif
 
       fs_read(fd, (void *)p->p_vaddr, p->p_filesz);
-      if (p->p_memsz - p->p_filesz > 0){
+      if (zero_len > 0){
         memset((void *)(p->p_vaddr + p->p_filesz), 0, zero_len);
       }
     }
