@@ -92,28 +92,12 @@ int _map(_AddressSpace *as, void *va, void *pa, int prot) {
 
   // PTE* page_table_entry = (PTE*) (page_directory_entry[dir] & ~0xfff);
   // page_table_entry[page] = (uint32_t)pa | PTE_P;
-  
-  // PDE *updir = (PDE *)as->ptr;
-  // if ((updir[PDX(va)] & PTE_P) != 1){
-  //   updir[PDX(va)] = PTE_ADDR(pgalloc_usr(1)) | PTE_P;
-  // }
-  // PTE *uptab = (PTE *)PTE_ADDR(updir[PDX(va)]);
-  // uptab[PTX(va)] = PTE_ADDR(pa) | PTE_P;
-  // return 0;
-  PDE *updir = as->ptr;
-  if (!(updir[PDX(va)] & PTE_P)) {
-    uint32_t *pdir = (uint32_t *)pgalloc_usr(1);
-    updir[PDX(va)] = PTE_ADDR(pdir) | 0x001;
-    //pdir[PTX(va)] = PTE_ADDR(pa) | 0x001;
+  PDE *updir = (PDE *)as->ptr;
+  if ((updir[PDX(va)] & PTE_P) != 1){
+    updir[PDX(va)] = PTE_ADDR(pgalloc_usr(1)) | PTE_P;
   }
-  uint32_t ptable = updir[PDX(va)];
-  PTE *page = (PTE *)PTE_ADDR(ptable);
-  //printf("va = %x\n", va);
-  //printf("page = %x\n", page);
-  page[PTX(va)] = (PTE_ADDR(pa) | 0x001);
-  //printf("PTX(va) = %x\n", PTX(va));
-  //printf("PTE_ADDR(pa) = %x\n", PTE_ADDR(pa));
-  //printf("PTX = %x\n", PTX(va));
+  PTE *uptab = (PTE *)PTE_ADDR(updir[PDX(va)]);
+  uptab[PTX(va)] = PTE_ADDR(pa) | PTE_P;
   return 0;
 }
 
