@@ -43,6 +43,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       uint32_t vaddr_temp = p->p_vaddr;
       while(filesz_temp > 0){
         void *pa = new_page(1);
+        printf("0x%x\n", vaddr_temp);
         _map(&pcb->as, (void *)vaddr_temp, pa, 1);
         filesz_temp -= PGSIZE;
         vaddr_temp += PGSIZE;
