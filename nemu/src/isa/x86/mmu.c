@@ -18,7 +18,7 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write){
   //printf("page_directory_base = 0x%x\n", CR3.page_directory_base);
 
 /*-----------------Get Dir Entry from Page Directory-----------------*/
-  paddr_t dir_context = paddr_read(cpu.CR3 + dir, 4);
+  paddr_t dir_context = paddr_read(cpu.CR3 + dir*4, 4);
   printf("dir_context = 0x%x\n", dir_context);
   
   /*Check the Present Label 
@@ -35,7 +35,7 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write){
   paddr_t dir_entry = Base_Address(dir_context);
 
 /*-----------------Get PG TBL ENTRY from Page Table-----------------*/
-  paddr_t pageTable_context = paddr_read(dir_entry + page, 4);
+  paddr_t pageTable_context = paddr_read(dir_entry + page*4, 4);
   /*Check the Present Label 
     Only if the Present Label is 1, we do the following actions.*/
   if (P(pageTable_context) != 1){
