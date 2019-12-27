@@ -35,46 +35,29 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   for (int i = 0; i < ELFHeader.e_phnum; ++i){
     p = &Phdr_Table[i];
     if (p->p_type == PT_LOAD){
-      printf("i = %d\n", i);
-      printf("p->p_filesz = 0x%x\n", p->p_filesz);
       fs_lseek(fd, p->p_offset, SEEK_SET);
-      #ifndef HAS_VME
-      fs_read(fd, (void *)p->p_vaddr, p->p_filesz);
-      if (p->p_memsz - p->p_filesz > 0){
-        memset((void *)(p->p_vaddr + p->p_filesz), 0, (p->p_memsz - p->p_filesz));
-      }
-      #endif
+      uint32_t zero_len = p->p_memsz - p->p_filesz;
       
       #ifdef HAS_VME
-      void *pa = NULL;
-      int32_t zero_len = p->p_memsz - p->p_filesz;
-
-      while(p->p_filesz >= PGSIZE){
-        pa = new_page(1);
-        //printf("The %dth time\n", i);
+      int64_t filesz_temp = p->p_filesz;
+      uint32_t vaddr_temp = p->p_vaddr;
+      while(filesz_temp >= PGSIZE){
+        void *pa = new_page(1);
         _map(&pcb->as, (void *)p->p_vaddr, pa, 1);
-        fs_read(fd, pa, PGSIZE);
-        p->p_filesz -= PGSIZE;
-        //printf("0x%x\n", p->p_filesz);
-        p->p_vaddr += PGSIZE;
+        filesz_temp -= PGSIZE;
+        vaddr_temp += PGSIZE;
       }
-      pa = new_page(1);
-      _map(&pcb->as, (void *)p->p_vaddr, pa, 1);
-      fs_read(fd, pa, p->p_filesz);
 
-      if (zero_len > 0){
-        if (p->p_filesz + zero_len <= PGSIZE){
-          memset((void *)(pa + p->p_filesz), 0, zero_len);
-        }
-        else{
-          uint32_t left_len = PGSIZE - p->p_filesz;
-          memset(pa + p->p_filesz, 0, left_len);
-          pa = new_page(1);
-          _map(&pcb->as, (void *)p->p_vaddr, pa, 1);
-          memset(pa, 0, zero_len - left_len);
-        }
+      if (zero_len > 0 && zero_len > (-filesz_temp)){
+        void *pa = new_page(1);
+        _map(&pcb->as, (void *)vaddr_temp, pa, 1);
       }
       #endif
+
+      fs_read(fd, (void *)p->p_vaddr, p->p_filesz);
+      if (p->p_memsz - p->p_filesz > 0){
+        memset((void *)(p->p_vaddr + p->p_filesz), 0, zero_len);
+      }
     }
   }
   if (fs_close(fd) != 0){
