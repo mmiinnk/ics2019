@@ -81,18 +81,23 @@ void __am_switch(_Context *c) {
 }
 
 int _map(_AddressSpace *as, void *va, void *pa, int prot) {
-  uint32_t vaddr = (uint32_t)va;
-  uint32_t dir = (vaddr>>22)&0x3ff;
-  uint32_t page = (vaddr>>12)&0x3ff;
+  // uint32_t vaddr = (uint32_t)va;
+  // uint32_t dir = (vaddr>>22)&0x3ff;
+  // uint32_t page = (vaddr>>12)&0x3ff;
 
-  PDE* page_directory_entry = (PDE*)as->ptr;
-  if ((page_directory_entry[dir]&0x1) != 1){
-    page_directory_entry[dir] = (PDE)pgalloc_usr(1) | PTE_P;
+  // PDE* page_directory_entry = (PDE*)as->ptr;
+  // if ((page_directory_entry[dir]&0x1) != 1){
+  //   page_directory_entry[dir] = (PDE)pgalloc_usr(1) | PTE_P;
+  // }
+
+  // PTE* page_table_entry = (PTE*) (page_directory_entry[dir] & ~0xfff);
+  // page_table_entry[page] = (uint32_t)pa | PTE_P;
+  PDE *updir = (PDE *)as->ptr;
+  if ((updir[PDX(va)] & PTE_P) != 1){
+    updir[PDX(va)] = PTE_ADDR(pgalloc_usr(1)) | PTE_P;
   }
-  //assert((page_directory_entry[dir]&0x1) == 1);
-  
-  PTE* page_table_entry = (PTE*) (page_directory_entry[dir] & ~0xfff);
-  page_table_entry[page] = (uint32_t)pa | PTE_P;
+  PTE *uptab = (PTE *)PTE_ADDR(updir[PDX(va)]);
+  uptab[PTX(va)] = PTE_ADDR(pa) | PTE_P;
   return 0;
 }
 
