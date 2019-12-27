@@ -100,7 +100,6 @@ _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, 
   ustack.end -= 12;
 
   _Context* c= (_Context*)(ustack.end) - 1;
-  *((uintptr_t *)ustack.start) = (uintptr_t)c;
   c->eip = (uintptr_t)entry;
   c->cs = 8;
   c->eflags = 0x2;
