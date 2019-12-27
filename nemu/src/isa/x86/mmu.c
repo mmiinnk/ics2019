@@ -93,7 +93,7 @@ void isa_vaddr_write(vaddr_t addr, uint32_t data, int len) {
       paddr_t hig_paddr = page_translate(addr+low_len, true);
       paddr_write(low_paddr, data & ((uint32_t)0xffffffff)>>(32 - 8*low_len), low_len);
       paddr_write(hig_paddr, data >> (8*low_len), hig_len);
-      //printf("Data cross the page boundary\n");
+      printf("Data cross the page boundary in Weite\n");
       /*special case, handle later*/
       //assert(0);
     }
