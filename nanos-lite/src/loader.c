@@ -45,7 +45,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       int i = 1;
       while(p->p_filesz > 0){
         pa = new_page(1);
-        printf("The ith time\n", i);
+        printf("The %dth time\n", i);
         i++;
         _map(&pcb->as, (void *)p->p_vaddr, pa, 1);
         fs_read(fd, pa, PGSIZE);
