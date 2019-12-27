@@ -1,7 +1,7 @@
 #include <am.h>
 #include <x86.h>
 #include <nemu.h>
-#include "klib.h"
+//#include "klib.h"
 
 #define PG_ALIGN __attribute((aligned(PGSIZE)))
 
@@ -89,7 +89,7 @@ int _map(_AddressSpace *as, void *va, void *pa, int prot) {
   if ((page_directory_entry[dir]&0x1) != 1){
     page_directory_entry[dir] = (PDE)pgalloc_usr(1) | PTE_P;
   }
-  assert((page_directory_entry[dir]&0x1) == 1);
+  //assert((page_directory_entry[dir]&0x1) == 1);
   
   PTE* page_table_entry = (PTE*) (page_directory_entry[dir] & ~0xfff);
   page_table_entry[page] = (uint32_t)pa | PTE_P;
