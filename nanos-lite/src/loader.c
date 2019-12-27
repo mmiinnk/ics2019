@@ -47,7 +47,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       
       #ifdef HAS_VME
       void *pa = NULL;
-      while(p->p_filesz > 0){
+      int32_t zero_len = p->p_memsz - p->p_filesz;
+
+      while(p->p_filesz >= PGSIZE){
         pa = new_page(1);
         //printf("The %dth time\n", i);
         _map(&pcb->as, (void *)p->p_vaddr, pa, 1);
@@ -56,14 +58,17 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         //printf("0x%x\n", p->p_filesz);
         p->p_vaddr += PGSIZE;
       }
-      int32_t zero_len = p->p_memsz - p->p_filesz;
+      pa = new_page(1);
+      _map(&pcb->as, (void *)p->p_vaddr, pa, 1);
+      fs_read(fd, pa, p->p_filesz);
+
       if (zero_len > 0){
-        if (p->p_filesz + PGSIZE + zero_len <= PGSIZE){
-          memset((void *)(pa + p->p_filesz + PGSIZE), 0, zero_len);
+        if (p->p_filesz + zero_len <= PGSIZE){
+          memset((void *)(pa + p->p_filesz), 0, zero_len);
         }
         else{
-          uint32_t left_len = -p->p_filesz;
-          memset(pa + p->p_filesz + PGSIZE, 0, left_len);
+          uint32_t left_len = PGSIZE - p->p_filesz;
+          memset(pa + p->p_filesz, 0, left_len);
           pa = new_page(1);
           _map(&pcb->as, (void *)p->p_vaddr, pa, 1);
           memset(pa, 0, zero_len - left_len);
