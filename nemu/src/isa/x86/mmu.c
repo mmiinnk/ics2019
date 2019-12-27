@@ -1,6 +1,7 @@
 #include "nemu.h"
+#include "include/isa/mmu.h"
 
-#define PG (cpu.CR0&0x1)
+#define PG ((cpu.CR0>>31)&0x1)
 #define P(_) (_&0x1)
 #define Base_Address(_) ((_>>12)&0xfffff)
 
@@ -10,8 +11,12 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write){
   uint32_t page = (vaddr>>12)&0x3fff;
   uint32_t offset = vaddr&0xffff;
 
+  /* Get CR3 Resgister */
+  CR3 CR3;
+  CR3.val = cpu.CR3;
+
 /*-----------------Get Dir Entry from Page Directory-----------------*/
-  paddr_t dir_context = paddr_read(cpu.CR3 + dir, 4);
+  paddr_t dir_context = paddr_read(CR3.page_directory_base + dir, 4);
   
   /*Check the Present Label 
     Only if the Present Label is 1, we do the following actions.*/
@@ -21,7 +26,7 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write){
   }
 
   // Revise the Accessed Label
-  paddr_write(cpu.CR3 + dir, dir_context | 0x20, 4);
+  paddr_write(CR3.page_directory_base + dir, dir_context | 0x20, 4);
 
   // Get Dir Entry
   paddr_t dir_entry = Base_Address(dir_context);
