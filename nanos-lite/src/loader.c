@@ -16,8 +16,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   int fd = fs_open(filename, 0, 0);
 
   Elf_Ehdr ELFHeader;
-  printf("ELFHeader = 0x%x\n", &ELFHeader);
   fs_read(fd, &ELFHeader, sizeof(ELFHeader));
+  printf("%s\n",filename);
   printf("Successfully read ELFHeader!\n");
   printf("ELFHeader.e_phoff = 0x%x\n", ELFHeader.e_phoff);
   
