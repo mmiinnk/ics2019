@@ -50,6 +50,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         _map(&pcb->as, (void *)p->p_vaddr, pa, 1);
         fs_read(fd, pa, PGSIZE);
         p->p_filesz -= PGSIZE;
+        printf("0x%x\n", p->p_filesz);
         p->p_vaddr += PGSIZE;
       }
       int32_t zero_len = p->p_memsz - p->p_filesz;
