@@ -43,7 +43,7 @@ void sys_write(_Context *c){
 }
 
 void sys_brk(_Context *c){
-  if (mm_brk(c->GPR2, c->GPR3) == 0){
+  if (mm_brk((uintptr_t)c->GPR2, (intptr_t)c->GPR3) == 0){
     c->GPRx = 0;
   }
   else{
