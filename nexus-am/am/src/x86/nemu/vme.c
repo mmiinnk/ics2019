@@ -83,7 +83,6 @@ int _map(_AddressSpace *as, void *va, void *pa, int prot) {
   uint32_t vaddr = (uint32_t)va;
   uint32_t dir = (vaddr>>22)&0x3ff;
   uint32_t page = (vaddr>>12)&0x3ff;
-  //uint32_t offset = vaddr&0xfff;
   PDE* page_directory_entry = (PDE*)as->ptr;
   if ((page_directory_entry[dir]&0x1) != 1){
     page_directory_entry[dir] = (PDE)pgalloc_usr(1) | PTE_P;

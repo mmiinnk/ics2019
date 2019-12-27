@@ -38,6 +38,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       fs_lseek(fd, p->p_offset, SEEK_SET);
       uint32_t zero_len = p->p_memsz - p->p_filesz;
       
+      #ifndef HAS_VME
+      fs_read(fd, (void *)p->p_vaddr, p->p_filesz);
+      if (zero_len > 0){
+        memset((void *)(p->p_vaddr + p->p_filesz), 0, zero_len);
+      }
+      #endif
       #ifdef HAS_VME
       int32_t filesz_temp = p->p_filesz;
       uint32_t vaddr_temp = p->p_vaddr;
@@ -45,21 +51,23 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         void *pa = new_page(1);
         printf("0x%x\n", vaddr_temp);
         _map(&pcb->as, (void *)vaddr_temp, pa, 1);
+        fs_read(fd, (void *)vaddr_temp, PGSIZE);
         filesz_temp -= PGSIZE;
         vaddr_temp += PGSIZE;
       }
-      // printf("%d\n", filesz_temp);
 
-      if (zero_len > 0 && zero_len > (-filesz_temp)){
-        void *pa = new_page(1);
-        _map(&pcb->as, (void *)vaddr_temp, pa, 1);
+      if (zero_len > 0){
+        if (zero_len <= (-filesz_temp)){
+          memset((void *)(vaddr_temp - PGSIZE), 0, zero_len);
+        }
+        else{
+          memset((void *)(vaddr_temp + filesz_temp), 0, (-filesz_temp));
+          void *pa = new_page(1);
+          _map(&pcb->as, (void *)vaddr_temp, pa, 1);
+          memset((void *)vaddr_temp, 0, zero_len + filesz_temp);
+        }
       }
       #endif
-
-      fs_read(fd, (void *)p->p_vaddr, p->p_filesz);
-      if (zero_len > 0){
-        memset((void *)(p->p_vaddr + p->p_filesz), 0, zero_len);
-      }
     }
   }
   if (fs_close(fd) != 0){
