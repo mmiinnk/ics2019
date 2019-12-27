@@ -64,9 +64,14 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write){
 uint32_t isa_vaddr_read(vaddr_t addr, int len) {
   if (PG == 1){
     if ((addr&0xfff) + len > 0xfff + 1){
-      printf("Data cross the page boundary\n");
+      uint32_t low_len = (0xfff + 1) - (addr&0xfff);
+      uint32_t hig_len = len - low_len;
+      paddr_t low_paddr = page_translate(addr, false);
+      paddr_t hig_paddr = page_translate(addr+low_len, false);
+      return paddr_read(low_paddr, low_len) + (paddr_read(hig_paddr, hig_len) << (low_len*8));
+      //printf("Data cross the page boundary\n");
       /*special case, handle later*/
-      assert(0);
+      //assert(0);
     }
     else
     {
@@ -82,9 +87,15 @@ uint32_t isa_vaddr_read(vaddr_t addr, int len) {
 void isa_vaddr_write(vaddr_t addr, uint32_t data, int len) {
   if (PG == 1){
     if ((addr&0xfff) + len > 0xfff + 1){
-      printf("Data cross the page boundary\n");
+      uint32_t low_len = (0xfff + 1) - (addr&0xfff);
+      uint32_t hig_len = len - low_len;
+      paddr_t low_paddr = page_translate(addr, true);
+      paddr_t hig_paddr = page_translate(addr+low_len, true);
+      paddr_write(low_paddr, data & ((uint32_t)0xffffffff)>>(32 - 8*low_len), low_len);
+      paddr_write(hig_paddr, data >> (8*low_len), hig_len);
+      //printf("Data cross the page boundary\n");
       /*special case, handle later*/
-      assert(0);
+      //assert(0);
     }
     else
     {
