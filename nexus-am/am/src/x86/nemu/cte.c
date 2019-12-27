@@ -36,7 +36,7 @@ _Context* __am_irq_handle(_Context *c) {
   //printf("next = %p\n", next);
   //printf("c = %p\n", c);
 
-  __am_switch(c);
+  __am_switch(next);
   return next;
 }
 
