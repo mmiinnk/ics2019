@@ -17,8 +17,11 @@ static void restart() {
   /* Set the initial program counter. */
   cpu.pc = PC_START;
 
-  /* Set CS = 8*/
+  /* Set CS = 8 */
   cpu.CS = 8;
+
+  /* Set CR0 = 0x60000011 */
+  cpu.CR0 = 0x60000011;
 
   cpu.eflags = 0x2;
 }

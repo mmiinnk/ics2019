@@ -86,11 +86,13 @@ void isa_difftest_attach(void) {
   ref_difftest_memcpy_from_dut(0, guest_to_host(0), 0x7c00);
   ref_difftest_memcpy_from_dut(0x100000, guest_to_host(0x100000), PMEM_SIZE - 0x100000);
   ref_difftest_memcpy_from_dut(0x7e00, &cpu.idtr, 6);
-  uint8_t instruction[] = {0x0f, 0x01, 0x1D, 0x00, 0x7e, 0x00, 0x00};
+  uint8_t instruction[] = {0x0f, 0x01, 0x1D, 0x00, 0x7e, 0x00, 0x00, 0x0f, 0x22, 0xd8, 0x0f, 0x22, 0xc1};
   ref_difftest_memcpy_from_dut(0x7e40, instruction, sizeof(instruction));
   CPU_state temp = cpu;
   temp.pc = 0x7e40;
+  temp.eax = cpu.CR3;
+  temp.ecx = cpu.CR0;
   ref_difftest_setregs(&temp);
-  ref_difftest_exec(1);
+  ref_difftest_exec(3);
   ref_difftest_setregs(&cpu);
 }
