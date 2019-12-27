@@ -14,6 +14,8 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write){
   /* Get CR3 Resgister */
   CR3 CR3;
   CR3.val = cpu.CR3;
+  printf("CR3 = 0x%x\n", CR3.val);
+  printf("page_directory_base = 0x%x\n", CR3.page_directory_base);
 
 /*-----------------Get Dir Entry from Page Directory-----------------*/
   paddr_t dir_context = paddr_read(CR3.page_directory_base + dir, 4);
