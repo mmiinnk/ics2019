@@ -39,9 +39,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       uint32_t zero_len = p->p_memsz - p->p_filesz;
       
       #ifdef HAS_VME
-      int64_t filesz_temp = p->p_filesz;
+      int32_t filesz_temp = p->p_filesz;
       uint32_t vaddr_temp = p->p_vaddr;
-      while(filesz_temp >= PGSIZE){
+      while(filesz_temp > 0){
         void *pa = new_page(1);
         _map(&pcb->as, (void *)p->p_vaddr, pa, 1);
         filesz_temp -= PGSIZE;
