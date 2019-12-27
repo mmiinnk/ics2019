@@ -19,7 +19,7 @@ int mm_brk(uintptr_t brk, intptr_t increment) {
   if (brk + increment <= current->max_brk) return 0;
 
   current->max_brk = (current->max_brk & ~0xfff) + 0x1000;
-  while(brk + increment > current->max_brk){
+  while(brk + increment >= current->max_brk){
     void *pa = new_page(1);
     _map(&current->as, (void *)current->max_brk, pa, 1);
     current->max_brk += PGSIZE;
