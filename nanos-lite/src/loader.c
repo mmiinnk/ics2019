@@ -19,6 +19,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   printf("ELFHeader = 0x%x\n", &ELFHeader);
   fs_read(fd, &ELFHeader, sizeof(ELFHeader));
   printf("Successfully read ELFHeader!\n");
+  printf("ELFHeader.e_phoff = 0x%x\n", ELFHeader.e_phoff);
   
   Elf_Phdr Phdr_Table[ELFHeader.e_phnum];
 
