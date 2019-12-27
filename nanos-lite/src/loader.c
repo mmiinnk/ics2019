@@ -17,17 +17,17 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   Elf_Ehdr ELFHeader;
   fs_read(fd, &ELFHeader, sizeof(ELFHeader));
-  printf("%s\n",filename);
-  printf("Successfully read ELFHeader!\n");
-  printf("ELFHeader.e_phoff = 0x%x\n", ELFHeader.e_phoff);
-  printf("ELFHeader.e_version = 0x%x\n", ELFHeader.e_version);
-  printf("ELFHeader.e_entry = 0x%x\n", ELFHeader.e_entry);
+  // printf("%s\n",filename);
+  // printf("Successfully read ELFHeader!\n");
+  // printf("ELFHeader.e_phoff = 0x%x\n", ELFHeader.e_phoff);
+  // printf("ELFHeader.e_version = 0x%x\n", ELFHeader.e_version);
+  // printf("ELFHeader.e_entry = 0x%x\n", ELFHeader.e_entry);
   
   Elf_Phdr Phdr_Table[ELFHeader.e_phnum];
 
   fs_lseek(fd, ELFHeader.e_phoff, SEEK_SET);
   fs_read(fd, Phdr_Table, ELFHeader.e_phnum * ELFHeader.e_phentsize);
-  printf("Successfully read Phdr_Table!\n");
+  //printf("Successfully read Phdr_Table!\n");
   //ramdisk_read(Phdr_Table, disk_offset + ELFHeader.e_phoff, ELFHeader.e_phnum * ELFHeader.e_phentsize);
   //printf("Success 1\n");
   
@@ -35,6 +35,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   for (int i = 0; i < ELFHeader.e_phnum; ++i){
     p = &Phdr_Table[i];
     if (p->p_type == PT_LOAD){
+      printf("i = %d\n", i);
+      printf("p->p_filesz = 0x%x\n", p->p_filesz);
       fs_lseek(fd, p->p_offset, SEEK_SET);
       #ifndef HAS_VME
       fs_read(fd, (void *)p->p_vaddr, p->p_filesz);
@@ -45,11 +47,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       
       #ifdef HAS_VME
       void *pa = NULL;
-      int i = 1;
       while(p->p_filesz > 0){
         pa = new_page(1);
         //printf("The %dth time\n", i);
-        i++;
         _map(&pcb->as, (void *)p->p_vaddr, pa, 1);
         fs_read(fd, pa, PGSIZE);
         p->p_filesz -= PGSIZE;
