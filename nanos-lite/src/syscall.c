@@ -16,8 +16,8 @@ void sys_yield(_Context *c){
 }
 
 void sys_exit(_Context *c){
-  //_halt(c->GPR2);
-  naive_uload(NULL, "/bin/init");
+  _halt(c->GPR2);
+  //naive_uload(NULL, "/bin/init");
   //return 1;
 }
 

@@ -80,7 +80,16 @@ void __am_switch(_Context *c) {
 }
 
 int _map(_AddressSpace *as, void *va, void *pa, int prot) {
-  
+  uint32_t vaddr = (uint32_t)va;
+  uint32_t dir = (vaddr>>22)&0x3ff;
+  uint32_t page = (vaddr>>12)&0x3ff;
+  //uint32_t offset = vaddr&0xfff;
+  PDE* page_directory_entry = (PDE*)as->ptr;
+  if ((page_directory_entry[dir]&0x1) != 1){
+    page_directory_entry[dir] = (PDE)pgalloc_usr(1) | PTE_P;
+  }
+  PTE* page_table_entry = (PTE*) (page_directory_entry[dir] & ~0xfff);
+  page_table_entry[page] = (uint32_t)pa | PTE_P;
   return 0;
 }
 
@@ -91,5 +100,6 @@ _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, 
   c->eip = (uintptr_t)entry;
   c->cs = 8;
   c->eflags = 0x2;
-  return c;;
+  c->as = as;
+  return c;
 }
