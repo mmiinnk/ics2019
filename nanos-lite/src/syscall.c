@@ -8,6 +8,7 @@ ssize_t fs_write(int fd, const void *buf, size_t len);
 size_t fs_lseek(int fd, size_t offset, int whence);
 int fs_close(int fd);
 void naive_uload(PCB *pcb, const char *filename);
+int mm_brk(uintptr_t brk, intptr_t increment);
 
 void sys_yield(_Context *c){
   _yield();
@@ -42,7 +43,7 @@ void sys_write(_Context *c){
 }
 
 void sys_brk(_Context *c){
-  c->GPRx = 0;
+  c->GPRx = mm_brk(c->GPR2, c->GPR3);
   //return 1;
 }
 
