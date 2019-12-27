@@ -1,7 +1,7 @@
 #include "nemu.h"
 #include "include/isa/mmu.h"
 
-#define PG ((cpu.CR0>>31)&0x1)
+#define PG (cpu.CR0>>31)
 #define P(_) (_&0x1)
 #define Base_Address(_) ((_>>12)&0xfffff)
 
