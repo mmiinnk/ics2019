@@ -54,7 +54,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         _map(&pcb->as, (void *)vaddr_temp, pa, 1);
         printf("Map Succeed!\n");
 
-        fs_read(fd, (void *)vaddr_temp, PGSIZE);
+        fs_read(fd, (void *)pa, PGSIZE);
         filesz_temp -= PGSIZE;
         vaddr_temp += PGSIZE;
       }
