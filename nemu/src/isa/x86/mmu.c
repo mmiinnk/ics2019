@@ -17,6 +17,7 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write){
 
 /*-----------------Get Dir Entry from Page Directory-----------------*/
   paddr_t dir_context = paddr_read(CR3.page_directory_base + dir, 4);
+  printf("dir_context = 0x%x\n", dir_context);
   
   /*Check the Present Label 
     Only if the Present Label is 1, we do the following actions.*/
