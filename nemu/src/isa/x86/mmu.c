@@ -8,7 +8,7 @@
 paddr_t page_translate(vaddr_t vaddr, bool is_write){
   /* Get dir, page and pffset form vaddr */
   uint32_t dir = (vaddr>>22)&0x3ff;
-  uint32_t page = (vaddr>>12)&0x3fff;
+  uint32_t page = (vaddr>>12)&0x3ff;
   uint32_t offset = vaddr&0xffff;
 
   /* Get CR3 Resgister */
