@@ -36,7 +36,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     p = &Phdr_Table[i];
     if (p->p_type == PT_LOAD){
       fs_lseek(fd, p->p_offset, SEEK_SET);
-      uint32_t zero_len = p->p_memsz - p->p_filesz;
+      int32_t zero_len = p->p_memsz - p->p_filesz;
       
       #ifndef HAS_VME
       fs_read(fd, (void *)p->p_vaddr, p->p_filesz);
