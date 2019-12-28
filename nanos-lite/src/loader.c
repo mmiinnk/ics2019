@@ -87,6 +87,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         
       }
       pcb->max_brk = p->p_vaddr + length;
+      printf("max_brk in loader = 0x%x\n", pcb->max_brk);
       #endif
     }
   }
