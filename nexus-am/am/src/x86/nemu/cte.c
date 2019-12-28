@@ -62,11 +62,12 @@ int _cte_init(_Context*(*handler)(_Event, _Context*)) {
   return 0;
 }
 
-_Context *_kcontext(_Area stack, void (*entry)(void *), void *arg) {
+_Context *_kcontext(_AddressSpace *as, _Area stack, void (*entry)(void *), void *arg) {
   _Context* c = (_Context*)stack.end - 1;
   c->eip = (uintptr_t)entry;
   c->cs = 8;
-  return c;;
+  c->as = as;
+  return c;
 }
 
 void _yield() {
