@@ -128,6 +128,6 @@ void context_uload(PCB *pcb, const char *filename) {
   stack.start = pcb->stack;
   stack.end = stack.start + sizeof(pcb->stack);
 
-  printf("max_brk in context_uload = 0x%x\n", pcb->max_brk);
+  // printf("max_brk in context_uload = 0x%x\n", pcb->max_brk);
   pcb->cp = _ucontext(&pcb->as, stack, stack, (void *)entry, NULL);
 }
