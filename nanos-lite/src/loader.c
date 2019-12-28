@@ -68,6 +68,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         printf("zero_len = %d\n", zero_len);
         printf("filesz_temp = %d\n", filesz_temp);
         if (zero_len <= (-filesz_temp)){
+          Log("Zero_len <= (-filesz)");
           memset((void *)(pa + (PGSIZE + filesz_temp)), 0, zero_len);
         }
         else{
