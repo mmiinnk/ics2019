@@ -93,8 +93,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       }
       #endif
     }
-    printf("max_brk in loader = 0x%x\n", pcb->max_brk);
+    printf("\n");
   }
+  printf("max_brk in loader = 0x%x\n", pcb->max_brk);
   if (fs_close(fd) != 0){
     printf("Fail to close the File!\n");
     assert(0);
