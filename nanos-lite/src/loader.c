@@ -36,7 +36,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     p = &Phdr_Table[i];
     if (p->p_type == PT_LOAD){
       fs_lseek(fd, p->p_offset, SEEK_SET);
-      int32_t zero_len = p->p_memsz - p->p_filesz;
+      uint32_t zero_len = p->p_memsz - p->p_filesz;
       
       #ifndef HAS_VME
       fs_read(fd, (void *)p->p_vaddr, p->p_filesz);
@@ -46,36 +46,37 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       #endif
 
       #ifdef HAS_VME
-      int32_t filesz_temp = p->p_filesz;
-      uintptr_t vaddr_temp = p->p_vaddr;
-      printf("filesz = 0x%x\n", p->p_filesz);
-      printf("memsz = 0x%x\n", p->p_memsz);
+      uint32_t length = 0;
+      
       void *pa = NULL;
-      while(filesz_temp > 0){
+      while(length < p->p_filesz - PGSIZE){
         pa = new_page(1);
-        printf("vaddr_temp = 0x%x\n", vaddr_temp);
-        printf("filesz_temp = 0x%x\n", filesz_temp);
-        //printf("%p\n", pa);
-        _map(&pcb->as, (void *)vaddr_temp, pa, 1);
-        //printf("Map Succeed!\n");
-
+        _map(&pcb->as, (void *)(p->p_vaddr + length), pa, 1);
         fs_read(fd, (void *)pa, PGSIZE);
-        filesz_temp -= PGSIZE;
-        vaddr_temp += PGSIZE;
+        length += PGSIZE;
       }
-      printf("Success 1\n");
+
+      pa = new_page(1);
+      _map(&(pcb->as), (void *)(p->p_vaddr + length), pa, 1);
+      fs_read(fd, pa, p->p_filesz - length);
+      length += PGSIZE;
+
       if (zero_len > 0){
-        printf("zero_len = %d\n", zero_len);
-        printf("filesz_temp = %d\n", filesz_temp);
-        if (zero_len <= (-filesz_temp)){
-          Log("Zero_len <= (-filesz)");
-          memset((void *)(pa + (PGSIZE + filesz_temp)), 0, zero_len);
+        if (p->p_memsz <= length){
+          memset((void *)(pa + p->p_filesz / PGSIZE), 0, zero_len);
         }
         else{
-          memset((void *)(pa + (PGSIZE + filesz_temp)), 0, (-filesz_temp));
-          void *pa = new_page(1);
-          _map(&pcb->as, (void *)vaddr_temp, pa, 1);
-          memset(pa, 0, zero_len + filesz_temp);
+          memset((void *)(pa + p->p_filesz / PGSIZE), 0, length - p->p_filesz);
+          while(length < p->p_memsz - PGSIZE){
+            pa = new_page(1);
+            _map(&pcb->as, (void *)(p->p_vaddr + length), pa, 1);
+            memset(pa, 0, PGSIZE);
+            length += PGSIZE;
+          }
+          pa = new_page(1);
+          _map(&pcb->as, (void *)(p->p_vaddr + length), pa, 1);
+          memset(pa, 0, p->p_memsz - length);
+          length += PGSIZE;
         }
       }
       #endif
