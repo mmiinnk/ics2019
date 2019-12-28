@@ -47,8 +47,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
       #ifdef HAS_VME
       uint32_t length = 0;
-      printf("p_filesz = 0x%x\n", p->p_filesz);
-      printf("p_memsz = 0x%x\n", p->p_memsz);
+      printf("p_filesz = 0x%x(%d)\n", p->p_filesz, p->p_filesz);
+      printf("p_memsz = 0x%x(%d)\n", p->p_memsz, p->p_memsz);
       
       void *pa = NULL;
       while(length + PGSIZE < p->p_filesz){
@@ -69,7 +69,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         Log("Set Zero");
         printf("Length before set zero = %d\n", length);
         if (p->p_memsz <= length){
-          printf("length - PGSIZE = %d", length - PGSIZE);
+          printf("length - PGSIZE = %d\n", length - PGSIZE);
           printf("p->p_filesz - (length - PGSIZE) = %d\n", p->p_filesz - (length - PGSIZE));
           memset((void *)(pa + (p->p_filesz - (length - PGSIZE))), 0, zero_len);
         }
@@ -86,13 +86,14 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
           _map(&pcb->as, (void *)(p->p_vaddr + length), pa, 1);
           memset(pa, 0, p->p_memsz - length);
           length += PGSIZE;
-        }
-        
+        } 
       }
-      pcb->max_brk = p->p_vaddr + length;
-      printf("max_brk in loader = 0x%x\n", pcb->max_brk);
+      if (p->p_vaddr + length > pcb->max_brk){
+        pcb->max_brk = p->p_vaddr + length;
+      }
       #endif
     }
+    printf("max_brk in loader = 0x%x\n", pcb->max_brk);
   }
   if (fs_close(fd) != 0){
     printf("Fail to close the File!\n");
