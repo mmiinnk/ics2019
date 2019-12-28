@@ -47,12 +47,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
       #ifdef HAS_VME
       uint32_t length = 0;
-      printf("p_filesz = 0x%x(%d)\n", p->p_filesz, p->p_filesz);
-      printf("p_memsz = 0x%x(%d)\n", p->p_memsz, p->p_memsz);
+      // printf("p_filesz = 0x%x(%d)\n", p->p_filesz, p->p_filesz);
+      // printf("p_memsz = 0x%x(%d)\n", p->p_memsz, p->p_memsz);
       
       void *pa = NULL;
       while(length + PGSIZE < p->p_filesz){
-        printf("length = %d\n", length);
+        // printf("length = %d\n", length);
         pa = new_page(1);
         _map(&pcb->as, (void *)(p->p_vaddr + length), pa, 1);
         fs_read(fd, (void *)pa, PGSIZE);
@@ -66,15 +66,15 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
       
       if (zero_len > 0){
-        Log("Set Zero");
-        printf("Length before set zero = %d\n", length);
+        // Log("Set Zero");
+        // printf("Length before set zero = %d\n", length);
         if (p->p_memsz <= length){
-          printf("length - PGSIZE = %d\n", length - PGSIZE);
-          printf("p->p_filesz - (length - PGSIZE) = %d\n", p->p_filesz - (length - PGSIZE));
+          // printf("length - PGSIZE = %d\n", length - PGSIZE);
+          // printf("p->p_filesz - (length - PGSIZE) = %d\n", p->p_filesz - (length - PGSIZE));
           memset((void *)(pa + (p->p_filesz - (length - PGSIZE))), 0, zero_len);
         }
         else{
-          Log("p->p_memsz > length");
+          // Log("p->p_memsz > length");
           memset((void *)(pa + p->p_filesz - (length - PGSIZE)), 0, length - p->p_filesz);
           while(length + PGSIZE< p->p_memsz){
             pa = new_page(1);
@@ -93,14 +93,14 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       }
       #endif
     }
-    printf("\n");
+    // printf("\n");
   }
-  printf("max_brk in loader = 0x%x\n", pcb->max_brk);
+  //printf("max_brk in loader = 0x%x\n", pcb->max_brk);
   if (fs_close(fd) != 0){
     printf("Fail to close the File!\n");
     assert(0);
   }
-  printf("Successfully Loaded!\n");
+  //printf("Successfully Loaded!\n");
   //printf("Entry = 0x%x\n", ELFHeader.e_entry);
   return ELFHeader.e_entry;
 }
