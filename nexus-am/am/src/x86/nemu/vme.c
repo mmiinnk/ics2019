@@ -94,7 +94,7 @@ int _map(_AddressSpace *as, void *va, void *pa, int prot) {
   // page_table_entry[page] = (uint32_t)pa | PTE_P;
   PDE *updir = (PDE *)as->ptr;
   if ((updir[PDX(va)] & PTE_P) != 1){
-    updir[PDX(va)] = PTE_ADDR(pgalloc_usr(1)) | PTE_P;
+    updir[PDX(va)] = PTE_ADDR((uint32_t)pgalloc_usr(1)) | PTE_P;
   }
   PTE *uptab = (PTE *)PTE_ADDR(updir[PDX(va)]);
   uptab[PTX(va)] = PTE_ADDR(pa) | PTE_P;
