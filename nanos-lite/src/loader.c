@@ -47,6 +47,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
       #ifdef HAS_VME
       uint32_t length = 0;
+      printf("filesz = 0x%x\n", p->p_filesz);
+      printf("memsz = 0x%x\n", p->p_memsz);
       
       void *pa = NULL;
       while(length < p->p_filesz - PGSIZE){
