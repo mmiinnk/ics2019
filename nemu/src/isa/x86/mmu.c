@@ -25,6 +25,8 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write){
     Only if the Present Label is 1, we do the following actions.*/
   if (P(dir_context) != 1){
     printf("The Dir Page Miss!\n");
+    printf("dir_entry = 0x%x\n", dir_context & ~0xfff);
+    printf("dir = 0x%x\n", dir);
     assert(P(dir_context) == 1);
   }
 
@@ -42,6 +44,8 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write){
     Only if the Present Label is 1, we do the following actions.*/
   if (P(pageTable_context) != 1){
     printf("The Table Page Miss!\n");
+    printf("pageTable entry = 0x%x\n", pageTable_context & ~0xfff);
+    printf("page = 0x%x\n", page);
     assert(P(pageTable_context) == 1);
   }
 

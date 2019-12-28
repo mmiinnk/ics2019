@@ -63,7 +63,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         filesz_temp -= PGSIZE;
         vaddr_temp += PGSIZE;
       }
-      printf("filesz_temp = %d\n", filesz_temp);
+      printf("Success 1\n");
       if (zero_len > 0){
         if (zero_len <= (-filesz_temp)){
           memset((void *)(pa + (PGSIZE + filesz_temp)), 0, zero_len);
@@ -82,7 +82,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     printf("Fail to close the File!\n");
     assert(0);
   }
-  //printf("Successfully Loaded!\n");
+  printf("Successfully Loaded!\n");
   //printf("Entry = 0x%x\n", ELFHeader.e_entry);
   return ELFHeader.e_entry;
 }
