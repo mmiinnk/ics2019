@@ -52,6 +52,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       
       void *pa = NULL;
       while(length < p->p_filesz - PGSIZE){
+        printf("lenfth = %d\n", length);
         pa = new_page(1);
         _map(&pcb->as, (void *)(p->p_vaddr + length), pa, 1);
         fs_read(fd, (void *)pa, PGSIZE);
