@@ -22,13 +22,20 @@ static const char *keyname[256] __attribute__((used)) = {
   _KEYS(NAME)
 };
 
+extern int fg_pcb;
 size_t events_read(void *buf, size_t offset, size_t len) {
   int key = read_key();
   //keyname[key];
   if (key != 0){
     if ((key&0x8000) != 0){
-      printf("0x%x\n", key&0x7fff);
+      //printf("0x%x\n", key&0x7fff);
       sprintf(buf, "kd %s\n", keyname[key&0x7fff]);
+      switch (key&0x7fff)
+      {
+      case 0x2: fg_pcb = 1; Log("Switch to Procesing 1!"); break;
+      case 0x3: fg_pcb = 2; Log("Switch to Procesing 2!"); break;
+      case 0x4: fg_pcb = 3; Log("Switch to Procesing 3!"); break;
+      }
     }
     else{
       sprintf(buf, "ku %s\n", keyname[key&0x7fff]);
