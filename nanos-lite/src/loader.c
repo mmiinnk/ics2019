@@ -66,9 +66,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
       printf("Length before set zero = %d\n", length);
       if (zero_len > 0){
-        Log("Set Zero\n");
+        Log("Set Zero");
         if (p->p_memsz <= length){
-          memset((void *)(pa + p->p_filesz / PGSIZE), 0, zero_len);
+          memset((void *)(pa + (p->p_filesz - (length - PGSIZE))), 0, zero_len);
         }
         else{
           Log("p->p_memsz > length");
