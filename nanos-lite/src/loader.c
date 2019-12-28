@@ -44,13 +44,17 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         memset((void *)(p->p_vaddr + p->p_filesz), 0, zero_len);
       }
       #endif
+
       #ifdef HAS_VME
       int32_t filesz_temp = p->p_filesz;
       uintptr_t vaddr_temp = p->p_vaddr;
+      printf("filesz = 0x%x\n", p->p_filesz);
+      printf("memsz = 0x%x\n", p->p_memsz);
       void *pa = NULL;
       while(filesz_temp > 0){
         pa = new_page(1);
-        //printf("0x%x\n", vaddr_temp);
+        printf("vaddr_temp = 0x%x\n", vaddr_temp);
+        printf("filesz_temp = 0x%x\n", filesz_temp);
         //printf("%p\n", pa);
         _map(&pcb->as, (void *)vaddr_temp, pa, 1);
         //printf("Map Succeed!\n");
