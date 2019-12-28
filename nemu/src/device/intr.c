@@ -1,5 +1,6 @@
 #include "nemu.h"
 
 void dev_raise_intr() {
-    cpu.INTR = 1;
+    Log("Reach dev_raise_intr");
+    cpu.INTR = true;
 }

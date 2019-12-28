@@ -1,5 +1,7 @@
 #include "rtl/rtl.h"
 
+#define IRQ_TIMER 32          // for x86
+
 void raise_intr(uint32_t NO, vaddr_t ret_addr) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
    * That is, use ``NO'' to index the IDT.
@@ -21,7 +23,7 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
 bool isa_query_intr(void) {
   if (cpu.INTR & cpu.IF) {
     cpu.INTR = false;
-    raise_intr(32, cpu.pc);
+    raise_intr(IRQ_TIMER, cpu.pc);
     return true;
   }
   return false;
