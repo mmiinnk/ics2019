@@ -21,7 +21,7 @@ vaddr_t exec_once(void) {
 
   //printf("%d\n", isa_query_intr());
   if (isa_query_intr()){
-    printf("Reach exec_once and isa_qury_intr\n");
+    //printf("Reach exec_once and isa_qury_intr\n");
     update_pc();
   }
 

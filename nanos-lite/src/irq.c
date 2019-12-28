@@ -6,7 +6,7 @@ _Context* schedule(_Context *prev);
 static _Context* do_event(_Event e, _Context* c) {
   //Log("Successfully reach do_event!\n");
   switch (e.event) {
-    case _EVENT_IRQ_TIMER: Log("Haha, you succeed!"); _yield(); break;
+    case _EVENT_IRQ_TIMER: _yield(); break;
     case _EVENT_YIELD: return schedule(c);
     case _EVENT_SYSCALL: return do_syscall(c);
     default: panic("Unhandled event ID = %d", e.event);
