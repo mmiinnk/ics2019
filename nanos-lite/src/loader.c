@@ -70,7 +70,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         }
         else{
           memset((void *)(pa + p->p_filesz / PGSIZE), 0, length - p->p_filesz);
-          while(length < p->p_memsz - PGSIZE){
+          while(length + PGSIZE< p->p_memsz){
             pa = new_page(1);
             _map(&pcb->as, (void *)(p->p_vaddr + length), pa, 1);
             memset(pa, 0, PGSIZE);
