@@ -46,7 +46,7 @@ _Context* schedule(_Context *prev) {
 
   // always select pcb[0] as the new process
   //current = &pcb[0];
-  if (schedule_count % 100 == 0){
+  if (schedule_count % 1000 == 0){
     current = &pcb[0];
   }
   else{
