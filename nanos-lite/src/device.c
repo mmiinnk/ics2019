@@ -4,7 +4,6 @@
 size_t fs_read(int fd, void *buf, size_t len);
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
-  _yield();
   //printf("haha\n");
   //printf("len = %d\n", len);
   const char *tempbuf = buf;
@@ -24,7 +23,6 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 size_t events_read(void *buf, size_t offset, size_t len) {
-  _yield();
   int key = read_key();
   //keyname[key];
   if (key != 0){
@@ -50,7 +48,6 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  _yield();
   //Log("Reach fb_write");
   //printf("Offset = %d\n", offset);
   /*

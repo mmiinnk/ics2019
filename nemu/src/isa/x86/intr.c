@@ -5,7 +5,7 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
    * That is, use ``NO'' to index the IDT.
    */
   rtl_push(&cpu.eflags);
-  //cpu.IF = 0;
+  cpu.IF = 0;
   rtl_push(&cpu.CS);
   rtl_push(&ret_addr);
   
@@ -19,5 +19,10 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
 }
 
 bool isa_query_intr(void) {
+  if (cpu.INTR & cpu.IF) {
+    cpu.INTR = false;
+    raise_intr(0, cpu.pc);
+    return true;
+  }
   return false;
 }
