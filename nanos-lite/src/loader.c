@@ -64,11 +64,14 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       fs_read(fd, pa, p->p_filesz - length);
       length += PGSIZE;
 
+      printf("Length before set zero = %d\n", length);
       if (zero_len > 0){
+        Log("Set Zero\n");
         if (p->p_memsz <= length){
           memset((void *)(pa + p->p_filesz / PGSIZE), 0, zero_len);
         }
         else{
+          Log("p->p_memsz > length");
           memset((void *)(pa + p->p_filesz / PGSIZE), 0, length - p->p_filesz);
           while(length + PGSIZE< p->p_memsz){
             pa = new_page(1);
